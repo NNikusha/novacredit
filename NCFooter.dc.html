@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600&family=Noto+Serif+Georgian:wght@400;500;600&display=swap">
+<style>
+@font-face{font-family:'FiraGO';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'FiraGO';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-500-normal.woff2) format('woff2')}
+:root{--ink:#0D1D2B;--surface:#FAFAF8;--raised:#FFFFFF;--border:#E3E5E9;--border-strong:#C9CDD4;--muted:#5C6672;--on-dark:#F4F6F5;--on-dark-muted:#9AA6B2;--accent:#1577B0;--accent-400:#4FB4E8;--accent-700:#0F5C8A;--font:'FiraGO','Noto Sans Georgian',system-ui,sans-serif;--font-head:'Noto Serif Georgian',Georgia,serif}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.65}
+*{box-sizing:border-box}
+:focus-visible{outline:2px solid var(--accent-400);outline-offset:2px}
+</style>
+</helmet>
+<footer style="background:var(--ink);color:var(--on-dark);font-family:var(--font);padding:{{ pad }}">
+<div style="max-width:1216px;margin:0 auto;display:grid;grid-template-columns:{{ cols }};gap:40px 48px">
+<div>
+<span style="display:inline-block;background:#fff;padding:10px 14px;border-radius:3px;margin-bottom:20px;line-height:0"><img src="assets/nova-credit-logo.png" alt="{{ wordmark }}" style="height:42px;width:auto;display:block"></span>
+<div style="font-size:16px;color:var(--on-dark-muted);line-height:1.8">
+<div>{{ address }}</div>
+<div style="font-variant-numeric:tabular-nums lining-nums;margin-top:10px">{{ telLabel }} <a href="tel:+995322151515" style="color:var(--on-dark);text-decoration:none">(+995 32) 2 15 15 15</a></div>
+<div><a href="mailto:info@novacredit.ge" style="color:var(--on-dark);text-decoration:none">info@novacredit.ge</a></div>
+</div>
+</div>
+<div>
+<div style="font-size:15px;color:var(--on-dark-muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.14)">{{ colA }}</div>
+<div style="display:flex;flex-direction:column;gap:9px;font-size:16px">
+<sc-for list="{{ linksA }}" as="l" hint-placeholder-count="5"><button onClick="{{ l.go }}" style="text-align:left;border:0;background:transparent;padding:0;color:var(--on-dark);font-size:16px;cursor:pointer;transition:color .15s" style-hover="color:var(--accent-400)">{{ l.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<div style="font-size:15px;color:var(--on-dark-muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.14)">{{ colB }}</div>
+<div style="display:flex;flex-direction:column;gap:9px;font-size:16px">
+<sc-for list="{{ linksB }}" as="l" hint-placeholder-count="5"><button onClick="{{ l.go }}" style="text-align:left;border:0;background:transparent;padding:0;color:var(--on-dark);font-size:16px;cursor:pointer;transition:color .15s" style-hover="color:var(--accent-400)">{{ l.label }}</button></sc-for>
+</div>
+</div>
+<div>
+<div style="border:1px solid rgba(255,255,255,.22);padding:18px">
+<div style="font-size:16.5px;font-weight:500;margin-bottom:8px;color:#fff">{{ complaintsTitle }}</div>
+<div style="font-size:15px;color:var(--on-dark-muted);margin-bottom:16px;line-height:1.6">{{ complaintsNote }}</div>
+<button onClick="{{ goComplaints }}" style="display:inline-block;border:1px solid var(--accent-400);padding:10px 15px;font-size:15.5px;font-weight:500;color:#fff;background:transparent;cursor:pointer;transition:background .15s" style-hover="background:var(--accent-700)">{{ complaintsCta }}</button>
+</div>
+</div>
+</div>
+<div style="max-width:1216px;margin:36px auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:14.5px;color:var(--on-dark-muted)">
+<div style="max-width:760px;line-height:1.7">{{ licence }}</div>
+<div style="font-variant-numeric:tabular-nums lining-nums">© 2026 {{ brand }}</div>
+</div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:360},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ka&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ka&quot;,&quot;tsType&quot;:&quot;'ka'|'en'&quot;},&quot;w&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;1280&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const T = {
+  ka: {
+    wordmark: 'ნოვა კრედიტი',
+    brand: 'შპს მისო ნოვა კრედიტი',
+    address: 'ვაჟა-ფშაველას გამზირი 8, 0186, თბილისი, საქართველო',
+    telLabel: 'ტელ:',
+    colA: 'პროდუქტები',
+    linksA: ['იპოთეკური სესხი', 'ავტო სესხი', 'ბიზნეს სესხი', 'სესხის კალკულატორი', 'სესხის განაცხადი'],
+    colB: 'ორგანიზაცია',
+    linksB: ['ჩვენს შესახებ', 'ფილიალები', 'რეპორტინგი', 'სიახლეები', 'კარიერა'],
+    complaintsTitle: 'მომხმარებელთა პრეტენზიები',
+    complaintsNote: 'პრეტენზიის განხილვის ვადა — არაუგვიანეს 1 თვისა.',
+    complaintsCta: 'პროცედურა და ფორმა',
+    licence: 'შპს „მისო ნოვა კრედიტს" მიკროსაფინანსო ორგანიზაციის სტატუსი მიენიჭა საქართველოს ეროვნული ბანკის მიერ 2010 წლის 29 დეკემბერს. საქმიანობას ახორციელებს საქართველოს ეროვნული ბანკის ზედამხედველობის ქვეშ.'
+  },
+  en: {
+    wordmark: 'Nova Credit',
+    brand: 'MFO Nova Credit LLC',
+    address: '8 Vazha-Pshavela ave., 0186, Tbilisi, Georgia',
+    telLabel: 'Tel:',
+    colA: 'Products',
+    linksA: ['Mortgage loan', 'Auto loan', 'Business loan', 'Loan calculator', 'Loan application'],
+    colB: 'Organisation',
+    linksB: ['About us', 'Branches', 'Reporting', 'News', 'Careers'],
+    complaintsTitle: 'Consumer complaints',
+    complaintsNote: 'Complaints are answered within one month at the latest.',
+    complaintsCta: 'Procedure and form',
+    licence: 'MFO Nova Credit LLC was granted microfinance organisation status by the National Bank of Georgia on 29 December 2010 and operates under its supervision.'
+  }
+};
+class Component extends DCLogic {
+  renderVals() {
+    const w = Number(this.props.w || 1280);
+    const t = T[this.props.lang === 'en' ? 'en' : 'ka'];
+    const nav = (k) => () => this.props.onNavigate && this.props.onNavigate(k);
+    const keysA = ['mortgage', 'auto', 'business', 'calculator', 'application'];
+    const keysB = ['about', 'branches', 'reporting', 'news', 'careers'];
+    return Object.assign({}, t, {
+      linksA: t.linksA.map((label, i) => ({ label, go: nav(keysA[i]) })),
+      linksB: t.linksB.map((label, i) => ({ label, go: nav(keysB[i]) })),
+      goComplaints: nav('complaints'),
+      cols: w >= 1024 ? '1.5fr 1fr 1fr 1.2fr' : w >= 768 ? '1fr 1fr' : '1fr',
+      pad: w >= 768 ? '56px 32px 32px' : '36px 16px 24px'
+    });
+  }
+}
+</script>
+</body>
+</html>

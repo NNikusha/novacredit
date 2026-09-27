@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600&family=Noto+Serif+Georgian:wght@400;500;600&display=swap">
+<script src="./image-slot.js"></script>
+<style>
+@font-face{font-family:'FiraGO';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'FiraGO';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'FiraGO';font-style:normal;font-weight:600;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-600-normal.woff2) format('woff2')}
+:root{
+--ink:#0D1D2B;--ink-soft:#1B293C;--surface:#FAFAF8;--raised:#FFFFFF;--border:#E3E5E9;--border-strong:#C9CDD4;--muted:#5C6672;
+--on-dark:#F4F6F5;--on-dark-muted:#9AA6B2;
+--accent:#1577B0;--accent-400:#4FB4E8;--accent-700:#0F5C8A;--accent-800:#0B4868;--brand-blue:#1A93D0;--brand-red:#EC3237;--red:#D42A30;--red-700:#B8232A;--accent-tint:#EAF4FA;--accent-tint-2:#D2E8F5;
+--warning:#B4701E;--warning-ink:#8F5714;--warning-tint:#FBF2E6;
+--error:#A33A2B;--error-ink:#8C3124;--error-tint:#FBEEEC;
+--info:#2C5A72;--info-tint:#EDF2F5;
+--shadow-sm:0 1px 2px rgba(14,26,43,.05);--shadow-md:0 2px 10px rgba(14,26,43,.07);--shadow-lg:0 6px 24px rgba(14,26,43,.09);
+--s1:8px;--s2:16px;--s3:24px;--s4:40px;--s5:64px;--s6:96px;
+--font:'FiraGO','Noto Sans Georgian',system-ui,sans-serif;
+--font-head:'Noto Serif Georgian',Georgia,serif;
+}
+h1,h2,h3{font-family:var(--font-head);font-weight:500}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-700);text-decoration:underline}
+input,select,button,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:var(--accent-tint-2)}
+table{border-collapse:collapse}
+@media print{.noprint{display:none!important}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100vh;display:flex;flex-direction:column;background:var(--surface)">
+<dc-import name="NCHeader" lang="{{ lang }}" active="{{ page }}" w="{{ vw }}" on-navigate="{{ go }}" on-lang="{{ setLang }}" hint-size="100%,181px"></dc-import>
+<main style="flex:1">
+
+<sc-if value="{{ is.home }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ notice.on }}" hint-placeholder-val="{{ false }}">
+<div style="background:{{ notice.bg }};border-bottom:1px solid {{ notice.rule }}">
+<div style="max-width:1216px;margin:0 auto;padding:12px 24px;display:flex;gap:12px;align-items:flex-start">
+<span style="flex:none;width:3px;align-self:stretch;background:{{ notice.rule }};display:block"></span>
+<div style="font-size:16px;color:{{ notice.color }};padding:1px 0"><span style="font-weight:500">{{ notice.label }}</span> {{ notice.text }}</div>
+</div>
+</div>
+</sc-if>
+<section style="background:var(--raised)">
+<div style="max-width:1216px;margin:0 auto;padding:0 24px">
+<div style="display:grid;gap:{{ heroGap }};grid-template-columns:{{ heroCols }};align-items:center;padding:{{ heroPad }}">
+<div style="min-width:0">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+<span style="width:28px;height:2px;background:var(--brand-red);display:block"></span>
+<span style="font-size:15px;color:var(--accent-700)">{{ t.eyebrow }}</span>
+</div>
+<h1 style="font-size:{{ heroSize }};line-height:1.2;margin:0 0 20px;max-width:19ch;text-wrap:pretty">{{ t.homeH1 }}</h1>
+<p style="font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 28px;max-width:48ch;text-wrap:pretty">{{ t.homeLede }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<button onClick="{{ goApplication }}" style="min-height:52px;padding:0 24px;border:1px solid var(--red);border-radius:3px;background:var(--red);color:#fff;font-size:17px;font-weight:500;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s" style-hover="background:var(--red-700);border-color:var(--red-700)">{{ t.ctaApply }}</button>
+<button onClick="{{ goBranches }}" style="min-height:52px;padding:0 24px;border:1px solid var(--border-strong);border-radius:3px;background:var(--raised);color:var(--ink);font-size:17px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s" style-hover="border-color:var(--accent);color:var(--accent-700)">{{ t.branchesCta }}</button>
+</div>
+</div>
+<div style="min-width:0;background:var(--accent);color:#fff;padding:28px;border-radius:3px;box-shadow:var(--shadow-lg);border-top:5px solid var(--brand-red)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:20px">
+<h2 style="margin:0;font-size:21px;color:#fff">{{ hc.title }}</h2>
+<span style="font-size:14px;color:rgba(255,255,255,.72)">{{ hc.tag }}</span>
+</div>
+<div style="display:grid;gap:14px">
+<label style="display:block">
+<span style="display:block;font-size:14.5px;color:rgba(255,255,255,.78);margin-bottom:6px">{{ hc.amount }}</span>
+<input value="{{ cAmount }}" onChange="{{ onAmount }}" inputmode="decimal" style="width:100%;min-height:48px;padding:0 12px;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:rgba(255,255,255,.08);color:#fff;font-size:17px;font-variant-numeric:tabular-nums lining-nums">
+</label>
+<label style="display:block">
+<span style="display:block;font-size:14.5px;color:rgba(255,255,255,.78);margin-bottom:6px">{{ hc.term }}</span>
+<input value="{{ cTerm }}" onChange="{{ onTerm }}" inputmode="numeric" style="width:100%;min-height:48px;padding:0 12px;border:1px solid rgba(255,255,255,.3);border-radius:3px;background:rgba(255,255,255,.08);color:#fff;font-size:17px;font-variant-numeric:tabular-nums lining-nums">
+</label>
+<div>
+<span style="display:block;font-size:14.5px;color:rgba(255,255,255,.78);margin-bottom:6px">{{ hc.product }}</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ heroProducts }}" as="p" hint-placeholder-count="3">
+<button onClick="{{ p.pick }}" style="min-height:44px;padding:0 13px;border:1px solid {{ p.border }};background:{{ p.bg }};color:{{ p.color }};border-radius:3px;font-size:15.5px;cursor:pointer;white-space:nowrap">{{ p.short }}</button>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.28);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<div>
+<div style="font-size:14.5px;color:rgba(255,255,255,.78);margin-bottom:2px">{{ hc.monthly }}</div>
+<div style="font-size:32px;font-weight:600;font-variant-numeric:tabular-nums lining-nums;line-height:1.2">{{ sched.monthly }} <span style="font-size:19px;font-weight:400">{{ ct.currency }}</span></div>
+</div>
+<button onClick="{{ goCalculator }}" style="min-height:44px;padding:0 15px;border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;border-radius:3px;font-size:15.5px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:rgba(255,255,255,.14)">{{ hc.full }}</button>
+</div>
+<div style="margin-top:12px;font-size:13.5px;color:rgba(255,255,255,.66);line-height:1.5">{{ hc.note }}</div>
+</div>
+</div>
+</div>
+<div style="max-width:1216px;margin:0 auto;padding:0 24px 0">
+<div style="position:relative;width:100%;height:{{ heroImgH }};border-top:1px solid var(--border)">
+<image-slot id="nc-hero" shape="rect" fit="cover" placeholder="{{ t.photoSlot }}"></image-slot>
+</div>
+</div>
+</section>
+<section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div style="max-width:1216px;margin:0 auto;padding:96px 24px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:40px">
+<h2 style="font-size:28px;margin:0">{{ t.productsTitle }}</h2>
+<span style="font-size:15px;color:var(--muted)">{{ t.productsNote }}</span>
+</div>
+<div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+<sc-for list="{{ productCards }}" as="p" hint-placeholder-count="3">
+<div style="background:var(--raised);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow-md);padding:32px;display:flex;flex-direction:column;gap:22px;min-width:0;transition:box-shadow .18s,border-color .18s" style-hover="box-shadow:var(--shadow-lg);border-color:var(--border-strong)">
+<div>
+<div style="font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;margin-bottom:8px">{{ p.idx }}</div>
+<h3 style="font-size:24px;margin:0">{{ p.name }}</h3>
+</div>
+<dl style="margin:0;display:grid;gap:0;font-size:16px">
+<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border)"><dt style="color:var(--muted)">{{ p.amountLabel }}</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums lining-nums;text-align:right">{{ p.amount }}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border)"><dt style="color:var(--muted)">{{ p.termLabel }}</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums lining-nums;text-align:right">{{ p.term }}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)"><dt style="color:var(--muted)">{{ p.issueLabel }}</dt><dd style="margin:0;font-weight:500;text-align:right">{{ p.issue }}</dd></div>
+</dl>
+<div style="margin-top:auto;display:flex;gap:10px;flex-wrap:wrap">
+<button onClick="{{ p.go }}" style="flex:1;min-width:140px;min-height:48px;padding:0 18px;border:1px solid var(--accent);border-radius:3px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:var(--accent-700);border-color:var(--accent-700)">{{ t.terms }}</button>
+<button onClick="{{ goCalculator }}" style="flex:none;min-height:48px;padding:0 18px;border:1px solid var(--border-strong);border-radius:3px;background:var(--raised);color:var(--ink);font-size:16.5px;cursor:pointer;transition:border-color .15s,color .15s" style-hover="border-color:var(--accent);color:var(--accent-700)">{{ t.ctaCalc }}</button>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+<section style="max-width:1216px;margin:0 auto;padding:96px 24px;display:grid;gap:56px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+<div>
+<h2 style="font-size:17px;font-weight:600;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">{{ t.newsTitle }}</h2>
+<div style="display:flex;flex-direction:column">
+<sc-for list="{{ newsList }}" as="n" hint-placeholder-count="2">
+<button onClick="{{ n.go }}" style="text-align:left;border:0;background:transparent;padding:12px 0;cursor:pointer;display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--border);transition:color .15s" style-hover="color:var(--accent-700)">
+<span style="flex:none;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums">{{ n.date }}</span>
+<span style="font-size:17px;text-wrap:pretty">{{ n.title }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<div>
+<h2 style="font-size:17px;font-weight:600;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">{{ t.reportingTitle }}</h2>
+<p style="margin:0 0 18px;font-size:16.5px;color:var(--muted);line-height:1.7">{{ t.reportingLede }}</p>
+<button onClick="{{ goReporting }}" style="min-height:44px;padding:0;border:0;background:transparent;color:var(--accent-700);font-size:16.5px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--accent);transition:color .15s" style-hover="color:var(--accent-800)">{{ t.reportingCta }}</button>
+</div>
+<div>
+<h2 style="font-size:17px;font-weight:600;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">{{ t.branchesTitle }}</h2>
+<div style="font-size:16.5px;color:var(--muted);line-height:1.8;margin-bottom:18px">
+<div>{{ t.branchLine1 }}</div>
+<div>{{ t.branchLine2 }}</div>
+<div>{{ t.branchLine3 }}</div>
+</div>
+<button onClick="{{ goBranches }}" style="min-height:44px;padding:0;border:0;background:transparent;color:var(--accent-700);font-size:16.5px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--accent);transition:color .15s" style-hover="color:var(--accent-800)">{{ t.branchesCta }}</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ is.about }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:760px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 20px">{{ simple.title }}</h1>
+<div style="display:flex;flex-direction:column;gap:16px;font-size:18px;line-height:1.7">
+<sc-for list="{{ simple.paras }}" as="p" hint-placeholder-count="5"><p style="margin:0;text-wrap:pretty">{{ p }}</p></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.branches }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1216px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 24px">{{ t.branchesTitle }}</h1>
+<div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<sc-for list="{{ branches }}" as="b" hint-placeholder-count="3">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px">
+<h2 style="font-size:20px;font-weight:600;margin:0 0 12px">{{ b.n }}</h2>
+<dl style="margin:0;display:grid;gap:10px;font-size:16.5px">
+<div><dt style="color:var(--muted);font-size:15px">{{ t.addrLabel }}</dt><dd style="margin:0">{{ b.a }}</dd></div>
+<sc-if value="{{ b.hasPhone }}" hint-placeholder-val="{{ true }}">
+<div><dt style="color:var(--muted);font-size:15px">{{ t.phoneLabel }}</dt><dd style="margin:0;font-variant-numeric:tabular-nums lining-nums"><a href="tel:+995322151515">{{ b.p }}</a></dd></div>
+</sc-if>
+<div><dt style="color:var(--muted);font-size:15px">{{ t.hoursLabel }}</dt><dd style="margin:0;font-variant-numeric:tabular-nums lining-nums">{{ b.h }}</dd></div>
+</dl>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:24px;border:1px solid var(--border);border-radius:6px;background:var(--raised);height:360px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:16px;background-image:repeating-linear-gradient(45deg,#FAFAF8,#FAFAF8 12px,#F4F4F1 12px,#F4F4F1 24px)">{{ t.mapPlaceholder }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.news }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:820px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 24px">{{ t.newsTitle }}</h1>
+<div style="display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ newsList }}" as="n" hint-placeholder-count="2">
+<button onClick="{{ n.go }}" style="text-align:left;border:0;border-bottom:1px solid var(--border);background:transparent;padding:18px 0;cursor:pointer">
+<span style="display:block;font-size:14.5px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;margin-bottom:4px">{{ n.date }}</span>
+<span style="display:block;font-size:20px;color:var(--ink);font-weight:500">{{ n.title }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.article }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:700px;margin:0 auto;padding:32px 24px 72px">
+<nav style="font-size:15px;color:var(--muted);margin-bottom:16px;display:flex;gap:8px">
+<button onClick="{{ goNews }}" style="border:0;background:transparent;padding:0;color:var(--accent-700);cursor:pointer;font-size:15px">{{ t.newsTitle }}</button>
+<span>/</span>
+</nav>
+<div style="font-size:14.5px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;margin-bottom:6px">{{ article.date }}</div>
+<h1 style="font-size:32px;font-weight:500;margin:0 0 20px;text-wrap:pretty">{{ article.title }}</h1>
+<div style="display:flex;flex-direction:column;gap:14px;font-size:18px;line-height:1.7">
+<sc-for list="{{ article.body }}" as="p" hint-placeholder-count="2"><p style="margin:0;text-wrap:pretty">{{ p }}</p></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.contact }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1000px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 10px">{{ simple.title }}</h1>
+<p style="font-size:17.5px;color:var(--muted);margin:0 0 26px;max-width:60ch">{{ simple.paras.0 }}</p>
+<div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px">
+<div style="display:grid;gap:16px">
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cName }}</span><input style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cEmail }}</span><input type="email" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cSubject }}</span><input style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cMessage }}</span><textarea rows="5" style="width:100%;padding:10px 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px;line-height:1.6;resize:vertical"></textarea></label>
+<button style="min-height:48px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ t.cSend }}</button>
+</div>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px;font-size:16.5px;line-height:1.8">
+<div style="font-weight:600;margin-bottom:8px">{{ t.branchLine1 }}</div>
+<div style="font-variant-numeric:tabular-nums lining-nums"><a href="tel:+995322151515">(+995 32) 2 15 15 15</a></div>
+<div><a href="mailto:info@novacredit.ge">info@novacredit.ge</a></div>
+<div style="color:var(--muted);margin-top:10px">{{ t.hoursLabel }}: 10:00–18:00</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.video }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1100px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 20px">{{ simple.title }}</h1>
+<div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+<sc-for list="{{ videos }}" as="v" hint-placeholder-count="3">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);overflow:hidden">
+<div style="aspect-ratio:3/4;background:#EDEDEA;display:flex;align-items:center;justify-content:center">
+<span style="width:52px;height:52px;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="#1577B0"><path d="M8 5l11 7-11 7z"></path></svg>
+</span>
+</div>
+<div style="padding:12px 14px;font-size:15.5px;color:var(--muted)">{{ v.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.complaints }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:760px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 6px">{{ cx.title }}</h1>
+<h2 style="font-size:20px;font-weight:600;margin:0 0 20px;color:var(--muted)">{{ cx.h2 }}</h2>
+<div style="display:flex;flex-direction:column;gap:15px;font-size:17.5px;line-height:1.7">
+<sc-for list="{{ cx.paras }}" as="p" hint-placeholder-count="5"><p style="margin:0;text-wrap:pretty">{{ p }}</p></sc-for>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:20px;margin:24px 0">
+<div style="font-size:16px;font-weight:600;margin-bottom:10px">{{ cx.addrTitle }}</div>
+<ul style="margin:0 0 12px;padding-left:20px;font-size:16.5px;line-height:1.7">
+<sc-for list="{{ branches }}" as="b" hint-placeholder-count="3"><li>{{ b.a }}</li></sc-for>
+</ul>
+<div style="font-size:16.5px">{{ cx.email }} <a href="mailto:info@novacredit.ge">info@novacredit.ge</a></div>
+</div>
+<button onClick="{{ goComplaintsForm }}" style="min-height:48px;padding:0 20px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ cx.cta }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.products }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1216px;margin:0 auto;padding:32px 24px 72px">
+<h1 style="font-size:34px;font-weight:500;margin:0 0 24px">{{ t.productsTitle }}</h1>
+<div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<sc-for list="{{ productCards }}" as="p" hint-placeholder-count="3">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:24px;display:flex;flex-direction:column;gap:14px">
+<h2 style="font-size:21px;font-weight:600;margin:0">{{ p.name }}</h2>
+<dl style="margin:0;display:grid;gap:8px;font-size:16px">
+<div style="display:flex;justify-content:space-between;gap:12px"><dt style="color:var(--muted)">{{ p.amountLabel }}</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums lining-nums">{{ p.amount }}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><dt style="color:var(--muted)">{{ p.termLabel }}</dt><dd style="margin:0;font-weight:500;font-variant-numeric:tabular-nums lining-nums">{{ p.term }}</dd></div>
+<div style="display:flex;justify-content:space-between;gap:12px"><dt style="color:var(--muted)">{{ p.issueLabel }}</dt><dd style="margin:0;font-weight:500">{{ p.issue }}</dd></div>
+</dl>
+<button onClick="{{ p.go }}" style="margin-top:auto;min-height:44px;padding:0 16px;border:1px solid var(--accent);border-radius:4px;background:var(--raised);color:var(--accent-700);font-size:16px;font-weight:500;cursor:pointer">{{ t.terms }}</button>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1216px;margin:0 auto;padding:32px 24px 72px">
+<nav class="noprint" style="font-size:15px;color:var(--muted);margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">
+<button onClick="{{ goHome }}" style="border:0;background:transparent;padding:0;color:var(--accent-700);cursor:pointer;font-size:15px">{{ t.homeCrumb }}</button>
+<span>/</span><span>{{ t.productsTitle }}</span><span>/</span><span>{{ prod.title }}</span>
+</nav>
+<div style="display:grid;gap:32px;grid-template-columns:{{ prodCols }};align-items:start">
+<div>
+<h1 style="font-size:34px;font-weight:500;margin:0 0 10px">{{ prod.title }}</h1>
+<p style="font-size:18px;color:var(--muted);margin:0 0 26px;max-width:60ch">{{ prod.sub }}</p>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);margin-bottom:28px">
+<div style="padding:14px 18px;border-bottom:1px solid var(--border);font-size:17px;font-weight:600">{{ pt.key }}</div>
+<dl style="margin:0">
+<sc-for list="{{ prod.key }}" as="k" hint-placeholder-count="5">
+<div style="display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;padding:11px 18px;border-bottom:1px solid var(--border)">
+<dt style="font-size:16.5px;color:var(--muted)">{{ k.k }}</dt>
+<dd style="margin:0;font-size:16.5px;font-weight:500;text-align:right;font-variant-numeric:tabular-nums lining-nums">{{ k.v }}</dd>
+</div>
+</sc-for>
+</dl>
+</div>
+<div style="display:flex;flex-direction:column;gap:26px">
+<sc-for list="{{ prod.blocks }}" as="b" hint-placeholder-count="5">
+<section id="{{ b.id }}" style="scroll-margin-top:24px">
+<h2 style="font-size:21px;font-weight:500;margin:0 0 12px;padding-bottom:9px;border-bottom:1px solid var(--ink)">{{ b.h }}</h2>
+<sc-if value="{{ b.hasNote }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0 0 8px;font-size:16.5px;color:var(--muted)">{{ b.note }}</p>
+</sc-if>
+<ul style="margin:0;padding-left:20px;font-size:17px;line-height:1.7;display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ b.items }}" as="i" hint-placeholder-count="3"><li style="text-wrap:pretty">{{ i }}</li></sc-for>
+</ul>
+<sc-if value="{{ b.hasAfter }}" hint-placeholder-val="{{ false }}">
+<p style="margin:10px 0 0;font-size:16px;color:var(--muted);text-wrap:pretty">{{ b.after }}</p>
+</sc-if>
+</section>
+</sc-for>
+</div>
+</div>
+<aside class="noprint" style="position:sticky;top:16px;display:flex;flex-direction:column;gap:16px">
+<div style="border:1px solid var(--accent);border-radius:6px;background:var(--raised);padding:18px;display:flex;flex-direction:column;gap:10px">
+<button onClick="{{ goApplication }}" style="min-height:48px;border:1px solid var(--red);border-radius:3px;background:var(--red);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:var(--red-700)">{{ pt.apply }}</button>
+<button onClick="{{ goCalculator }}" style="min-height:48px;border:1px solid var(--accent);border-radius:4px;background:var(--raised);color:var(--accent-700);font-size:16.5px;font-weight:500;cursor:pointer">{{ pt.calc }}</button>
+</div>
+<nav style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:16px 18px">
+<div style="font-size:15px;color:var(--muted);margin-bottom:8px">{{ pt.onThisPage }}</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ prod.toc }}" as="i" hint-placeholder-count="5"><a href="{{ i.href }}" style="font-size:16px;color:var(--ink);text-decoration:none">{{ i.h }}</a></sc-for>
+</div>
+</nav>
+</aside>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ formOn }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1100px;margin:0 auto;padding:32px 24px 72px">
+<sc-if value="{{ fDone }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px solid var(--accent);border-radius:6px;background:var(--raised);padding:48px 32px;text-align:center;max-width:640px;margin:32px auto">
+<div style="width:56px;height:56px;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1577B0" stroke-width="2.2"><path d="M4 12.5l5.5 5.5L20 7"></path></svg>
+</div>
+<h1 style="font-size:26px;font-weight:600;margin:0 0 12px">{{ ft.doneTitle }}</h1>
+<p style="font-size:17px;color:var(--muted);margin:0 0 20px">{{ ft.doneBody }}</p>
+<div style="display:inline-flex;gap:10px;align-items:baseline;border:1px solid var(--border);border-radius:4px;padding:10px 16px;background:var(--surface);margin-bottom:24px">
+<span style="font-size:15px;color:var(--muted)">{{ ft.ref }}</span>
+<span style="font-size:18px;font-weight:600;font-variant-numeric:tabular-nums lining-nums">{{ fRef }}</span>
+</div>
+<div><button onClick="{{ fRestart }}" style="min-height:48px;padding:0 20px;border:1px solid var(--accent);border-radius:4px;background:var(--raised);color:var(--accent-700);font-size:16.5px;font-weight:500;cursor:pointer">{{ ft.doneHome }}</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ fNotDone }}" hint-placeholder-val="{{ true }}">
+<h1 style="font-size:32px;font-weight:500;margin:0 0 8px">{{ fTitle }}</h1>
+<p style="font-size:16.5px;color:var(--muted);margin:0 0 24px;max-width:64ch">{{ fLede }}</p>
+
+<div style="display:grid;gap:28px;grid-template-columns:{{ fCols }};align-items:start">
+<aside style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:16px;position:sticky;top:16px">
+<div style="font-size:15px;color:var(--muted);margin-bottom:6px;font-variant-numeric:tabular-nums lining-nums">{{ ft.step }} {{ fStep }} {{ ft.of }} {{ fTotal }}</div>
+<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px"><div style="height:4px;background:var(--accent);width:{{ fProgressPct }}"></div></div>
+<div style="font-size:14px;color:var(--muted);margin-bottom:14px;font-variant-numeric:tabular-nums lining-nums">{{ fFilled }} / {{ fFieldCount }} {{ ft.progress }}</div>
+<ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{ fSteps }}" as="s" hint-placeholder-count="8">
+<li>
+<button onClick="{{ s.go }}" style="width:100%;text-align:left;display:flex;gap:10px;align-items:flex-start;border:0;border-left:2px solid {{ s.rule }};background:{{ s.bg }};color:{{ s.color }};font-weight:{{ s.weight }};padding:9px 10px;font-size:15.5px;line-height:1.4;cursor:pointer;border-radius:0 4px 4px 0">
+<span style="flex:none;width:22px;height:22px;border:1px solid {{ s.badgeBorder }};background:{{ s.badgeBg }};color:{{ s.badgeColor }};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-variant-numeric:tabular-nums lining-nums">{{ s.badge }}</span>
+<span style="flex:1;text-wrap:pretty">{{ s.legend }}</span>
+</button>
+</li>
+</sc-for>
+</ol>
+</aside>
+
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:24px">
+<h2 style="font-size:23px;font-weight:500;margin:0 0 4px;text-wrap:pretty">{{ fLegend }}</h2>
+<div style="font-size:14.5px;color:var(--muted);margin-bottom:20px">{{ ft.reqNote }}</div>
+
+<sc-if value="{{ fHasErrors }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px solid var(--error);background:var(--error-tint);border-radius:4px;padding:12px 14px;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C3124" stroke-width="2" style="flex:none;margin-top:3px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.01"></path></svg>
+<span style="font-size:16px;color:var(--error-ink)">{{ ft.errTitle }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ fNotReview }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+<sc-for list="{{ fFields }}" as="f" hint-placeholder-count="6">
+<div style="grid-column:{{ f.span }}">
+<div style="font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ f.label }}<span style="color:var(--error-ink)">{{ f.reqMark }}</span></div>
+<sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}">
+<input type="{{ f.htmlType }}" value="{{ f.value }}" onChange="{{ f.onInput }}" style="width:100%;min-height:48px;padding:0 12px;border:1px solid {{ f.border }};background:{{ f.bg }};border-radius:4px;font-size:16.5px">
+</sc-if>
+<sc-if value="{{ f.isTextarea }}" hint-placeholder-val="{{ false }}">
+<textarea value="{{ f.value }}" onChange="{{ f.onInput }}" rows="3" style="width:100%;padding:10px 12px;border:1px solid {{ f.border }};background:{{ f.bg }};border-radius:4px;font-size:16.5px;line-height:1.6;resize:vertical"></textarea>
+</sc-if>
+<sc-if value="{{ f.isSelect }}" hint-placeholder-val="{{ false }}">
+<select value="{{ f.value }}" onChange="{{ f.onInput }}" style="width:100%;min-height:48px;padding:0 10px;border:1px solid {{ f.border }};background:{{ f.bg }};border-radius:4px;font-size:16.5px">
+<option value="">{{ ft.select }}</option>
+<sc-for list="{{ f.options }}" as="o" hint-placeholder-count="3"><option value="{{ o.label }}">{{ o.label }}</option></sc-for>
+</select>
+</sc-if>
+<sc-if value="{{ f.isRadio }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ f.options }}" as="o" hint-placeholder-count="2">
+<button onClick="{{ o.pick }}" style="display:flex;align-items:center;gap:9px;min-height:48px;padding:0 14px;border:1px solid {{ o.border }};background:{{ o.bg }};border-radius:4px;font-size:16px;cursor:pointer;text-align:left">
+<span style="flex:none;width:18px;height:18px;border:1px solid {{ o.border }};border-radius:{{ o.radius }};display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--accent)">{{ o.mark }}</span>
+{{ o.label }}
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ f.isCheckbox }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ f.options }}" as="o" hint-placeholder-count="3">
+<button onClick="{{ o.pick }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:6px 12px;border:1px solid {{ o.border }};background:{{ o.bg }};border-radius:4px;font-size:16px;cursor:pointer;text-align:left">
+<span style="flex:none;width:18px;height:18px;border:1px solid {{ o.border }};border-radius:{{ o.radius }};display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--accent)">{{ o.mark }}</span>
+<span style="flex:1;text-wrap:pretty">{{ o.label }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ f.isFile }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px dashed {{ f.border }};background:{{ f.bg }};border-radius:4px;padding:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+<div>
+<div style="font-size:16px">{{ f.fileName }}</div>
+<div style="font-size:14px;color:var(--muted)">{{ ft.uploadHint }}</div>
+</div>
+<button onClick="{{ f.onFile }}" style="min-height:44px;padding:0 16px;border:1px solid var(--accent);border-radius:4px;background:var(--raised);color:var(--accent-700);font-size:16px;font-weight:500;cursor:pointer">{{ ft.choose }}</button>
+</div>
+</sc-if>
+<sc-if value="{{ f.hasErr }}" hint-placeholder-val="{{ false }}">
+<div style="font-size:14.5px;color:var(--error-ink);margin-top:6px">{{ f.err }}</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ fIsReview }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:22px">
+<sc-for list="{{ fReviewGroups }}" as="g" hint-placeholder-count="8">
+<div>
+<div style="display:flex;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px">
+<h3 style="font-size:17.5px;font-weight:600;margin:0;text-wrap:pretty">{{ g.legend }}</h3>
+<button onClick="{{ g.edit }}" style="border:0;background:transparent;color:var(--accent-700);font-size:15.5px;cursor:pointer;padding:0;white-space:nowrap">{{ ft.edit }}</button>
+</div>
+<dl style="margin:0;display:grid;gap:6px 18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;gap:12px;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:5px">
+<dt style="font-size:15.5px;color:var(--muted)">{{ r.label }}</dt>
+<dd style="margin:0;font-size:15.5px;text-align:right;color:{{ r.color }}">{{ r.value }}</dd>
+</div>
+</sc-for>
+</dl>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:26px;padding-top:20px;border-top:1px solid var(--border)">
+<button onClick="{{ fBack }}" style="min-height:48px;padding:0 20px;border:1px solid var(--border-strong);border-radius:4px;background:var(--raised);font-size:16.5px;cursor:pointer">{{ ft.back }}</button>
+<sc-if value="{{ fNotReview }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ fNext }}" style="min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ fNextLabel }}</button>
+</sc-if>
+<sc-if value="{{ fIsReview }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ fSubmit }}" style="min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ ft.submit }}</button>
+</sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.calculator }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1216px;margin:0 auto;padding:32px 24px 72px">
+<nav class="noprint" style="font-size:15px;color:var(--muted);margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">
+<button onClick="{{ goHome }}" style="border:0;background:transparent;padding:0;color:var(--accent-700);cursor:pointer;font-size:15px">{{ t.homeCrumb }}</button>
+<span>/</span><span>{{ ct.title }}</span>
+</nav>
+<h1 style="font-size:34px;font-weight:500;margin:0 0 10px">{{ ct.title }}</h1>
+<p style="font-size:16.5px;color:var(--muted);margin:0 0 26px;max-width:66ch">{{ ct.lede }}</p>
+
+<div class="noprint" style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px;margin-bottom:24px">
+<div style="display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+<label style="display:block">
+<span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ ct.amount }} ({{ ct.currency }})</span>
+<input value="{{ cAmount }}" onChange="{{ onAmount }}" inputmode="decimal" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:17px;font-variant-numeric:tabular-nums lining-nums">
+</label>
+<label style="display:block">
+<span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ ct.rate }} (%)</span>
+<input value="{{ cRate }}" onChange="{{ onRate }}" inputmode="decimal" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:17px;font-variant-numeric:tabular-nums lining-nums">
+</label>
+<label style="display:block">
+<span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ ct.term }}</span>
+<input value="{{ cTerm }}" onChange="{{ onTerm }}" inputmode="numeric" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:17px;font-variant-numeric:tabular-nums lining-nums">
+</label>
+<div>
+<span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ ct.rtype }}</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<button onClick="{{ setAnnuity }}" style="min-height:48px;padding:0 14px;border:1px solid {{ annuityOn.border }};background:{{ annuityOn.bg }};color:{{ annuityOn.color }};font-weight:{{ annuityOn.weight }};border-radius:4px;font-size:16px;cursor:pointer">{{ ct.annuity }}</button>
+<button onClick="{{ setInterestOnly }}" style="min-height:48px;padding:0 14px;border:1px solid {{ interestOn.border }};background:{{ interestOn.bg }};color:{{ interestOn.color }};font-weight:{{ interestOn.weight }};border-radius:4px;font-size:16px;cursor:pointer;text-align:left">{{ ct.interest }}</button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:26px">
+<div style="border:1px solid var(--accent);border-radius:6px;background:var(--accent-tint);padding:18px">
+<div style="font-size:15.5px;color:var(--accent-800);margin-bottom:4px">{{ ct.sumMonthly }}</div>
+<div style="font-size:28px;font-weight:600;font-variant-numeric:tabular-nums lining-nums;color:var(--accent-800)">{{ sched.monthly }} <span style="font-size:18px">{{ ct.currency }}</span></div>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:18px">
+<div style="font-size:15.5px;color:var(--muted);margin-bottom:4px">{{ ct.sumTotal }}</div>
+<div style="font-size:28px;font-weight:600;font-variant-numeric:tabular-nums lining-nums">{{ sched.total }} <span style="font-size:18px;color:var(--muted)">{{ ct.currency }}</span></div>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:18px">
+<div style="font-size:15.5px;color:var(--muted);margin-bottom:4px">{{ ct.sumInterest }}</div>
+<div style="font-size:28px;font-weight:600;font-variant-numeric:tabular-nums lining-nums">{{ sched.interest }} <span style="font-size:18px;color:var(--muted)">{{ ct.currency }}</span></div>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:18px">
+<div style="font-size:15.5px;color:var(--muted);margin-bottom:4px">{{ ct.sumLast }}</div>
+<div style="font-size:28px;font-weight:600;font-variant-numeric:tabular-nums lining-nums">{{ sched.last }} <span style="font-size:18px;color:var(--muted)">{{ ct.currency }}</span></div>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px">
+<h2 style="font-size:23px;font-weight:500;margin:0">{{ ct.schedule }}</h2>
+<div class="noprint" style="display:flex;gap:10px">
+<button onClick="{{ doPrint }}" style="min-height:44px;padding:0 16px;border:1px solid var(--border-strong);border-radius:4px;background:var(--raised);font-size:16px;cursor:pointer">{{ ct.print }}</button>
+<button onClick="{{ goApplication }}" style="min-height:44px;padding:0 16px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16px;font-weight:500;cursor:pointer">{{ ct.apply }}</button>
+</div>
+</div>
+<sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+<div class="noprint" style="font-size:14.5px;color:var(--muted);margin-bottom:8px">{{ ct.scrollHint }}</div>
+</sc-if>
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);overflow:auto;max-height:640px">
+<table style="width:100%;min-width:720px;font-size:16px">
+<thead>
+<tr>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:left;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cMonth }}</th>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:right;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cOpen }}</th>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:right;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cPay }}</th>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:right;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cInt }}</th>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:right;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cPrin }}</th>
+<th style="position:sticky;top:0;z-index:2;background:var(--surface);text-align:right;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ ct.cClose }}</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{ sched.rows }}" as="r" hint-placeholder-count="12">
+<tr style="background:{{ r.bg }}">
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums lining-nums;position:sticky;left:0;background:inherit;font-weight:500">{{ r.i }}</td>
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums lining-nums">{{ r.open }}</td>
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums lining-nums;font-weight:500">{{ r.pay }}</td>
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums lining-nums;color:var(--muted)">{{ r.interest }}</td>
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums lining-nums">{{ r.principal }}</td>
+<td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums lining-nums">{{ r.close }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.reporting }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:1216px;margin:0 auto;padding:32px 24px 72px">
+<nav style="font-size:15px;color:var(--muted);margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">
+<button onClick="{{ goHome }}" style="border:0;background:transparent;padding:0;color:var(--accent-700);cursor:pointer;font-size:15px">{{ t.homeCrumb }}</button>
+<span>/</span><span>{{ rt.title }}</span>
+</nav>
+<h1 style="font-size:34px;font-weight:500;margin:0 0 10px">{{ rt.title }}</h1>
+<p style="font-size:17.5px;color:var(--muted);margin:0 0 28px;max-width:62ch">{{ rt.lede }}</p>
+
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:20px 22px;margin-bottom:20px">
+<div style="display:flex;gap:10px;align-items:center;border:1px solid var(--border-strong);border-radius:4px;padding:0 12px;background:var(--surface);max-width:420px;margin-bottom:18px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C6672" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input type="search" value="{{ reportQuery }}" onChange="{{ onReportQuery }}" placeholder="{{ rt.search }}" style="border:0;background:transparent;outline:none;min-height:44px;flex:1;font-size:16.5px">
+</div>
+<div style="display:grid;gap:16px">
+<sc-for list="{{ reportFacets }}" as="f" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(120px,160px) 1fr;gap:10px 16px;align-items:baseline">
+<div style="font-size:15.5px;color:var(--muted)">{{ f.label }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ f.chips }}" as="c" hint-placeholder-count="6">
+<button onClick="{{ c.onClick }}" style="min-height:36px;padding:0 12px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-weight:{{ c.weight }};border-radius:18px;font-size:15.5px;cursor:pointer;white-space:nowrap">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px">
+<div style="font-size:16px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums">{{ rt.results }} {{ reportCount }} / {{ reportTotal }} {{ rt.docs }}</div>
+<sc-if value="{{ reportHasFilter }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ clearFilters }}" style="min-height:40px;padding:0 14px;border:1px solid var(--border-strong);border-radius:4px;background:var(--raised);font-size:15.5px;cursor:pointer">{{ rt.clear }}</button>
+</sc-if>
+</div>
+
+<sc-if value="{{ reportEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px dashed var(--border-strong);border-radius:6px;background:var(--raised);padding:56px 24px;text-align:center">
+<div style="font-size:20px;font-weight:600;margin-bottom:8px">{{ rt.emptyTitle }}</div>
+<div style="font-size:16.5px;color:var(--muted);margin-bottom:20px">{{ rt.emptyBody }}</div>
+<button onClick="{{ clearFilters }}" style="min-height:44px;padding:0 18px;border:1px solid var(--accent);border-radius:4px;background:var(--raised);color:var(--accent-700);font-size:16px;font-weight:500;cursor:pointer">{{ rt.clear }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ showReportTable }}" hint-placeholder-val="{{ false }}">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);overflow:hidden">
+<table style="width:100%;font-size:16.5px">
+<thead>
+<tr style="background:var(--surface)">
+<th style="text-align:left;font-weight:600;padding:14px 18px;border-bottom:1px solid var(--border-strong)">{{ rt.colTitle }}</th>
+<th style="text-align:left;font-weight:600;padding:14px 14px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ rt.colPeriod }}</th>
+<th style="text-align:left;font-weight:600;padding:14px 14px;border-bottom:1px solid var(--border-strong)">{{ rt.colType }}</th>
+<th style="text-align:left;font-weight:600;padding:14px 14px;border-bottom:1px solid var(--border-strong)">{{ rt.colEntity }}</th>
+<th style="text-align:right;font-weight:600;padding:14px 18px;border-bottom:1px solid var(--border-strong);white-space:nowrap">{{ rt.colDl }}</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{ reportRows }}" as="r" hint-placeholder-count="12">
+<tr style="border-bottom:1px solid var(--border);transition:background .12s" style-hover="background:var(--accent-tint)">
+<td style="padding:13px 18px;line-height:1.5;max-width:520px">{{ r.title }}</td>
+<td style="padding:13px 14px;white-space:nowrap;font-variant-numeric:tabular-nums lining-nums">{{ r.period }}</td>
+<td style="padding:13px 14px;color:{{ r.typeColor }}">{{ r.type }}</td>
+<td style="padding:13px 14px;color:var(--muted)">{{ r.entity }}</td>
+<td style="padding:13px 18px;text-align:right;white-space:nowrap">
+<a href="#" style="display:inline-flex;align-items:center;gap:7px;color:var(--accent-700);font-weight:500">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"></path></svg>
+pdf <span style="color:var(--muted);font-weight:400;font-variant-numeric:tabular-nums lining-nums">{{ r.size }}</span>
+</a>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</sc-if>
+
+<sc-if value="{{ showReportCards }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ reportRows }}" as="r" hint-placeholder-count="8">
+<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:16px">
+<div style="font-size:16.5px;line-height:1.5;margin-bottom:10px">{{ r.title }}</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px 10px;font-size:14.5px;color:var(--muted);margin-bottom:14px">
+<span style="border:1px solid var(--border);border-radius:3px;padding:1px 7px;font-variant-numeric:tabular-nums lining-nums">{{ r.period }}</span>
+<span style="border:1px solid var(--border);border-radius:3px;padding:1px 7px">{{ r.type }}</span>
+<span style="border:1px solid var(--border);border-radius:3px;padding:1px 7px">{{ r.entity }}</span>
+</div>
+<a href="#" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--accent);border-radius:4px;color:var(--accent-700);font-weight:500;text-decoration:none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"></path></svg>
+{{ rt.download }} · pdf {{ r.size }}
+</a>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+</main>
+<dc-import name="NCFooter" lang="{{ lang }}" w="{{ vw }}" on-navigate="{{ go }}" hint-size="100%,300px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;noticeVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;information&quot;,&quot;service&quot;,&quot;urgent&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;'none'|'information'|'service'|'urgent'&quot;,&quot;section&quot;:&quot;Notice band&quot;},&quot;startLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ka&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ka&quot;,&quot;tsType&quot;:&quot;'ka'|'en'&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+const PAGES = ['home','about','products','mortgage','auto','business','calculator','application','branches','news','article','reporting','video','careers','contact','complaints','complaints-form'];
+
+const T = {
+  ka: {
+    homeCrumb: 'მთავარი',
+    addrLabel: 'მისამართი', phoneLabel: 'ტელეფონი', hoursLabel: 'სამუშაო საათები',
+    mapPlaceholder: 'რუკა — ჩასასმელი რუკის ჩანართი',
+    cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
+    noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
+    eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
+    photoSlot: 'ჩააგდეთ ფოტო — ფილიალი, გუნდი ან თბილისი',
+    homeH1: 'სესხი უძრავი ქონებით ან ავტომობილით უზრუნველყოფილი',
+    homeLede: 'ნოვა კრედიტი 2010 წლიდან აკრედიტებს მცირე და საშუალო შემოსავლიან ფიზიკურ პირებსა და ბიზნესს. სესხი გაიცემა არაუმეტეს ერთ დღეში.',
+    ctaApply: 'სესხის განაცხადი',
+    ctaCalc: 'კალკულატორი',
+    terms: 'სესხის პირობები',
+    factsTitle: 'ორგანიზაცია',
+    facts: [
+      { k: 'დაფუძნდა', v: '2010' },
+      { k: 'ეროვნული ბანკის სტატუსი', v: '29.12.2010' },
+      { k: 'ფილიალი', v: '3' },
+      { k: 'ზედამხედველი', v: 'სებ' }
+    ],
+    productsTitle: 'პროდუქტები',
+    productsNote: 'პირობები საორიენტაციოა და მტკიცდება საკრედიტო კომიტეტის მიერ',
+    newsTitle: 'სიახლეები',
+    reportingTitle: 'რეპორტინგი',
+    reportingLede: 'ფინანსური და მმართველობითი ანგარიშგებები 2011 წლიდან დღემდე.',
+    reportingCta: 'ანგარიშგებების არქივი',
+    branchesTitle: 'ფილიალები',
+    branchLine1: 'თბილისი — ვაჟა-ფშაველას გამზირი 8',
+    branchLine2: 'თბილისი — ჭირნახულის 2 (ლილო)',
+    branchLine3: 'რუსთავი — ლეონიძის და მესხიშვილის მიმდებარედ',
+    branchesCta: 'მისამართები და სამუშაო საათები'
+  },
+  en: {
+    homeCrumb: 'Home',
+    addrLabel: 'Address', phoneLabel: 'Phone', hoursLabel: 'Opening hours',
+    mapPlaceholder: 'Map — embed placeholder',
+    cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
+    noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
+    eyebrow: 'Microfinance organisation · since 2010',
+    photoSlot: 'Drop a photograph — branch, staff or Tbilisi',
+    homeH1: 'Loans secured by real estate or a vehicle',
+    homeLede: 'Since 2010 Nova Credit has lent to small and medium income individuals and businesses. Loans are issued within one day.',
+    ctaApply: 'Loan application',
+    ctaCalc: 'Calculator',
+    terms: 'Loan terms',
+    factsTitle: 'Organisation',
+    facts: [
+      { k: 'Founded', v: '2010' },
+      { k: 'NBG status granted', v: '29.12.2010' },
+      { k: 'Branches', v: '3' },
+      { k: 'Supervisor', v: 'NBG' }
+    ],
+    productsTitle: 'Products',
+    productsNote: 'Terms are indicative and subject to credit committee approval',
+    newsTitle: 'News',
+    reportingTitle: 'Reporting',
+    reportingLede: 'Financial and management reports from 2011 to date.',
+    reportingCta: 'Report archive',
+    branchesTitle: 'Branches',
+    branchLine1: 'Tbilisi — 8 Vazha-Pshavela ave.',
+    branchLine2: 'Tbilisi — Chirnakhuli 2 (Lilo)',
+    branchLine3: 'Rustavi — near Leonidze & Meskhishvili st.',
+    branchesCta: 'Addresses and opening hours'
+  }
+};
+
+const PRODUCTS = {
+  ka: [
+    { key: 'mortgage', name: 'იპოთეკური სესხი', amount: '5 000 – 100 000 ₾', term: '6 – 60 თვე', issue: 'ერთ დღეში' },
+    { key: 'auto', name: 'ავტო სესხი', amount: '550 – 25 000 $', term: '10 თვემდე', issue: '5 წუთში' },
+    { key: 'business', name: 'ბიზნეს სესხი', amount: '5 000 – 100 000 ₾', term: '6 – 48 თვე', issue: 'ერთ დღეში' }
+  ],
+  en: [
+    { key: 'mortgage', name: 'Mortgage loan', amount: 'GEL 5,000 – 100,000', term: '6 – 60 months', issue: 'Within one day' },
+    { key: 'auto', name: 'Auto loan', amount: 'USD 550 – 25,000', term: 'Up to 10 months', issue: 'Within 5 minutes' },
+    { key: 'business', name: 'Business loan', amount: 'GEL 5,000 – 100,000', term: '6 – 48 months', issue: 'Within one day' }
+  ]
+};
+
+const LABELS = {
+  ka: { amount: 'თანხა', term: 'ვადა', issue: 'გაცემა' },
+  en: { amount: 'Amount', term: 'Term', issue: 'Issued' }
+};
+
+const NEWS = {
+  ka: [
+    { id: 'interest', date: '12.03.2024', title: 'სესხის პროცენტის გადახდები' },
+    { id: 'rustavi', date: '01.06.2016', title: 'რუსთავის ფილიალი' }
+  ],
+  en: [
+    { id: 'interest', date: '12.03.2024', title: 'Loan interest payments' },
+    { id: 'rustavi', date: '01.06.2016', title: 'Rustavi branch' }
+  ]
+};
+
+const RTYPE = {
+  quarterly: { ka: 'კვარტალური ანგარიშგება', en: 'Quarterly statement' },
+  annual: { ka: 'წლიური ფინანსური ანგარიშგება', en: 'Annual financial statements' },
+  management: { ka: 'მმართველობითი ანგარიშგება', en: 'Management report' },
+  combined: { ka: 'ფინანსური და მმართველობითი', en: 'Financial and management report' }
+};
+const ENTITY = {
+  nova: { ka: 'შპს ნოვა კრედიტი', en: 'Nova Credit LLC' },
+  miso: { ka: 'შპს მისო ნოვა კრედიტი', en: 'MFO Nova Credit LLC' }
+};
+const ROMAN = ['', 'I', 'II', 'III', 'IV'];
+const QEND = ['', '31.03', '30.06', '30.09', '31.12'];
+
+function buildReports() {
+  const raw = [];
+  for (let y = 2011; y <= 2016; y++) raw.push({ y, type: 'annual', audited: false });
+  raw.push({ y: 2017, type: 'annual', audited: true }, { y: 2017, type: 'management' });
+  [1, 2, 3, 4].forEach(q => raw.push({ y: 2018, q, type: 'quarterly', old: true }));
+  raw.push({ y: 2019, q: 1, type: 'quarterly', old: true });
+  raw.push({ y: 2018, type: 'management' }, { y: 2018, type: 'annual', audited: true });
+  [2, 3, 4].forEach(q => raw.push({ y: 2019, q, type: 'quarterly', old: true }));
+  raw.push({ y: 2020, q: 1, type: 'quarterly', old: true });
+  raw.push({ y: 2019, type: 'annual', audited: true }, { y: 2019, type: 'management' });
+  raw.push({ y: 2020, q: 2, type: 'quarterly', noyear: true }, { y: 2020, q: 3, type: 'quarterly', noyear: true });
+  raw.push({ y: 2020, q: 4, type: 'quarterly' }, { y: 2021, q: 1, type: 'quarterly' });
+  raw.push({ y: 2020, type: 'management' }, { y: 2020, type: 'annual', audited: true });
+  [2, 3, 4].forEach(q => raw.push({ y: 2021, q, type: 'quarterly' }));
+  raw.push({ y: 2022, q: 1, type: 'quarterly' }, { y: 2022, q: 4, type: 'quarterly' });
+  raw.push({ y: 2023, q: 1, type: 'quarterly' }, { y: 2022, type: 'combined' });
+  [2, 3, 4].forEach(q => raw.push({ y: 2023, q, type: 'quarterly' }));
+  raw.push({ y: 2024, q: 1, type: 'quarterly' }, { y: 2023, type: 'combined' });
+  [2, 3, 4].forEach(q => raw.push({ y: 2024, q, type: 'quarterly' }));
+  raw.push({ y: 2025, q: 1, type: 'quarterly' }, { y: 2024, type: 'combined' });
+  [2, 3, 4].forEach(q => raw.push({ y: 2025, q, type: 'quarterly' }));
+  raw.push({ y: 2026, q: 1, type: 'quarterly' }, { y: 2025, type: 'combined' });
+  raw.push({ y: 2026, q: 2, type: 'quarterly' });
+
+  return raw.map((r, i) => {
+    const entity = r.y <= 2017 ? 'nova' : 'miso';
+    let ka, en, periodKa, periodEn, sortKey;
+    if (r.type === 'quarterly') {
+      const d = QEND[r.q] + '.' + r.y;
+      ka = r.old ? r.y + ' წლის ' + ROMAN[r.q] + ' კვარტალის ფინანსური ანგარიშგება'
+        : r.noyear ? 'ფინანსური ანგარიშგება — ' + (r.q === 2 ? 'მეორე' : 'მესამე') + ' კვარტალი'
+        : 'ფინანსური ანგარიშგება ' + d;
+      en = 'Financial statements, ' + ROMAN[r.q] + ' quarter ' + r.y;
+      periodKa = ROMAN[r.q] + ' კვარტალი ' + r.y;
+      periodEn = 'Q' + r.q + ' ' + r.y;
+      sortKey = r.y * 100 + r.q * 10;
+    } else if (r.type === 'management') {
+      ka = 'მმართველობის ანგარიშგება ' + r.y + ' წლის 31 დეკემბერს დასრულებული წლისთვის და დამოუკიდებელი აუდიტორების მოსაზრება';
+      en = 'Management report for the year ended 31 December ' + r.y + ', with independent auditors\u2019 opinion';
+      periodKa = r.y + ' წელი'; periodEn = r.y; sortKey = r.y * 100 + 46;
+    } else if (r.type === 'combined') {
+      ka = 'ფინანსური და მმართველობის ანგარიშგება და დამოუკიდებელი აუდიტორის დასკვნა — ' + r.y + ' წლის 31 დეკემბერს დასრულებული წლისთვის';
+      en = 'Financial and management report with independent auditor\u2019s report for the year ended 31 December ' + r.y;
+      periodKa = r.y + ' წელი'; periodEn = r.y; sortKey = r.y * 100 + 48;
+    } else {
+      ka = 'ფინანსური ანგარიშგება ' + r.y + ' წლის 31 დეკემბრის მდგომარეობით' + (r.audited ? ' და დამოუკიდებელი აუდიტორების დასკვნა' : '');
+      en = 'Financial statements as at 31 December ' + r.y + (r.audited ? ', with independent auditors\u2019 report' : '');
+      periodKa = r.y + ' წელი'; periodEn = r.y; sortKey = r.y * 100 + 45;
+    }
+    return {
+      id: 'r' + i, y: r.y, q: r.q || 0, type: r.type, entity, sortKey,
+      ka, en, periodKa, periodEn,
+      size: (0.6 + ((i * 37) % 44) / 10).toFixed(1) + ' MB'
+    };
+  }).sort((a, b) => b.sortKey - a.sortKey);
+}
+const REPORTS = buildReports();
+
+const RT = {
+  ka: { title: 'რეპორტინგი', lede: 'ფინანსური და მმართველობითი ანგარიშგებები 2011 წლიდან. ყველა დოკუმენტი PDF ფორმატშია.',
+    year: 'წელი', quarter: 'კვარტალი', type: 'დოკუმენტის ტიპი', entity: 'იურიდიული პირი', all: 'ყველა',
+    search: 'ძიება დასახელებით', colTitle: 'დოკუმენტის დასახელება', colPeriod: 'პერიოდი', colType: 'ტიპი', colEntity: 'იურიდიული პირი', colDl: 'ჩამოტვირთვა',
+    download: 'ჩამოტვირთვა', results: 'ნაპოვნია', of: '-დან', docs: 'დოკუმენტი', clear: 'ფილტრის გასუფთავება',
+    emptyTitle: 'შედეგი ვერ მოიძებნა', emptyBody: 'შეცვალეთ ფილტრი ან გაასუფთავეთ არჩეული პარამეტრები.',
+    annual: 'წლიური', q1: 'I', q2: 'II', q3: 'III', q4: 'IV' },
+  en: { title: 'Reporting', lede: 'Financial and management reports since 2011. All documents are PDF files.',
+    year: 'Year', quarter: 'Quarter', type: 'Document type', entity: 'Legal entity', all: 'All',
+    search: 'Search by title', colTitle: 'Document', colPeriod: 'Period', colType: 'Type', colEntity: 'Legal entity', colDl: 'Download',
+    download: 'Download', results: 'Showing', of: 'of', docs: 'documents', clear: 'Clear filters',
+    emptyTitle: 'No documents found', emptyBody: 'Adjust the filters or clear the selected parameters.',
+    annual: 'Annual', q1: 'I', q2: 'II', q3: 'III', q4: 'IV' }
+};
+
+const CT = {
+  ka: { title: 'სესხის კალკულატორი', lede: 'გაანგარიშება საორიენტაციოა და არ წარმოადგენს შეთავაზებას. საბოლოო პირობები განისაზღვრება საკრედიტო კომიტეტის გადაწყვეტილებით.',
+    amount: 'სესხის თანხა', rate: 'წლიური საპროცენტო განაკვეთი', term: 'ვადა თვეებში', rtype: 'დაფარვის ტიპი',
+    annuity: 'ანუიტეტური', interest: 'მხოლოდ პროცენტი, ძირი ვადის ბოლოს',
+    calc: 'გამოთვალე', print: 'დაბეჭდვა', currency: '₾',
+    sumTotal: 'ჯამური გადასახდელი', sumInterest: 'ჯამური სარგებელი', sumMonthly: 'ყოველთვიური გადასახადი', sumLast: 'ბოლო გადასახადი',
+    cMonth: 'თვე', cOpen: 'საწყისი ბალანსი', cPay: 'ყოველთვიური გადასახადი', cInt: 'სარგებელი', cPrin: 'ძირითადი', cClose: 'საბოლოო ბალანსი',
+    schedule: 'დაფარვის გრაფიკი', apply: 'სესხის განაცხადი', scrollHint: 'ცხრილი გადაიხედება ჰორიზონტალურად →' },
+  en: { title: 'Loan calculator', lede: 'This calculation is indicative and is not an offer. Final terms are set by the credit committee.',
+    amount: 'Loan amount', rate: 'Annual interest rate', term: 'Term in months', rtype: 'Repayment type',
+    annuity: 'Annuity', interest: 'Interest only, principal at term end',
+    calc: 'Calculate', print: 'Print', currency: 'GEL',
+    sumTotal: 'Total repayable', sumInterest: 'Total interest', sumMonthly: 'Monthly payment', sumLast: 'Final payment',
+    cMonth: 'Month', cOpen: 'Opening balance', cPay: 'Monthly payment', cInt: 'Interest', cPrin: 'Principal', cClose: 'Closing balance',
+    schedule: 'Repayment schedule', apply: 'Loan application', scrollHint: 'Table scrolls horizontally →' }
+};
+
+const FT = {
+  ka: { step: 'ეტაპი', of: '/', next: 'შემდეგი', back: 'უკან', review: 'გადახედვა', submit: 'განაცხადის გაგზავნა',
+    required: 'სავალდებულო', reqNote: '* აღნიშნული ველები სავალდებულოა', errTitle: 'შეავსეთ სავალდებულო ველები',
+    errField: 'ველი სავალდებულოა', errEmail: 'მიუთითეთ სწორი ელ.ფოსტა', errId: 'პირადი ნომერი უნდა შეიცავდეს 11 ციფრს',
+    upload: 'ფაილის ატვირთვა', uploadHint: 'pdf, jpg ან png — არაუმეტეს 10 MB', choose: 'აირჩიეთ ფაილი', noFile: 'ფაილი არ არის არჩეული',
+    reviewTitle: 'გადაამოწმეთ მონაცემები', edit: 'რედაქტირება', empty: '—',
+    doneTitle: 'განაცხადი გაიგზავნა', doneBody: 'თქვენს განაცხადს განიხილავს საკრედიტო კომიტეტი. პასუხს მიიღებთ მითითებულ ელ.ფოსტაზე.',
+    ref: 'განაცხადის ნომერი', doneHome: 'მთავარ გვერდზე დაბრუნება', select: 'აირჩიეთ', progress: 'შევსებულია' },
+  en: { step: 'Step', of: 'of', next: 'Next', back: 'Back', review: 'Review', submit: 'Submit application',
+    required: 'required', reqNote: '* marked fields are required', errTitle: 'Please complete the required fields',
+    errField: 'This field is required', errEmail: 'Enter a valid email address', errId: 'The ID number must contain 11 digits',
+    upload: 'File upload', uploadHint: 'pdf, jpg or png — max 10 MB', choose: 'Choose file', noFile: 'No file selected',
+    reviewTitle: 'Check your details', edit: 'Edit', empty: '—',
+    doneTitle: 'Application submitted', doneBody: 'Your application will be reviewed by the credit committee. You will receive a reply at the email address you provided.',
+    ref: 'Reference number', doneHome: 'Back to home', select: 'Select', progress: 'completed' }
+};
+
+const F = (n, l, t, req, opts, half) => ({ n, l, t: t || 'text', req: !!req, opts: opts || null, half: half !== false });
+
+const FORMS = {
+  application: {
+    ka: { title: 'სესხის განაცხადი', lede: 'განაცხადი მოწმდება საკრედიტო კომიტეტის მიერ. შევსება 10–15 წუთს მოითხოვს.', sections: [
+      { legend: 'ინფორმაცია სესხის შესახებ', fields: [F('p','სესხის პროდუქტი','select',1,['იპოთეკური სესხი','ავტო სესხი','ბიზნეს სესხი']),F('a','მოთხოვნილი თანხა','number',1),F('cur','ვალუტა','select',1,['ლარი','აშშ დოლარი']),F('tm','ვადა თვეებში','number',1),F('rp','დაფარვის ტიპი','radio',1,['ანუიტეტური','მხოლოდ პროცენტი, ძირი ვადის ბოლოს']),F('pu','სესხის მიზნობრიობა','textarea',1,null,false)] },
+      { legend: 'ავტომანქანის მონაცემები', fields: [F('vm','მარკა','text',0),F('vmd','მოდელი','text',0),F('vy','გამოშვების წელი','number',0),F('vn','სახელმწიფო ნომერი','text',0),F('vv','საბაზრო ღირებულება','number',0),F('vs','ავტომობილის მდგომარეობა','select',0,['გამართული','საჭიროებს რემონტს'])] },
+      { legend: 'მსესხებლის პირადი მონაცემები', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1),F('bd','დაბადების თარიღი','date',1),F('cz','მოქალაქეობა','text',1),F('idn','პირადობის მოწმობის ნომერი','text',1)] },
+      { legend: 'პერსონალური ინფორმაცია', fields: [F('gn','სქესი','radio',0,['მდედრობითი','მამრობითი']),F('ed','განათლება','select',0,['საშუალო','ბაკალავრი','მაგისტრი','დოქტორი']),F('mil','სამხედრო აღრიცხვა','radio',0,['კი','არა']),F('res','რეზიდენტობა','radio',1,['საქართველოს რეზიდენტი','არარეზიდენტი'])] },
+      { legend: 'საკონტაქტო ინფორმაცია', fields: [F('ph','მობილური ტელეფონი','tel',1),F('ph2','დამატებითი ტელეფონი','tel',0),F('em','ელ.ფოსტა','email',1),F('adr','ფაქტობრივი მისამართი','text',1,null,false),F('adl','იურიდიული მისამართი','text',0,null,false),F('rt','საცხოვრებელი ფართი','radio',0,['საკუთარი','ნაქირავები','ოჯახის წევრის'])] },
+      { legend: 'ოჯახური მდგომარეობა', fields: [F('ms','ოჯახური მდგომარეობა','select',0,['დაუქორწინებელი','დაქორწინებული','განქორწინებული','ქვრივი']),F('dep','კმაყოფაზე მყოფ პირთა რაოდენობა','number',0),F('sp','მეუღლის სახელი და გვარი','text',0),F('spi','მეუღლის შემოსავალი','number',0)] },
+      { legend: 'ინფორმაცია მსესხებლის შემოსავლის შესახებ', fields: [F('emp','დასაქმების სტატუსი','select',1,['დაქირავებული','თვითდასაქმებული','მეწარმე','პენსიონერი']),F('co','დამსაქმებელი / კომპანია','text',1),F('pos','თანამდებობა','text',0),F('exp','სამუშაო სტაჟი (თვე)','number',0),F('inc','ყოველთვიური წმინდა შემოსავალი','number',1),F('inc2','დამატებითი შემოსავალი','number',0),F('obl','არსებული სასესხო ვალდებულებები','number',0),F('src','შემოსავლის წყაროები','checkbox',0,['ხელფასი','ბიზნეს შემოსავალი','ქირა','პენსია','სხვა']),F('doc','შემოსავლის დამადასტურებელი დოკუმენტი','file',1,null,false)] },
+      { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას','ვეთანხმები საკრედიტო ისტორიის შემოწმებას ს/ბ-ში'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+    ] },
+    en: { title: 'Loan application', lede: 'Your application is reviewed by the credit committee. It takes 10–15 minutes to complete.', sections: [
+      { legend: 'Loan details', fields: [F('p','Loan product','select',1,['Mortgage loan','Auto loan','Business loan']),F('a','Requested amount','number',1),F('cur','Currency','select',1,['GEL','USD']),F('tm','Term in months','number',1),F('rp','Repayment type','radio',1,['Annuity','Interest only, principal at term end']),F('pu','Purpose of the loan','textarea',1,null,false)] },
+      { legend: 'Vehicle details', fields: [F('vm','Make','text',0),F('vmd','Model','text',0),F('vy','Year of manufacture','number',0),F('vn','Registration number','text',0),F('vv','Market value','number',0),F('vs','Condition','select',0,['Roadworthy','Needs repair'])] },
+      { legend: 'Borrower identity', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1),F('bd','Date of birth','date',1),F('cz','Citizenship','text',1),F('idn','ID document number','text',1)] },
+      { legend: 'Personal information', fields: [F('gn','Gender','radio',0,['Female','Male']),F('ed','Education','select',0,['Secondary','Bachelor','Master','Doctorate']),F('mil','Military registration','radio',0,['Yes','No']),F('res','Residency','radio',1,['Resident of Georgia','Non-resident'])] },
+      { legend: 'Contact information', fields: [F('ph','Mobile phone','tel',1),F('ph2','Additional phone','tel',0),F('em','Email','email',1),F('adr','Actual address','text',1,null,false),F('adl','Legal address','text',0,null,false),F('rt','Housing','radio',0,['Owned','Rented','Family member\u2019s'])] },
+      { legend: 'Family status', fields: [F('ms','Marital status','select',0,['Single','Married','Divorced','Widowed']),F('dep','Number of dependants','number',0),F('sp','Spouse name','text',0),F('spi','Spouse income','number',0)] },
+      { legend: 'Borrower income', fields: [F('emp','Employment status','select',1,['Employed','Self-employed','Entrepreneur','Pensioner']),F('co','Employer / company','text',1),F('pos','Position','text',0),F('exp','Length of service (months)','number',0),F('inc','Monthly net income','number',1),F('inc2','Additional income','number',0),F('obl','Existing loan obligations','number',0),F('src','Sources of income','checkbox',0,['Salary','Business income','Rent','Pension','Other']),F('doc','Proof of income','file',1,null,false)] },
+      { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data','I consent to a credit bureau check'],false),F('cap','Security code','text',1)] }
+    ] }
+  }
+};
+
+const PT = {
+  ka: { apply: 'შეავსეთ სესხის განაცხადი', calc: 'გამოთვალეთ', onThisPage: 'გვერდის შიგთავსი', print: 'დაბეჭდვა',
+    key: 'ძირითადი პირობები', amount: 'თანხა', term: 'ვადა', currency: 'ვალუტა', issue: 'გაცემა', repay: 'დაფარვა' },
+  en: { apply: 'Fill loan application', calc: 'Calculate', onThisPage: 'On this page', print: 'Print',
+    key: 'Key terms', amount: 'Amount', term: 'Term', currency: 'Currency', issue: 'Issued', repay: 'Repayment' }
+};
+
+const PRODUCT_PAGES = {
+  mortgage: { ka: { title: 'იპოთეკური სესხი', sub: 'უძრავი ქონებით უზრუნველყოფილი სესხი ფიზიკურ პირებზე.',
+      key: [['ვალუტა','ლარი'],['თანხა','5 000 – 100 000 ₾'],['ვადა','6 – 60 თვე'],['გაცემა','გასაუბრებიდან ერთ დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+      blocks: [
+        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტი','სესხის ვადა — 6-60 თვე'] },
+        { h: 'პირადი მონაცემები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი ფიზიკური პირი','მსესხებლის ასაკი — 18-70 წელი (სესხის ვადის გათვალისწინებით)'] },
+        { h: 'სესხის უზრუნველყოფა', note: 'თბილისის, რუსთავის, ბათუმის და მცხეთის ტერიტორიაზე მდებარე:', items: ['კომერციული ფართი','მიწის ნაკვეთი'], after: 'სხვა ქალაქების შემთხვევაში განიხილება ინდივიდუალურად, ქონების შეფასებიდან გამომდინარე.' },
+        { h: 'უძრავი ქონების კრიტერიუმები', items: ['ქონება არ უნდა იყოს ავარიულ მდგომარეობაში','ქონება არ უნდა იყოს მშენებარე — მისაღებია, თუ კორპუსი გადახურულია და შეყვანილია კომუნიკაციები'] },
+        { h: 'საჭირო დოკუმენტები', items: ['მესაკუთრის პირადობის მოწმობა','ქონების ამონაწერი საჯარო რეესტრიდან','შემოსავლის დამადასტურებელი დოკუმენტი (ინდივიდუალურად, კომპანიის შეხედულებისამებრ)'] },
+        { h: 'სესხის მიზნობრიობა', items: ['ქონების ყიდვა, აშენება ან სარემონტო სამუშაოების დაფინანსება პირადი საჭიროებისთვის'] }
+      ] },
+    en: { title: 'Mortgage loan', sub: 'A loan to individuals secured by real estate.',
+      key: [['Currency','GEL'],['Amount','GEL 5,000 – 100,000'],['Term','6 – 60 months'],['Issued','One day after the interview'],['Repayment','Annuity / interest only']],
+      blocks: [
+        { h: 'Loan terms', items: ['Loan currency — GEL','Repayment type — annuity or interest only','Loan term — 6-60 months'] },
+        { h: 'Borrower requirements', items: ['The borrower must be a resident individual of Georgia','Borrower age — 18-70 years (taking the loan term into account)'] },
+        { h: 'Collateral', note: 'Located in Tbilisi, Rustavi, Batumi or Mtskheta:', items: ['Commercial premises','Land plot'], after: 'Other cities are considered individually, based on the property valuation.' },
+        { h: 'Property criteria', items: ['The property must not be in a dilapidated condition','The property must not be under construction — acceptable if the building is roofed and utilities are connected'] },
+        { h: 'Required documents', items: ['Owner\u2019s identity document','Extract from the public registry','Proof of income (individually, at the company\u2019s discretion)'] },
+        { h: 'Purpose', items: ['Purchase, construction or renovation of property for personal needs'] }
+      ] } },
+  auto: { ka: { title: 'ავტო სესხი', sub: 'ავტომობილით უზრუნველყოფილი სესხი — გაცემა 5 წუთში.',
+      key: [['ვალუტა','ლარი (ფიზ. პირი) / აშშ დოლარი (იურ. პირი)'],['თანხა','550 – 25 000 $'],['ვადა','10 თვემდე'],['გაცემა','გასაუბრებიდან 5 წუთში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+      blocks: [
+        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი ფიზიკურ პირებზე, აშშ დოლარი იურიდიულ პირებზე','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტის გადახდა','სესხის ვადა — 10 თვე'] },
+        { h: 'პირადი მონაცემები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი ფიზიკური ან იურიდიული პირი','მსესხებლის ასაკი — 18-65 წელი (სესხის ვადის გათვალისწინებით)'] },
+        { h: 'სესხის უზრუნველყოფა', items: ['ავტომობილი','3 000 აშშ დოლარზე მეტ თანხაზე მოითხოვება ფიზიკური ან იურიდიული პირის თავდებობა','საკრედიტო კომიტეტის გადაწყვეტილებით შესაძლებელია მოთხოვნილ იქნას დამატებითი უზრუნველყოფა ან პირობა'] },
+        { h: 'ავტომობილის კრიტერიუმები', items: ['ავტომობილი არ უნდა იყოს ავარიულ მდგომარეობაში','არ უნდა ირიცხებოდეს საგადასახადო ვალდებულება, ყადაღა ან რაიმე სახის აკრძალვა'] },
+        { h: 'საჭირო საბუთები', items: ['მესაკუთრის პირადობის მოწმობა','ავტომობილის ტექპასპორტი','ყადაღის ცნობა','საკრედიტო კომიტეტის გადაწყვეტილების შემთხვევაში — დამატებითი საბუთები'] },
+        { h: 'გაცემა და მომსახურება', items: ['გასაუბრებიდან 5 წუთში','სესხის გაცემა შესაძლებელია 24 საათის განმავლობაში','სესხი გაიცემა ტარების და კერძო ავტოსადგომზე გაჩერების პირობით','ავტომობილის დაზღვევის სავალდებულო მოთხოვნა არ ვრცელდება'] },
+        { h: 'დამატებითი პირობა', items: ['თუ ავტომობილის გამოშვების თარიღი არის 2008 წლიდან და შეფასების თანხა აღემატება 20 000 აშშ დოლარს, კომიტეტი იმსჯელებს სესხის შეღავათიან პროცენტში გაცემაზე'] }
+      ] },
+    en: { title: 'Auto loan', sub: 'A loan secured by a vehicle — issued in five minutes.',
+      key: [['Currency','GEL (individuals) / USD (legal entities)'],['Amount','USD 550 – 25,000'],['Term','Up to 10 months'],['Issued','5 minutes after the interview'],['Repayment','Annuity / interest only']],
+      blocks: [
+        { h: 'Loan terms', items: ['Loan currency — GEL for individuals, USD for legal entities','Repayment type — annuity or interest only','Loan term — 10 months'] },
+        { h: 'Borrower requirements', items: ['The borrower must be a resident individual or legal entity of Georgia','Borrower age — 18-65 years (taking the loan term into account)'] },
+        { h: 'Collateral', items: ['A vehicle','Amounts above USD 3,000 require a guarantor — an individual or a legal entity','The credit committee may require additional collateral or conditions'] },
+        { h: 'Vehicle criteria', items: ['The vehicle must not be damaged or unroadworthy','It must carry no tax liability, seizure or other restriction'] },
+        { h: 'Required documents', items: ['Owner\u2019s identity document','Vehicle registration certificate','Certificate of no seizure','Further documents if required by the credit committee'] },
+        { h: 'Issuance and servicing', items: ['5 minutes after the interview','The loan can be disbursed within 24 hours','The loan is granted on condition the vehicle is driven and kept in private parking','Vehicle insurance is not a mandatory requirement'] },
+        { h: 'Additional condition', items: ['If the vehicle was manufactured in 2008 or later and is valued above USD 20,000, the committee may consider a preferential rate'] }
+      ] } },
+  business: { ka: { title: 'ბიზნეს სესხი', sub: 'სესხი იურიდიულ პირებზე არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
+      key: [['ვალუტა','ლარი'],['თანხა','5 000 – 100 000 ₾'],['ვადა','6 – 48 თვე'],['გაცემა','გასაუბრებიდან ერთ დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+      blocks: [
+        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტი','სესხის ვადა — 6-48 თვე'] },
+        { h: 'თავსებადობის კრიტერიუმები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი იურიდიული პირი, რომლის დამფუძნებელიც არის საქართველოს რეზიდენტი იურიდიული ან ფიზიკური პირი','იურიდიული პირის დაფუძნების თარიღიდან გასული უნდა იყოს 3 თვე'] },
+        { h: 'სესხის უზრუნველყოფა', note: 'თბილისის, რუსთავის და ბათუმის ტერიტორიაზე მდებარე:', items: ['კორპუსის ბინა','საკუთარი სახლი','აგარაკი','კომერციული ფართი'], after: 'ქონების მესაკუთრე უნდა იყოს საქართველოს რეზიდენტი იურიდიული პირი, მსესხებელი ორგანიზაციის მმართველი ორგანოს წევრი/პარტნიორი, ან პარტნიორის საოჯახო მეურნეობის წევრი.' },
+        { h: 'საჭირო დოკუმენტები', items: ['ამონაწერი სამეწარმეო რეესტრიდან','დირექტორთა და დამფუძნებელთა პირადობის მოწმობები','საქმიანობის დამადასტურებელი დოკუმენტაცია (საბანკო ამონაწერი, მოგების და დღგ-ს დეკლარაციები)'] }
+      ] },
+    en: { title: 'Business loan', sub: 'A loan to legal entities to expand an existing business or start a new one.',
+      key: [['Currency','GEL'],['Amount','GEL 5,000 – 100,000'],['Term','6 – 48 months'],['Issued','One day after the interview'],['Repayment','Annuity / interest only']],
+      blocks: [
+        { h: 'Loan terms', items: ['Loan currency — GEL','Repayment type — annuity or interest only','Loan term — 6-48 months'] },
+        { h: 'Eligibility', items: ['The borrower must be a resident legal entity of Georgia founded by a resident legal entity or individual','At least 3 months must have passed since incorporation'] },
+        { h: 'Collateral', note: 'Located in Tbilisi, Rustavi or Batumi:', items: ['Apartment in a residential building','Detached house','Cottage','Commercial premises'], after: 'The owner must be a resident legal entity of Georgia, a member or partner of the borrower\u2019s governing body, or a member of a partner\u2019s household.' },
+        { h: 'Required documents', items: ['Extract from the entrepreneurial registry','Identity documents of directors and founders','Evidence of business activity (bank statements, profit and VAT declarations)'] }
+      ] } }
+};
+
+FORMS.vacancy = {
+  ka: { title: 'სააპლიკაციო ფორმა', lede: 'ვაკანსიაზე განაცხადის შევსება. ველების ნაწილი სავალდებულოა.', sections: [
+    { legend: 'ინფორმაცია ვაკანსიის შესახებ', fields: [F('vac','ვაკანსია','select',1,['პრობლემური სესხების მენეჯერი','საკრედიტო მენეჯერი, გამოსაცდელი ვადით','მცირე სესხების ექსპერტი, თბილისი','იურისტი','მცირე სესხების ექსპერტი, რუსთავი','მოლარე, რუსთავი']),F('src','სად გაიგეთ ვაკანსიის შესახებ','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','სასურველი ანაზღაურება','number',0),F('start','დაწყების სასურველი თარიღი','date',0)] },
+    { legend: 'პერსონალური მონაცემები', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1),F('bd','დაბადების თარიღი','date',1)] },
+    { legend: 'პირადი ინფორმაცია', fields: [F('gn','სქესი','radio',0,['მდედრობითი','მამრობითი']),F('cz','მოქალაქეობა','text',0),F('mil','სამხედრო აღრიცხვა','radio',0,['კი','არა'])] },
+    { legend: 'საკონტაქტო ინფორმაცია', fields: [F('ph','მობილური','tel',1),F('em','ელ.ფოსტა','email',1),F('adr','მისამართი','text',1,null,false)] },
+    { legend: 'ოჯახური მდგომარეობა', fields: [F('ms','ოჯახური მდგომარეობა','select',0,['დაუქორწინებელი','დაქორწინებული','განქორწინებული']),F('dep','კმაყოფაზე მყოფი პირები','number',0)] },
+    { legend: 'განათლება', fields: [F('un','სასწავლებელი','text',1),F('fac','ფაკულტეტი','text',0),F('deg','ხარისხი','select',0,['ბაკალავრი','მაგისტრი','დოქტორი']),F('yr','დამთავრების წელი','number',0)] },
+    { legend: 'სამუშაო გამოცდილება', fields: [F('co','ბოლო დამსაქმებელი','text',1),F('pos','თანამდებობა','text',1),F('per','მუშაობის პერიოდი','text',0),F('rsn','წასვლის მიზეზი','textarea',0,null,false),F('cv','რეზიუმე','file',1,null,false)] },
+    { legend: 'ენების ცოდნა', fields: [F('lge','ინგლისური','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgr','რუსული','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgo','სხვა ენა','text',0)] },
+    { legend: 'კომპიუტერული პროგრამების ცოდნა', fields: [F('sw','პროგრამები','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','სხვა'],false)] },
+    { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+  ] },
+  en: { title: 'Application form', lede: 'Apply for an open vacancy. Some fields are required.', sections: [
+    { legend: 'Vacancy', fields: [F('vac','Vacancy','select',1,['Problem loans manager','Credit manager, probation','Small loans expert, Tbilisi','Lawyer','Small loans expert, Rustavi','Cashier, Rustavi']),F('src','Where did you hear about the vacancy','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','Expected salary','number',0),F('start','Preferred start date','date',0)] },
+    { legend: 'Personal data', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1),F('bd','Date of birth','date',1)] },
+    { legend: 'Personal information', fields: [F('gn','Gender','radio',0,['Female','Male']),F('cz','Citizenship','text',0),F('mil','Military registration','radio',0,['Yes','No'])] },
+    { legend: 'Contact information', fields: [F('ph','Mobile','tel',1),F('em','Email','email',1),F('adr','Address','text',1,null,false)] },
+    { legend: 'Family status', fields: [F('ms','Marital status','select',0,['Single','Married','Divorced']),F('dep','Dependants','number',0)] },
+    { legend: 'Education', fields: [F('un','Institution','text',1),F('fac','Faculty','text',0),F('deg','Degree','select',0,['Bachelor','Master','Doctorate']),F('yr','Year of graduation','number',0)] },
+    { legend: 'Work experience', fields: [F('co','Most recent employer','text',1),F('pos','Position','text',1),F('per','Period of employment','text',0),F('rsn','Reason for leaving','textarea',0,null,false),F('cv','CV','file',1,null,false)] },
+    { legend: 'Languages', fields: [F('lge','English','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgr','Russian','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgo','Other language','text',0)] },
+    { legend: 'Computer skills', fields: [F('sw','Software','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','Other'],false)] },
+    { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data'],false),F('cap','Security code','text',1)] }
+  ] }
+};
+
+FORMS.complaints = {
+  ka: { title: 'პრეტენზიის ფორმა', lede: 'პრეტენზიას განიხილავს გენერალური დირექტორი. პასუხს მიიღებთ არაუგვიანეს 1 თვისა.', sections: [
+    { legend: 'ინფორმაცია მომხმარებელთა პრეტენზიების შესახებ', fields: [F('rd','პრეტენზიის მიღების თარიღი','date',0),F('rn','რეგისტრაციის N','text',0)] },
+    { legend: 'განმცხადებლის პირადი ინფორმაცია', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1)] },
+    { legend: 'პირადი ინფორმაცია', fields: [F('bd','დაბადების თარიღი','date',0),F('cz','მოქალაქეობა','text',0)] },
+    { legend: 'საკონტაქტო ინფორმაცია', fields: [F('adr','მისამართი','text',1,null,false),F('ph','ტელეფონი','tel',1),F('em','ელ.ფოსტა','email',1)] },
+    { legend: 'პროდუქტის დასახელება', fields: [F('pr','პროდუქტი','checkbox',1,['ავტოსესხი','იპოთეკური სესხი','სამომხმარებლო სესხი','სესხი ბინის რემონტისთვის','ოვერდრაფტი','მომენტალური განვადება','საკრედიტო ბარათი','მიმდინარე ანგარიშები','მოთხოვნამდე დეპოზიტები','ვადიანი დეპოზიტები','ინტერნეტ ფინანსური ორგანიზაცია','სხვა'],false)] },
+    { legend: 'პრეტენზიის ხასიათი', fields: [F('nt','ხასიათი','checkbox',1,['საპროცენტო შენატანები','მომსახურების საკომისიოები','ჯარიმები და ვადაგადაცილების საკომისიოები','კრედიტის წინსწრებით დაფარვის საკომისიო','სხვა გადასახდელები','ადმინისტრაცია / მომსახურების ხარისხი','არასწორად მიწოდებული ინფორმაცია','სავალდებულო ინფორმაციის მიუწოდებლობა','კონფიდენციალური ინფორმაციის გაცემა','ხელშეკრულების პირობები','რეკლამა, გაყიდვები, რჩევები','ტრანზაქციები','დაკავშირებული საკრედიტო ხელშეკრულება','სხვა'],false)] },
+    { legend: 'პრეტენზიის შინაარსი', fields: [F('txt','აღწერეთ პრეტენზია','textarea',1,null,false),F('att','დანართი','file',0,null,false)] },
+    { legend: 'რა ფორმით გსურთ პრეტენზიაზე პასუხის მიღება?', fields: [F('ch','პასუხის ფორმა','radio',1,['წერილობით','ტელეფონით','ელექტრონული ფოსტით'],false)] },
+    { legend: 'უსაფრთხოება', fields: [F('sig','ხელმოწერა','text',1),F('dt','თარიღი','date',1),F('cap','უსაფრთხოების კოდი','text',1)] }
+  ] },
+  en: { title: 'Complaint form', lede: 'Complaints are reviewed by the general director. You will receive a reply within one month at the latest.', sections: [
+    { legend: 'Complaint registration', fields: [F('rd','Date received','date',0),F('rn','Registration no.','text',0)] },
+    { legend: 'Applicant details', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1)] },
+    { legend: 'Personal information', fields: [F('bd','Date of birth','date',0),F('cz','Citizenship','text',0)] },
+    { legend: 'Contact information', fields: [F('adr','Address','text',1,null,false),F('ph','Phone','tel',1),F('em','Email','email',1)] },
+    { legend: 'Product', fields: [F('pr','Product','checkbox',1,['Auto loan','Mortgage loan','Consumer loan','Home improvement loan','Overdraft','Instalment','Credit card','Current accounts','Demand deposits','Term deposits','Internet financial organisation','Other'],false)] },
+    { legend: 'Nature of the complaint', fields: [F('nt','Nature','checkbox',1,['Interest charges','Service fees','Penalties and late fees','Early repayment fee','Other charges','Administration / service quality','Incorrect information provided','Mandatory information not provided','Disclosure of confidential information','Contract terms','Advertising, sales, advice','Transactions','Linked credit agreement','Other'],false)] },
+    { legend: 'Content of the complaint', fields: [F('txt','Describe the complaint','textarea',1,null,false),F('att','Attachment','file',0,null,false)] },
+    { legend: 'How would you like to receive a reply?', fields: [F('ch','Reply channel','radio',1,['In writing','By telephone','By email'],false)] },
+    { legend: 'Security', fields: [F('sig','Signature','text',1),F('dt','Date','date',1),F('cap','Security code','text',1)] }
+  ] }
+};
+
+const PAGE_CONTENT = {
+  about: {
+    ka: { title: 'ჩვენს შესახებ', paras: [
+      '„ნოვა კრედიტი" საფინანსო ორგანიზაციაა, რომელიც ჩამოყალიბდა თბილისში 2010 წელს. 2010 წლის 29 დეკემბერს საქართველოს ეროვნულმა ბანკმა კომპანიას მიანიჭა მიკროსაფინანსო ორგანიზაციის სტატუსი.',
+      'ჩვენი საქმიანობის ძირითადი მიმართულებაა მცირე და საშუალო შემოსავლიანი ფიზიკური პირებისა და ბიზნესის დაკრედიტება.',
+      '„ნოვა კრედიტი" მომხმარებელს სთავაზობს იპოთეკურ და ავტოსესხებს უძრავი ქონების ან ავტომობილის უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
+      'სესხის დაფარვა ხორციელდება როგორც მხოლოდ საპროცენტო სარგებლის და ვადის ბოლოს ძირის დაფარვით, ასევე ყოველთვიური თანაბარი გადახდებით, კლებადი საპროცენტო სარგებლის პრინციპის საფუძველზე. გამონაკლის შემთხვევებში შესაძლებელია დაფარვის გრაფიკის შედგენა კლიენტის მიერ მოთხოვნილი საშეღავათო პერიოდის გათვალისწინებით.',
+      'სესხი გაიცემა არაუმეტეს ერთ დღეში.'
+    ] },
+    en: { title: 'About us', paras: [
+      '“Nova Credit” is a financial organisation founded in Tbilisi in 2010. On 29 December 2010 the National Bank of Georgia granted the company the status of a microfinance organisation.',
+      'The main focus of our activity is lending to small and medium income individuals and to businesses.',
+      '“Nova Credit” offers mortgage and auto loans secured by real estate or a vehicle. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
+      'A loan may be repaid either by paying interest only with the principal at the end of the term, or in equal monthly instalments on a declining interest basis. In exceptional cases a repayment schedule can be agreed that includes a grace period requested by the client.',
+      'Loans are issued within one day.'
+    ] }
+  },
+  contact: {
+    ka: { title: 'კონტაქტი', paras: ['მიკროსაფინანსო ორგანიზაცია „ნოვა კრედიტი". მოგვწერეთ ფორმით ან დაგვიკავშირდით ტელეფონით სამუშაო საათებში.'] },
+    en: { title: 'Contact', paras: ['Microfinance organisation “Nova Credit”. Write to us using the form or call us during opening hours.'] }
+  },
+  video: {
+    ka: { title: 'ვიდეოგალერეა', paras: ['სარეკლამო ვიდეორგოლები.'] },
+    en: { title: 'Video gallery', paras: ['Promotional video clips.'] }
+  }
+};
+
+const BRANCHES = {
+  ka: [
+    { n: 'თბილისი — სათაო ოფისი', a: 'ვაჟა-ფშაველას გამზირი 8, 0186', p: '(+995 32) 2 15 15 15', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' },
+    { n: 'თბილისი — ლილო', a: 'ჭირნახულის 2 (ლილოს მიმდებარე ტერიტორია)', p: '', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' },
+    { n: 'რუსთავი', a: 'ლეონიძის და მესხიშვილის ქუჩების მიმდებარედ', p: '(+995 32) 2 18 18 48', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' }
+  ],
+  en: [
+    { n: 'Tbilisi — head office', a: '8 Vazha-Pshavela ave., 0186', p: '(+995 32) 2 15 15 15', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' },
+    { n: 'Tbilisi — Lilo', a: 'Chirnakhuli 2 (nearby territory of Lilo)', p: '', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' },
+    { n: 'Rustavi', a: 'Near Leonidze and Meskhishvili streets', p: '(+995 32) 2 18 18 48', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' }
+  ]
+};
+
+const ARTICLES = {
+  interest: {
+    ka: { title: 'სესხის პროცენტის გადახდები', date: '12.03.2024', body: ['ძვირფასო მომხმარებლებო, თქვენი კომფორტისთვის „ნოვა კრედიტში" სესხის პროცენტის გადახდები შეგიძლიათ განახორციელოთ „თიბისი ბანკის" ნებისმიერი ფილიალიდან.','გმადლობთ თანამშრომლობისთვის.'] },
+    en: { title: 'Loan interest payments', date: '12.03.2024', body: ['Dear customers, for your convenience interest payments on Nova Credit loans can be made at any branch of TBC Bank.','Thank you for your cooperation.'] }
+  },
+  rustavi: {
+    ka: { title: 'რუსთავის ფილიალი', date: '01.06.2016', body: ['ძვირფასო მომხმარებლებო, გაცნობებთ, რომ პირველი ივნისიდან შეძლებთ ისარგებლოთ რუსთავის ფილიალით.','მოგემსახურებით, როგორც ყოველთვის, სწრაფად და ხარისხიანად.'] },
+    en: { title: 'Rustavi branch', date: '01.06.2016', body: ['Dear customers, we are pleased to inform you that from 1 June you can use our Rustavi branch.','We will serve you as always — quickly and to a high standard.'] }
+  }
+};
+
+const COMPLAINTS_TEXT = {
+  ka: { title: 'მომხმარებელთა პრეტენზიები', h2: 'პრეტენზია', paras: [
+    'მომხმარებელთა პრეტენზიების მიღებისა და განხილვის პროცედურა მიზნად ისახავს საფინანსო პროდუქტების მიწოდებისას, ასევე საფინანსო მომსახურების გაწევისას მომხმარებელთა უფლებების დაცვას.',
+    'პრეტენზიად მიიჩნევა მომხმარებლის ნებისმიერი განცხადება (ზეპირი ან წერილობითი), რომლითაც იგი გამოხატავს თავის უკმაყოფილებას, დაუთანხმებლობას ან საჩივარს მიკროსაფინანსო ორგანიზაციის და/ან მისი ნებისმიერი პროდუქტის მიმართ.',
+    'მომხმარებელს პრეტენზიის დაფიქსირება შეუძლია ზეპირი, წერილობითი, სტანდარტული წერილობითი და ელექტრონული ფორმებით.',
+    'პრეტენზიაზე პასუხი გაიცემა მისი დაფიქსირებიდან არაუგვიანეს 1 თვის ვადაში, წინასწარ შეთანხმებული ფორმით — პრეტენზიის ფორმაში მითითებულ მისამართზე, ხოლო ელექტრონული პრეტენზიის შემთხვევაში გამომგზავნის ელექტრონულ მისამართზე.',
+    'პრეტენზიას განიხილავს და საბოლოო პასუხს გასცემს შპს „ნოვა კრედიტის" გენერალური დირექტორი. მომხმარებელს უფლება აქვს მიიღოს ინფორმაცია პრეტენზიის განხილვის ნებისმიერ ეტაპზე — როგორც სატელეფონო, ისე პირადი შეხვედრით.'
+  ], addrTitle: 'პრეტენზიის წარდგენა შესაძლებელია ნებისმიერ ოფისში:', cta: 'პრეტენზიის სპეციალური ფორმა', email: 'ელექტრონული ფორმით:' },
+  en: { title: 'Consumer complaints', h2: 'Complaints', paras: [
+    'The procedure for receiving and reviewing consumer complaints exists to protect consumer rights in the supply of financial products and the provision of financial services.',
+    'A complaint is any statement by a consumer, oral or written, expressing dissatisfaction, disagreement or a grievance regarding the microfinance organisation and/or any of its products.',
+    'A complaint may be submitted orally, in writing, on the standard written form, or electronically.',
+    'A complaint is answered within one month of submission at the latest, in the agreed form — at the address given on the complaint form, or, for electronic complaints, at the sender\u2019s email address.',
+    'Complaints are reviewed and finally answered by the general director of Nova Credit LLC. The consumer is entitled to receive information at any stage of the review, by telephone or in person.'
+  ], addrTitle: 'A complaint may be submitted at any office:', cta: 'Standard complaint form', email: 'Electronically:' }
+};
+
+const HC = {
+  ka: { title: 'სესხის გამოთვლა', tag: 'საორიენტაციო', amount: 'თანხა (₾)', term: 'ვადა (თვე)', product: 'პროდუქტი',
+    monthly: 'ყოველთვიური გადასახადი', full: 'სრული გრაფიკი', note: 'გაანგარიშება ანუიტეტური დაფარვით. საბოლოო განაკვეთს ადგენს საკრედიტო კომიტეტი.' },
+  en: { title: 'Estimate a loan', tag: 'indicative', amount: 'Amount (GEL)', term: 'Term (months)', product: 'Product',
+    monthly: 'Monthly payment', full: 'Full schedule', note: 'Calculated on annuity repayment. The final rate is set by the credit committee.' }
+};
+
+const NOTICES = {
+  ka: {
+    information: { label: 'ინფორმაცია:', text: 'სამუშაო საათები 31 დეკემბერს შემოკლებულია — 10:00–14:00.' },
+    service: { label: 'სერვისის შეტყობინება:', text: 'ონლაინ განაცხადი დროებით მიუწვდომელია ტექნიკური სამუშაოების გამო.' },
+    urgent: { label: 'გადაუდებელი:', text: 'ლილოს ფილიალი დღეს დაკეტილია. მომსახურება ხორციელდება სათაო ოფისში.' }
+  },
+  en: {
+    information: { label: 'Information:', text: 'Opening hours on 31 December are shortened — 10:00–14:00.' },
+    service: { label: 'Service notice:', text: 'The online application is temporarily unavailable due to maintenance.' },
+    urgent: { label: 'Urgent:', text: 'The Lilo branch is closed today. Customers are served at the head office.' }
+  }
+};
+
+const NOTICE_STYLE = {
+  information: { bg: 'var(--info-tint)', rule: 'var(--info)', color: 'var(--info)' },
+  service: { bg: 'var(--warning-tint)', rule: 'var(--warning)', color: 'var(--warning-ink)' },
+  urgent: { bg: 'var(--error-tint)', rule: 'var(--error)', color: 'var(--error-ink)' }
+};
+
+function money(n) {
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/,/g, ' ');
+}
+
+class Component extends DCLogic {
+  _root = React.createRef();
+  state = { page: 'home', lang: (typeof location !== 'undefined' && /lang=en/.test(location.search)) ? 'en' : 'ka', heroProduct: 'mortgage', vw: 1280, article: 'interest', cAmount: 45000, cRate: 18, cTerm: 36, cType: 'annuity', step: 0, fv: {}, ferr: {}, fdone: false, fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' };
+
+  measure() {
+    const el = this._node;
+    const w = (el && el.clientWidth) || (document.body && document.body.clientWidth) || window.innerWidth;
+    if (w && w !== this.state.vw) this.setState({ vw: w });
+  }
+
+  attach = (node) => {
+    this._node = node;
+    if (this._ro) { this._ro.disconnect(); this._ro = null; }
+    if (node && typeof ResizeObserver !== 'undefined') {
+      this._ro = new ResizeObserver(() => this.measure());
+      this._ro.observe(node);
+    }
+    this.measure();
+  };
+
+  componentDidMount() {
+    this._m = () => this.measure();
+    this._m();
+    requestAnimationFrame(() => { this._m(); requestAnimationFrame(this._m); });
+    window.addEventListener('resize', this._m);
+    window.addEventListener('load', this._m);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this._m).catch(() => {});
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._m);
+    window.removeEventListener('load', this._m);
+    if (this._ro) this._ro.disconnect();
+  }
+
+  nav(page) {
+    const isForm = page === 'application' || page === 'careers' || page === 'complaints-form';
+    this.setState(isForm ? { page, step: 0, ferr: {}, fdone: false } : { page });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
+  filtered(lang) {
+    const s = this.state;
+    const q = s.fQuery.trim().toLowerCase();
+    return REPORTS.filter(r =>
+      (s.fYear === 'all' || r.y === Number(s.fYear)) &&
+      (s.fQuarter === 'all' || r.q === Number(s.fQuarter)) &&
+      (s.fType === 'all' || r.type === s.fType) &&
+      (s.fEntity === 'all' || r.entity === s.fEntity) &&
+      (q === '' || (r[lang] || r.ka).toLowerCase().indexOf(q) > -1)
+    ).map(r => ({
+      id: r.id,
+      title: lang === 'en' ? r.en : r.ka,
+      period: lang === 'en' ? r.periodEn : r.periodKa,
+      type: RTYPE[r.type][lang],
+      entity: ENTITY[r.entity][lang],
+      size: r.size,
+      typeColor: r.type === 'quarterly' ? 'var(--muted)' : 'var(--ink)'
+    }));
+  }
+
+  chip(label, active, onClick) {
+    return {
+      label, onClick,
+      bg: active ? 'var(--accent-tint)' : 'var(--raised)',
+      border: active ? 'var(--accent)' : 'var(--border-strong)',
+      color: active ? 'var(--accent-800)' : 'var(--ink)',
+      weight: active ? '600' : '400'
+    };
+  }
+
+  facets(lang) {
+    const t = RT[lang];
+    const s = this.state;
+    const years = [];
+    for (let y = 2026; y >= 2011; y--) years.push(y);
+    const set = (k, v) => () => this.setState({ [k]: v });
+    return [
+      { key: 'year', label: t.year, chips: [this.chip(t.all, s.fYear === 'all', set('fYear', 'all'))]
+        .concat(years.map(y => this.chip(String(y), s.fYear === String(y), set('fYear', String(y))))) },
+      { key: 'quarter', label: t.quarter, chips: [this.chip(t.all, s.fQuarter === 'all', set('fQuarter', 'all'))]
+        .concat([1, 2, 3, 4].map(q => this.chip(t['q' + q], s.fQuarter === String(q), set('fQuarter', String(q)))))
+        .concat([this.chip(t.annual, s.fQuarter === '0', set('fQuarter', '0'))]) },
+      { key: 'type', label: t.type, chips: [this.chip(t.all, s.fType === 'all', set('fType', 'all'))]
+        .concat(Object.keys(RTYPE).map(k => this.chip(RTYPE[k][lang], s.fType === k, set('fType', k)))) },
+      { key: 'entity', label: t.entity, chips: [this.chip(t.all, s.fEntity === 'all', set('fEntity', 'all'))]
+        .concat(Object.keys(ENTITY).map(k => this.chip(ENTITY[k][lang], s.fEntity === k, set('fEntity', k)))) }
+    ];
+  }
+
+  schedule() {
+    const s = this.state;
+    const P = Math.max(0, Number(s.cAmount) || 0);
+    const r = (Number(s.cRate) || 0) / 100 / 12;
+    const n = Math.max(1, Math.min(60, Math.round(Number(s.cTerm) || 1)));
+    const rows = [];
+    let bal = P, totalInt = 0, pay = 0;
+    if (s.cType === 'annuity') {
+      pay = r === 0 ? P / n : P * r / (1 - Math.pow(1 + r, -n));
+      for (let i = 1; i <= n; i++) {
+        const interest = bal * r;
+        let principal = pay - interest;
+        if (i === n) principal = bal;
+        const close = Math.max(0, bal - principal);
+        rows.push({ i, open: bal, pay: interest + principal, interest, principal, close });
+        totalInt += interest; bal = close;
+      }
+    } else {
+      const interest = P * r;
+      for (let i = 1; i <= n; i++) {
+        const principal = i === n ? P : 0;
+        rows.push({ i, open: P, pay: interest + principal, interest, principal, close: i === n ? 0 : P });
+        totalInt += interest;
+      }
+      pay = interest;
+    }
+    const total = P + totalInt;
+    return { rows, total, totalInt, pay, last: rows.length ? rows[rows.length - 1].pay : 0, n, P };
+  }
+
+  formKey() {
+    const p = this.state.page;
+    return p === 'application' ? 'application' : p === 'careers' ? 'vacancy' : p === 'complaints-form' ? 'complaints' : null;
+  }
+
+  validateSection(def, idx) {
+    const t = FT[this.state.lang];
+    const errs = {};
+    def.sections[idx].fields.forEach(f => {
+      const v = this.state.fv[f.n];
+      if (f.req) {
+        const empty = f.t === 'checkbox' ? !(v && v.length) : !v;
+        if (empty) { errs[f.n] = t.errField; return; }
+      }
+      if (f.t === 'email' && v && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) errs[f.n] = t.errEmail;
+      if (f.t === 'id' && v && !/^\d{11}$/.test(v)) errs[f.n] = t.errId;
+    });
+    return errs;
+  }
+
+  formVals(lang) {
+    const key = this.formKey();
+    if (!key || !FORMS[key]) return { formOn: false };
+    const def = FORMS[key][lang];
+    const t = FT[lang];
+    const total = def.sections.length;
+    const step = Math.min(this.state.step, total);
+    const isReview = step === total;
+    const errs = this.state.ferr;
+    const filledCount = def.sections.reduce((acc, s) => acc + s.fields.filter(f => {
+      const v = this.state.fv[f.n]; return f.t === 'checkbox' ? (v && v.length) : !!v;
+    }).length, 0);
+    const fieldCount = def.sections.reduce((a, s) => a + s.fields.length, 0);
+
+    const setV = (n, v) => { this.setState(s => ({ fv: Object.assign({}, s.fv, { [n]: v }) })); };
+    const toggle = (n, o) => () => this.setState(s => {
+      const cur = s.fv[n] || [];
+      const next = cur.indexOf(o) > -1 ? cur.filter(x => x !== o) : cur.concat([o]);
+      return { fv: Object.assign({}, s.fv, { [n]: next }) };
+    });
+
+    const mapField = (f) => {
+      const v = this.state.fv[f.n];
+      const err = errs[f.n];
+      return {
+        n: f.n, label: f.l, req: f.req, reqMark: f.req ? ' *' : '',
+        err: err || '', hasErr: !!err,
+        border: err ? 'var(--error)' : 'var(--border-strong)',
+        bg: err ? 'var(--error-tint)' : 'var(--surface)',
+        span: f.half ? 'span 1' : '1 / -1',
+        value: v == null ? '' : v,
+        isText: ['text','tel','email','number','date','id'].indexOf(f.t) > -1,
+        htmlType: f.t === 'id' ? 'text' : f.t === 'number' ? 'text' : f.t,
+        isTextarea: f.t === 'textarea', isSelect: f.t === 'select',
+        isRadio: f.t === 'radio', isCheckbox: f.t === 'checkbox', isFile: f.t === 'file',
+        fileName: v || t.noFile,
+        onInput: (e) => setV(f.n, e.target.value),
+        onFile: () => setV(f.n, lang === 'ka' ? 'ცნობა-შემოსავალზე.pdf' : 'income-statement.pdf'),
+        options: (f.opts || []).map(o => ({
+          label: o,
+          on: f.t === 'checkbox' ? ((v || []).indexOf(o) > -1) : v === o,
+          mark: f.t === 'checkbox' ? ((v || []).indexOf(o) > -1 ? '✓' : '') : (v === o ? '●' : ''),
+          border: (f.t === 'checkbox' ? ((v || []).indexOf(o) > -1) : v === o) ? 'var(--accent)' : 'var(--border-strong)',
+          bg: (f.t === 'checkbox' ? ((v || []).indexOf(o) > -1) : v === o) ? 'var(--accent-tint)' : 'var(--raised)',
+          radius: f.t === 'checkbox' ? '3px' : '50%',
+          pick: f.t === 'checkbox' ? toggle(f.n, o) : () => setV(f.n, o)
+        }))
+      };
+    };
+
+    return {
+      formOn: true,
+      fTitle: def.title, fLede: def.lede, ft: t,
+      fStep: step + 1, fTotal: total, fIsReview: isReview, fNotReview: !isReview,
+      fLegend: isReview ? t.reviewTitle : def.sections[step].legend,
+      fFields: isReview ? [] : def.sections[step].fields.map(mapField),
+      fHasErrors: !isReview && Object.keys(errs).length > 0,
+      fProgressPct: Math.round(filledCount / fieldCount * 100) + '%',
+      fFilled: filledCount, fFieldCount: fieldCount,
+      fDone: this.state.fdone,
+      fNotDone: !this.state.fdone,
+      fCols: this.state.vw >= 900 ? '280px 1fr' : '1fr',
+      fRef: 'NC-2026-' + String(4800 + (filledCount * 7 % 199)),
+      fSteps: def.sections.map((s, i) => ({
+        legend: s.legend, num: i + 1,
+        color: i === step ? 'var(--accent-800)' : i < step ? 'var(--ink)' : 'var(--muted)',
+        weight: i === step ? '600' : '400',
+        bg: i === step ? 'var(--accent-tint)' : 'transparent',
+        rule: i === step ? 'var(--accent)' : 'var(--border)',
+        badgeBg: i < step ? 'var(--accent)' : i === step ? 'var(--raised)' : 'var(--surface)',
+        badgeColor: i < step ? '#fff' : i === step ? 'var(--accent-800)' : 'var(--muted)',
+        badgeBorder: i <= step ? 'var(--accent)' : 'var(--border-strong)',
+        badge: i < step ? '✓' : String(i + 1),
+        go: () => this.setState({ step: i, ferr: {} })
+      })),
+      fReviewGroups: def.sections.map((s, i) => ({
+        legend: s.legend,
+        edit: () => this.setState({ step: i, ferr: {} }),
+        rows: s.fields.map(f => {
+          const v = this.state.fv[f.n];
+          return { label: f.l, value: Array.isArray(v) ? (v.join(', ') || t.empty) : (v || t.empty),
+            color: (Array.isArray(v) ? v.length : !!v) ? 'var(--ink)' : 'var(--muted)' };
+        })
+      })),
+      fNext: () => {
+        const e = this.validateSection(def, step);
+        if (Object.keys(e).length) { this.setState({ ferr: e }); return; }
+        this.setState({ step: step + 1, ferr: {} });
+        try { window.scrollTo(0, 0); } catch (x) {}
+      },
+      fBack: () => { this.setState({ step: Math.max(0, step - 1), ferr: {} }); try { window.scrollTo(0, 0); } catch (x) {} },
+      fSubmit: () => { this.setState({ fdone: true }); try { window.scrollTo(0, 0); } catch (x) {} },
+      fRestart: () => { this.setState({ fdone: false, step: 0, fv: {}, ferr: {} }); this.nav('home'); },
+      fNextLabel: step === total - 1 ? t.review : t.next
+    };
+  }
+
+  renderVals() {
+    const lang = this.state.lang;
+    const page = this.state.page;
+    const is = {};
+    PAGES.forEach(p => { is[p.replace('-', '_')] = page === p; });
+    const L = LABELS[lang];
+    return Object.assign(this.formVals(lang), {
+      lang, page, is,
+      rootRef: this.attach,
+      vw: String(this.state.vw),
+      mobile: this.state.vw < 768,
+      desktop: this.state.vw >= 768,
+      t: T[lang],
+      go: (p) => this.nav(p),
+      setLang: (l) => this.setState({ lang: l }),
+      goApplication: () => this.nav('application'),
+      goCalculator: () => this.nav('calculator'),
+      goReporting: () => this.nav('reporting'),
+      goBranches: () => this.nav('branches'),
+      productCards: PRODUCTS[lang].map((p, i) => Object.assign({}, p, {
+        idx: '0' + (i + 1),
+        amountLabel: L.amount, termLabel: L.term, issueLabel: L.issue,
+        go: () => this.nav(p.key)
+      })),
+      heroCols: this.state.vw >= 980 ? '1.25fr 420px' : '1fr',
+      heroGap: this.state.vw >= 980 ? '64px' : '36px',
+      heroPad: this.state.vw >= 980 ? '72px 0 72px' : '44px 0 48px',
+      heroImgH: this.state.vw >= 980 ? '340px' : '220px',
+      hc: HC[lang],
+      notice: (() => {
+        const v = this.props.noticeVariant || 'none';
+        if (v === 'none' || !NOTICES[lang][v]) return { on: false };
+        return Object.assign({ on: true }, NOTICE_STYLE[v], NOTICES[lang][v]);
+      })(),
+      heroProducts: PRODUCTS[lang].map(p => ({
+        short: p.name.split(' ')[0],
+        pick: () => this.setState({ heroProduct: p.key, cTerm: p.key === 'auto' ? 10 : this.state.cTerm, cRate: p.key === 'auto' ? 24 : 18 }),
+        border: this.state.heroProduct === p.key ? '#fff' : 'rgba(255,255,255,.34)',
+        bg: this.state.heroProduct === p.key ? 'rgba(255,255,255,.18)' : 'transparent',
+        color: '#fff'
+      })),
+      heroSize: this.state.vw >= 980 ? '46px' : this.state.vw >= 600 ? '38px' : '31px',
+      pt: PT[lang],
+      simple: PAGE_CONTENT[page] ? PAGE_CONTENT[page][lang] : { title: '', paras: [] },
+      isSimple: !!PAGE_CONTENT[page],
+      branches: BRANCHES[lang].map(b => Object.assign({}, b, { hasPhone: !!b.p })),
+      article: ARTICLES[this.state.article][lang],
+      cx: COMPLAINTS_TEXT[lang],
+      goComplaintsForm: () => this.nav('complaints-form'),
+      goContact: () => this.nav('contact'),
+      goNews: () => this.nav('news'),
+      videos: [1, 2, 3].map(i => ({ n: i, label: 'Novacredit_promo' + i + '.mp4' })),
+      isProduct: !!PRODUCT_PAGES[page],
+      prod: (() => {
+        const p = PRODUCT_PAGES[page]; if (!p) return { blocks: [], key: [] };
+        const d = p[lang];
+        return {
+          title: d.title, sub: d.sub,
+          key: d.key.map(k => ({ k: k[0], v: k[1] })),
+          blocks: d.blocks.map((b, i) => Object.assign({}, b, {
+            id: 'b' + i, note: b.note || '', after: b.after || '',
+            hasNote: !!b.note, hasAfter: !!b.after
+          })),
+          toc: d.blocks.map((b, i) => ({ h: b.h, href: '#b' + i }))
+        };
+      })(),
+      prodCols: this.state.vw >= 1000 ? '1fr 300px' : '1fr',
+      ct: CT[lang],
+      cAmount: String(this.state.cAmount), cRate: String(this.state.cRate), cTerm: String(this.state.cTerm),
+      onAmount: (e) => this.setState({ cAmount: e.target.value.replace(/[^0-9.]/g, '') }),
+      onRate: (e) => this.setState({ cRate: e.target.value.replace(/[^0-9.]/g, '') }),
+      onTerm: (e) => this.setState({ cTerm: e.target.value.replace(/[^0-9]/g, '') }),
+      setAnnuity: () => this.setState({ cType: 'annuity' }),
+      setInterestOnly: () => this.setState({ cType: 'interest' }),
+      annuityOn: this.chip(CT[lang].annuity, this.state.cType === 'annuity'),
+      interestOn: this.chip(CT[lang].interest, this.state.cType === 'interest'),
+      doPrint: () => { try { window.print(); } catch (e) {} },
+      sched: (() => { const s = this.schedule(); return {
+        total: money(s.total), interest: money(s.totalInt), monthly: money(s.pay), last: money(s.last),
+        rows: s.rows.map(r => ({ i: r.i, open: money(r.open), pay: money(r.pay), interest: money(r.interest), principal: money(r.principal), close: money(r.close),
+          bg: r.i % 2 === 0 ? 'var(--surface)' : 'var(--raised)' }))
+      }; })(),
+      rt: RT[lang],
+      goHome: () => this.nav('home'),
+      showReportTable: this.state.vw >= 768 && this.filtered(lang).length > 0,
+      showReportCards: this.state.vw < 768 && this.filtered(lang).length > 0,
+      reportFacets: this.facets(lang),
+      reportRows: this.filtered(lang),
+      reportCount: this.filtered(lang).length,
+      reportTotal: REPORTS.length,
+      reportEmpty: this.filtered(lang).length === 0,
+      reportHasFilter: this.state.fYear !== 'all' || this.state.fQuarter !== 'all' || this.state.fType !== 'all' || this.state.fEntity !== 'all' || this.state.fQuery !== '',
+      reportQuery: this.state.fQuery,
+      onReportQuery: (e) => this.setState({ fQuery: e.target.value }),
+      clearFilters: () => this.setState({ fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' }),
+      newsList: NEWS[lang].map(n => Object.assign({}, n, {
+        go: () => { this.setState({ article: n.id }); this.nav('article'); }
+      }))
+    });
+  }
+}
+</script>
+</body>
+</html>
