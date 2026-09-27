@@ -228,11 +228,14 @@ table{border-collapse:collapse}
 <div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start">
 <div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px">
 <div style="display:grid;gap:16px">
-<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cName }}</span><input style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
-<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cEmail }}</span><input type="email" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
-<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cSubject }}</span><input style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
-<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cMessage }}</span><textarea rows="5" style="width:100%;padding:10px 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px;line-height:1.6;resize:vertical"></textarea></label>
-<button style="min-height:48px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ t.cSend }}</button>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cName }}</span><input value="{{ cv.n }}" onChange="{{ cOnName }}" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cEmail }}</span><input type="email" value="{{ cv.e }}" onChange="{{ cOnEmail }}" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cSubject }}</span><input value="{{ cv.s }}" onChange="{{ cOnSubject }}" style="width:100%;min-height:48px;padding:0 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px"></label>
+<label style="display:block"><span style="display:block;font-size:15.5px;color:var(--muted);margin-bottom:6px">{{ t.cMessage }}</span><textarea rows="5" value="{{ cv.m }}" onChange="{{ cOnMessage }}" style="width:100%;padding:10px 12px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);font-size:16.5px;line-height:1.6;resize:vertical"></textarea></label>
+<button onClick="{{ cSubmit }}" style="min-height:48px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ cSendLabel }}</button>
+<sc-if value="{{ cHasStatus }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="font-size:15.5px;color:{{ cStatusColor }}">{{ cStatus }}</div>
+</sc-if>
 </div>
 </div>
 <div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);padding:22px;font-size:16.5px;line-height:1.8">
@@ -478,13 +481,16 @@ table{border-collapse:collapse}
 </div>
 </sc-if>
 
+<sc-if value="{{ fHasSendErr }}" hint-placeholder-val="{{ false }}">
+<div role="alert" style="border:1px solid var(--error);background:var(--error-tint);border-radius:4px;padding:12px 14px;margin-top:22px;font-size:16px;color:var(--error-ink)">{{ fSendErr }}</div>
+</sc-if>
 <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:26px;padding-top:20px;border-top:1px solid var(--border)">
 <button onClick="{{ fBack }}" style="min-height:48px;padding:0 20px;border:1px solid var(--border-strong);border-radius:4px;background:var(--raised);font-size:16.5px;cursor:pointer">{{ ft.back }}</button>
 <sc-if value="{{ fNotReview }}" hint-placeholder-val="{{ true }}">
 <button onClick="{{ fNext }}" style="min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ fNextLabel }}</button>
 </sc-if>
 <sc-if value="{{ fIsReview }}" hint-placeholder-val="{{ false }}">
-<button onClick="{{ fSubmit }}" style="min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ ft.submit }}</button>
+<button onClick="{{ fSubmit }}" style="min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:4px;background:var(--accent);color:#fff;font-size:16.5px;font-weight:500;cursor:pointer">{{ fSubmitLabel }}</button>
 </sc-if>
 </div>
 </div>
@@ -686,6 +692,12 @@ pdf <span style="color:var(--muted);font-weight:400;font-variant-numeric:tabular
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;noticeVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;information&quot;,&quot;service&quot;,&quot;urgent&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;'none'|'information'|'service'|'urgent'&quot;,&quot;section&quot;:&quot;Notice band&quot;},&quot;startLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ka&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ka&quot;,&quot;tsType&quot;:&quot;'ka'|'en'&quot;,&quot;section&quot;:&quot;Content&quot;}}">
 const PAGES = ['home','about','products','mortgage','auto','business','calculator','application','branches','news','article','reporting','video','careers','contact','complaints','complaints-form'];
+
+// Google Apps Script web-app URL (ends in /exec) that emails form submissions.
+// Setup: google-apps-script/README.md
+const FORM_ENDPOINT = '';
+const FILE_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
+const FILE_MAX = 10 * 1024 * 1024;
 
 const T = {
   ka: {
@@ -893,14 +905,20 @@ const FT = {
     upload: 'ფაილის ატვირთვა', uploadHint: 'pdf, jpg ან png — არაუმეტეს 10 MB', choose: 'აირჩიეთ ფაილი', noFile: 'ფაილი არ არის არჩეული',
     reviewTitle: 'გადაამოწმეთ მონაცემები', edit: 'რედაქტირება', empty: '—',
     doneTitle: 'განაცხადი გაიგზავნა', doneBody: 'თქვენს განაცხადს განიხილავს საკრედიტო კომიტეტი. პასუხს მიიღებთ მითითებულ ელ.ფოსტაზე.',
-    ref: 'განაცხადის ნომერი', doneHome: 'მთავარ გვერდზე დაბრუნება', select: 'აირჩიეთ', progress: 'შევსებულია' },
+    ref: 'განაცხადის ნომერი', doneHome: 'მთავარ გვერდზე დაბრუნება', select: 'აირჩიეთ', progress: 'შევსებულია',
+    sending: 'იგზავნება…', sendErr: 'გაგზავნა ვერ მოხერხდა. სცადეთ თავიდან ან დაგვირეკეთ: (+995 32) 2 15 15 15.',
+    errFileType: 'დასაშვებია მხოლოდ pdf, jpg ან png', errFileSize: 'ფაილი არ უნდა აღემატებოდეს 10 MB-ს',
+    cErr: 'მიუთითეთ სახელი, სწორი ელ.ფოსტა და შეტყობინება', cOk: 'შეტყობინება გაიგზავნა. პასუხს მიიღებთ ელ.ფოსტაზე.' },
   en: { step: 'Step', of: 'of', next: 'Next', back: 'Back', review: 'Review', submit: 'Submit application',
     required: 'required', reqNote: '* marked fields are required', errTitle: 'Please complete the required fields',
     errField: 'This field is required', errEmail: 'Enter a valid email address', errId: 'The ID number must contain 11 digits',
     upload: 'File upload', uploadHint: 'pdf, jpg or png — max 10 MB', choose: 'Choose file', noFile: 'No file selected',
     reviewTitle: 'Check your details', edit: 'Edit', empty: '—',
     doneTitle: 'Application submitted', doneBody: 'Your application will be reviewed by the credit committee. You will receive a reply at the email address you provided.',
-    ref: 'Reference number', doneHome: 'Back to home', select: 'Select', progress: 'completed' }
+    ref: 'Reference number', doneHome: 'Back to home', select: 'Select', progress: 'completed',
+    sending: 'Sending…', sendErr: 'Sending failed. Please try again or call (+995 32) 2 15 15 15.',
+    errFileType: 'Only pdf, jpg or png files are accepted', errFileSize: 'The file must not exceed 10 MB',
+    cErr: 'Enter your name, a valid email and a message', cOk: 'Message sent. We will reply by email.' }
 };
 
 const F = (n, l, t, req, opts, half) => ({ n, l, t: t || 'text', req: !!req, opts: opts || null, half: half !== false });
@@ -1150,7 +1168,7 @@ function money(n) {
 
 class Component extends DCLogic {
   _root = React.createRef();
-  state = { page: 'home', lang: (typeof location !== 'undefined' && /lang=en/.test(location.search)) ? 'en' : 'ka', heroProduct: 'mortgage', vw: 1280, article: 'interest', cAmount: 45000, cRate: 18, cTerm: 36, cType: 'annuity', step: 0, fv: {}, ferr: {}, fdone: false, fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' };
+  state = { page: 'home', lang: (typeof location !== 'undefined' && /lang=en/.test(location.search)) ? 'en' : 'ka', heroProduct: 'mortgage', vw: 1280, article: 'interest', cAmount: 45000, cRate: 18, cTerm: 36, cType: 'annuity', step: 0, fv: {}, ferr: {}, fdone: false, fsending: false, fsendErr: '', fref: '', cv: {}, csending: false, cstatus: '', cok: false, fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' };
 
   measure() {
     const el = this._node;
@@ -1184,8 +1202,81 @@ class Component extends DCLogic {
 
   nav(page) {
     const isForm = page === 'application' || page === 'careers' || page === 'complaints-form';
-    this.setState(isForm ? { page, step: 0, ferr: {}, fdone: false } : { page });
+    this._t0 = Date.now();
+    if (isForm) this._files = {};
+    this.setState(isForm ? { page, step: 0, ferr: {}, fdone: false, fsending: false, fsendErr: '', fref: '' }
+      : page === 'contact' ? { page, cstatus: '' } : { page });
     try { window.scrollTo(0, 0); } catch (e) {}
+  }
+
+  // POSTs a submission to the Apps Script mailer; resolves with the reference number.
+  // text/plain keeps it a "simple" request — Apps Script cannot answer a CORS preflight.
+  sendForm(form, fields, files) {
+    if (!FORM_ENDPOINT) return Promise.reject(new Error('FORM_ENDPOINT is not set'));
+    return fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ form, lang: this.state.lang, elapsed: Date.now() - (this._t0 || Date.now()), fields, files: files || [] })
+    }).then(r => r.json()).then(out => {
+      if (!out.ok) throw new Error(out.error || 'send failed');
+      return out.ref;
+    });
+  }
+
+  pickFile(n, t) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.pdf,.jpg,.jpeg,.png,' + FILE_TYPES.join(',');
+    input.onchange = () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const bad = FILE_TYPES.indexOf(file.type) < 0 ? t.errFileType : file.size > FILE_MAX ? t.errFileSize : '';
+      if (bad) { this.setState(s => ({ ferr: Object.assign({}, s.ferr, { [n]: bad }) })); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        // file bytes stay out of state; fv only holds the name shown in the form and review
+        this._files = Object.assign({}, this._files, { [n]: { name: file.name, data: String(reader.result).split(',')[1] } });
+        this.setState(s => {
+          const ferr = Object.assign({}, s.ferr); delete ferr[n];
+          return { fv: Object.assign({}, s.fv, { [n]: file.name }), ferr };
+        });
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  contactVals(lang) {
+    const t = T[lang];
+    const ft = FT[lang];
+    const cv = this.state.cv;
+    const set = (k) => (e) => {
+      const v = e.target.value;
+      this.setState(s => ({ cv: Object.assign({}, s.cv, { [k]: v }), cstatus: '' }));
+    };
+    return {
+      cv,
+      cOnName: set('n'), cOnEmail: set('e'), cOnSubject: set('s'), cOnMessage: set('m'),
+      cHasStatus: !!this.state.cstatus,
+      cStatus: this.state.cstatus,
+      cStatusColor: this.state.cok ? 'var(--accent-700)' : 'var(--error-ink)',
+      cSendLabel: this.state.csending ? ft.sending : t.cSend,
+      cSubmit: () => {
+        if (this.state.csending) return;
+        const v = k => (cv[k] || '').trim();
+        if (!v('n') || !v('m') || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('e'))) {
+          this.setState({ cstatus: ft.cErr, cok: false });
+          return;
+        }
+        const fields = [['n', t.cName], ['e', t.cEmail], ['s', t.cSubject], ['m', t.cMessage]]
+          .map(([k, label]) => ({ k, label, section: '', v: v(k) }));
+        this.setState({ csending: true, cstatus: '' });
+        this.sendForm('contact', fields).then(
+          () => { this._t0 = Date.now(); this.setState({ csending: false, cv: {}, cstatus: ft.cOk, cok: true }); },
+          () => this.setState({ csending: false, cstatus: ft.sendErr, cok: false })
+        );
+      }
+    };
   }
 
   filtered(lang) {
@@ -1324,7 +1415,7 @@ class Component extends DCLogic {
         isRadio: f.t === 'radio', isCheckbox: f.t === 'checkbox', isFile: f.t === 'file',
         fileName: v || t.noFile,
         onInput: (e) => setV(f.n, e.target.value),
-        onFile: () => setV(f.n, lang === 'ka' ? 'ცნობა-შემოსავალზე.pdf' : 'income-statement.pdf'),
+        onFile: () => this.pickFile(f.n, t),
         options: (f.opts || []).map(o => ({
           label: o,
           on: f.t === 'checkbox' ? ((v || []).indexOf(o) > -1) : v === o,
@@ -1349,7 +1440,7 @@ class Component extends DCLogic {
       fDone: this.state.fdone,
       fNotDone: !this.state.fdone,
       fCols: this.state.vw >= 900 ? '280px 1fr' : '1fr',
-      fRef: 'NC-2026-' + String(4800 + (filledCount * 7 % 199)),
+      fRef: this.state.fref,
       fSteps: def.sections.map((s, i) => ({
         legend: s.legend, num: i + 1,
         color: i === step ? 'var(--accent-800)' : i < step ? 'var(--ink)' : 'var(--muted)',
@@ -1378,8 +1469,25 @@ class Component extends DCLogic {
         try { window.scrollTo(0, 0); } catch (x) {}
       },
       fBack: () => { this.setState({ step: Math.max(0, step - 1), ferr: {} }); try { window.scrollTo(0, 0); } catch (x) {} },
-      fSubmit: () => { this.setState({ fdone: true }); try { window.scrollTo(0, 0); } catch (x) {} },
-      fRestart: () => { this.setState({ fdone: false, step: 0, fv: {}, ferr: {} }); this.nav('home'); },
+      fSubmitLabel: this.state.fsending ? t.sending : t.submit,
+      fHasSendErr: !!this.state.fsendErr,
+      fSendErr: this.state.fsendErr,
+      fSubmit: () => {
+        if (this.state.fsending) return;
+        const fields = def.sections.flatMap(s => s.fields.map(f => {
+          const v = this.state.fv[f.n];
+          return { k: f.n, label: f.l, section: s.legend, v: Array.isArray(v) ? v.join(', ') : (v == null ? '' : String(v)) };
+        }));
+        const files = Object.keys(this._files || {}).map(k => Object.assign({ k }, this._files[k]));
+        this.setState({ fsending: true, fsendErr: '' });
+        this.sendForm(key, fields, files).then(ref => {
+          // clear the applicant's data from the page once it has been sent
+          this._files = {};
+          this.setState({ fsending: false, fdone: true, fref: ref, fv: {} });
+          try { window.scrollTo(0, 0); } catch (x) {}
+        }, () => this.setState({ fsending: false, fsendErr: t.sendErr }));
+      },
+      fRestart: () => { this._files = {}; this.setState({ fdone: false, step: 0, fv: {}, ferr: {} }); this.nav('home'); },
       fNextLabel: step === total - 1 ? t.review : t.next
     };
   }
@@ -1390,7 +1498,7 @@ class Component extends DCLogic {
     const is = {};
     PAGES.forEach(p => { is[p.replace('-', '_')] = page === p; });
     const L = LABELS[lang];
-    return Object.assign(this.formVals(lang), {
+    return Object.assign(this.formVals(lang), this.contactVals(lang), {
       lang, page, is,
       rootRef: this.attach,
       vw: String(this.state.vw),
