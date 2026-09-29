@@ -138,6 +138,9 @@ table{border-collapse:collapse}
 <div>
 <h2 style="font-size:17px;font-weight:600;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">{{ t.newsTitle }}</h2>
 <div style="display:flex;flex-direction:column">
+<sc-if value="{{ noNews }}" hint-placeholder-val="{{ false }}">
+<p style="margin:4px 0 0;font-size:16.5px;color:var(--muted)">{{ t.newsEmpty }}</p>
+</sc-if>
 <sc-for list="{{ newsList }}" as="n" hint-placeholder-count="2">
 <button onClick="{{ n.go }}" style="text-align:left;border:0;background:transparent;padding:12px 0;cursor:pointer;display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--border);transition:color .15s" style-hover="color:var(--accent-700)">
 <span style="flex:none;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums">{{ n.date }}</span>
@@ -197,6 +200,9 @@ table{border-collapse:collapse}
 <div style="max-width:820px;margin:0 auto;padding:32px 24px 72px">
 <h1 style="font-size:34px;font-weight:500;margin:0 0 24px">{{ t.newsTitle }}</h1>
 <div style="display:flex;flex-direction:column;gap:0">
+<sc-if value="{{ noNews }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;font-size:18px;color:var(--muted)">{{ t.newsEmpty }}</p>
+</sc-if>
 <sc-for list="{{ newsList }}" as="n" hint-placeholder-count="2">
 <button onClick="{{ n.go }}" style="text-align:left;border:0;border-bottom:1px solid var(--border);background:transparent;padding:18px 0;cursor:pointer">
 <span style="display:block;font-size:14.5px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;margin-bottom:4px">{{ n.date }}</span>
@@ -248,23 +254,6 @@ table{border-collapse:collapse}
 </div>
 </sc-if>
 
-<sc-if value="{{ is.video }}" hint-placeholder-val="{{ false }}">
-<div style="max-width:1100px;margin:0 auto;padding:32px 24px 72px">
-<h1 style="font-size:34px;font-weight:500;margin:0 0 20px">{{ simple.title }}</h1>
-<div style="display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-<sc-for list="{{ videos }}" as="v" hint-placeholder-count="3">
-<div style="border:1px solid var(--border);border-radius:6px;background:var(--raised);overflow:hidden">
-<div style="aspect-ratio:3/4;background:#EDEDEA;display:flex;align-items:center;justify-content:center">
-<span style="width:52px;height:52px;border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="#1577B0"><path d="M8 5l11 7-11 7z"></path></svg>
-</span>
-</div>
-<div style="padding:12px 14px;font-size:15.5px;color:var(--muted)">{{ v.label }}</div>
-</div>
-</sc-for>
-</div>
-</div>
-</sc-if>
 
 <sc-if value="{{ is.complaints }}" hint-placeholder-val="{{ false }}">
 <div style="max-width:760px;margin:0 auto;padding:32px 24px 72px">
@@ -691,7 +680,7 @@ pdf <span style="color:var(--muted);font-weight:400;font-variant-numeric:tabular
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;noticeVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;information&quot;,&quot;service&quot;,&quot;urgent&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;'none'|'information'|'service'|'urgent'&quot;,&quot;section&quot;:&quot;Notice band&quot;},&quot;startLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ka&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ka&quot;,&quot;tsType&quot;:&quot;'ka'|'en'&quot;,&quot;section&quot;:&quot;Content&quot;}}">
-const PAGES = ['home','about','products','mortgage','auto','business','calculator','application','branches','news','article','reporting','video','careers','contact','complaints','complaints-form'];
+const PAGES = ['home','about','products','auto','business','calculator','application','branches','news','article','reporting','careers','contact','complaints','complaints-form'];
 
 // Google Apps Script web-app URL (ends in /exec) that emails form submissions.
 // Setup: google-apps-script/README.md
@@ -703,13 +692,13 @@ const T = {
   ka: {
     homeCrumb: 'მთავარი',
     addrLabel: 'მისამართი', phoneLabel: 'ტელეფონი', hoursLabel: 'სამუშაო საათები',
-    mapTitle: 'ნოვა კრედიტის სათაო ოფისი რუკაზე',
+    mapTitle: 'მისო ნოვა კრედიტის სათაო ოფისი რუკაზე',
     cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
     noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
     eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
     photoSlot: 'ჩააგდეთ ფოტო — ფილიალი, გუნდი ან თბილისი',
     homeH1: 'სესხი უძრავი ქონებით ან ავტომობილით უზრუნველყოფილი',
-    homeLede: 'ნოვა კრედიტი 2010 წლიდან აკრედიტებს მცირე და საშუალო შემოსავლიან ფიზიკურ პირებსა და ბიზნესს. სესხი გაიცემა არაუმეტეს ერთ დღეში.',
+    homeLede: 'მისო ნოვა კრედიტი 2010 წლიდან აკრედიტებს მცირე და საშუალო შემოსავლიან ფიზიკურ პირებსა და ბიზნესს. სესხი გაიცემა არაუმეტეს ერთ დღეში.',
     ctaApply: 'სესხის განაცხადი',
     ctaCalc: 'კალკულატორი',
     terms: 'სესხის პირობები',
@@ -722,7 +711,7 @@ const T = {
     ],
     productsTitle: 'პროდუქტები',
     productsNote: 'პირობები საორიენტაციოა და მტკიცდება საკრედიტო კომიტეტის მიერ',
-    newsTitle: 'სიახლეები',
+    newsTitle: 'სიახლეები', newsEmpty: 'სიახლეები ჯერ არ არის.',
     reportingTitle: 'რეპორტინგი',
     reportingLede: 'ფინანსური და მმართველობითი ანგარიშგებები 2011 წლიდან დღემდე.',
     reportingCta: 'ანგარიშგებების არქივი',
@@ -733,13 +722,13 @@ const T = {
   en: {
     homeCrumb: 'Home',
     addrLabel: 'Address', phoneLabel: 'Phone', hoursLabel: 'Opening hours',
-    mapTitle: 'Nova Credit head office on the map',
+    mapTitle: 'MFO Nova Credit head office on the map',
     cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
     noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
     eyebrow: 'Microfinance organisation · since 2010',
     photoSlot: 'Drop a photograph — branch, staff or Tbilisi',
     homeH1: 'Loans secured by real estate or a vehicle',
-    homeLede: 'Since 2010 Nova Credit has lent to small and medium income individuals and businesses. Loans are issued within one day.',
+    homeLede: 'Since 2010 MFO Nova Credit has lent to small and medium income individuals and businesses. Loans are issued within one day.',
     ctaApply: 'Loan application',
     ctaCalc: 'Calculator',
     terms: 'Loan terms',
@@ -752,7 +741,7 @@ const T = {
     ],
     productsTitle: 'Products',
     productsNote: 'Terms are indicative and subject to credit committee approval',
-    newsTitle: 'News',
+    newsTitle: 'News', newsEmpty: 'There is no news yet.',
     reportingTitle: 'Reporting',
     reportingLede: 'Financial and management reports from 2011 to date.',
     reportingCta: 'Report archive',
@@ -764,14 +753,12 @@ const T = {
 
 const PRODUCTS = {
   ka: [
-    { key: 'mortgage', name: 'იპოთეკური სესხი', amount: '5 000 – 100 000 ₾', term: '6 – 60 თვე', issue: 'ერთ დღეში' },
-    { key: 'auto', name: 'ავტო სესხი', amount: '550 – 25 000 $', term: '10 თვემდე', issue: '5 წუთში' },
-    { key: 'business', name: 'ბიზნეს სესხი', amount: '5 000 – 100 000 ₾', term: '6 – 48 თვე', issue: 'ერთ დღეში' }
+    { key: 'auto', name: 'ავტო სესხი', amount: '3 500 – 50 000 ₾', term: '3 – 48 თვე', issue: '1 დღეში' },
+    { key: 'business', name: 'ბიზნეს სესხი', amount: '5 000 – 200 000 ₾', term: '6 – 48 თვე', issue: 'ერთ დღეში' }
   ],
   en: [
-    { key: 'mortgage', name: 'Mortgage loan', amount: 'GEL 5,000 – 100,000', term: '6 – 60 months', issue: 'Within one day' },
-    { key: 'auto', name: 'Auto loan', amount: 'USD 550 – 25,000', term: 'Up to 10 months', issue: 'Within 5 minutes' },
-    { key: 'business', name: 'Business loan', amount: 'GEL 5,000 – 100,000', term: '6 – 48 months', issue: 'Within one day' }
+    { key: 'auto', name: 'Auto loan', amount: 'GEL 3,500 – 50,000', term: '3 – 48 months', issue: 'Within 1 day' },
+    { key: 'business', name: 'Business loan', amount: 'GEL 5,000 – 200,000', term: '6 – 48 months', issue: 'Within one day' }
   ]
 };
 
@@ -780,16 +767,7 @@ const LABELS = {
   en: { amount: 'Amount', term: 'Term', issue: 'Issued' }
 };
 
-const NEWS = {
-  ka: [
-    { id: 'interest', date: '12.03.2024', title: 'სესხის პროცენტის გადახდები' },
-    { id: 'rustavi', date: '01.06.2016', title: 'რუსთავის ფილიალი' }
-  ],
-  en: [
-    { id: 'interest', date: '12.03.2024', title: 'Loan interest payments' },
-    { id: 'rustavi', date: '01.06.2016', title: 'Rustavi branch' }
-  ]
-};
+const NEWS = { ka: [], en: [] };
 
 const RTYPE = {
   quarterly: { ka: 'კვარტალური ანგარიშგება', en: 'Quarterly statement' },
@@ -798,7 +776,7 @@ const RTYPE = {
   combined: { ka: 'ფინანსური და მმართველობითი', en: 'Financial and management report' }
 };
 const ENTITY = {
-  nova: { ka: 'შპს ნოვა კრედიტი', en: 'Nova Credit LLC' },
+  nova: { ka: 'შპს ნოვა კრედიტი', en: 'Nova Credit LLC' },   // earlier legal name, used by older reports
   miso: { ka: 'შპს მისო ნოვა კრედიტი', en: 'MFO Nova Credit LLC' }
 };
 const ROMAN = ['', 'I', 'II', 'III', 'IV'];
@@ -922,24 +900,24 @@ const F = (n, l, t, req, opts, half) => ({ n, l, t: t || 'text', req: !!req, opt
 const FORMS = {
   application: {
     ka: { title: 'სესხის განაცხადი', lede: 'განაცხადი მოწმდება საკრედიტო კომიტეტის მიერ. შევსება 10–15 წუთს მოითხოვს.', sections: [
-      { legend: 'ინფორმაცია სესხის შესახებ', fields: [F('p','სესხის პროდუქტი','select',1,['იპოთეკური სესხი','ავტო სესხი','ბიზნეს სესხი']),F('a','მოთხოვნილი თანხა','number',1),F('cur','ვალუტა','select',1,['ლარი','აშშ დოლარი']),F('tm','ვადა თვეებში','number',1),F('rp','დაფარვის ტიპი','radio',1,['ანუიტეტური','მხოლოდ პროცენტი, ძირი ვადის ბოლოს']),F('pu','სესხის მიზნობრიობა','textarea',1,null,false)] },
+      { legend: 'ინფორმაცია სესხის შესახებ', fields: [F('p','სესხის პროდუქტი','select',1,['ავტო სესხი','ბიზნეს სესხი']),F('a','მოთხოვნილი თანხა','number',1),F('cur','ვალუტა','select',1,['ლარი','აშშ დოლარი']),F('tm','ვადა თვეებში','number',1),F('rp','დაფარვის ტიპი','radio',1,['ანუიტეტური','მხოლოდ პროცენტი, ძირი ვადის ბოლოს']),F('pu','სესხის მიზნობრიობა','textarea',1,null,false)] },
       { legend: 'ავტომანქანის მონაცემები', fields: [F('vm','მარკა','text',0),F('vmd','მოდელი','text',0),F('vy','გამოშვების წელი','number',0),F('vn','სახელმწიფო ნომერი','text',0),F('vv','საბაზრო ღირებულება','number',0),F('vs','ავტომობილის მდგომარეობა','select',0,['გამართული','საჭიროებს რემონტს'])] },
       { legend: 'მსესხებლის პირადი მონაცემები', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1),F('bd','დაბადების თარიღი','date',1),F('cz','მოქალაქეობა','text',1),F('idn','პირადობის მოწმობის ნომერი','text',1)] },
       { legend: 'პერსონალური ინფორმაცია', fields: [F('gn','სქესი','radio',0,['მდედრობითი','მამრობითი']),F('ed','განათლება','select',0,['საშუალო','ბაკალავრი','მაგისტრი','დოქტორი']),F('mil','სამხედრო აღრიცხვა','radio',0,['კი','არა']),F('res','რეზიდენტობა','radio',1,['საქართველოს რეზიდენტი','არარეზიდენტი'])] },
       { legend: 'საკონტაქტო ინფორმაცია', fields: [F('ph','მობილური ტელეფონი','tel',1),F('ph2','დამატებითი ტელეფონი','tel',0),F('em','ელ.ფოსტა','email',1),F('adr','ფაქტობრივი მისამართი','text',1,null,false),F('adl','იურიდიული მისამართი','text',0,null,false),F('rt','საცხოვრებელი ფართი','radio',0,['საკუთარი','ნაქირავები','ოჯახის წევრის'])] },
       { legend: 'ოჯახური მდგომარეობა', fields: [F('ms','ოჯახური მდგომარეობა','select',0,['დაუქორწინებელი','დაქორწინებული','განქორწინებული','ქვრივი']),F('dep','კმაყოფაზე მყოფ პირთა რაოდენობა','number',0),F('sp','მეუღლის სახელი და გვარი','text',0),F('spi','მეუღლის შემოსავალი','number',0)] },
       { legend: 'ინფორმაცია მსესხებლის შემოსავლის შესახებ', fields: [F('emp','დასაქმების სტატუსი','select',1,['დაქირავებული','თვითდასაქმებული','მეწარმე','პენსიონერი']),F('co','დამსაქმებელი / კომპანია','text',1),F('pos','თანამდებობა','text',0),F('exp','სამუშაო სტაჟი (თვე)','number',0),F('inc','ყოველთვიური წმინდა შემოსავალი','number',1),F('inc2','დამატებითი შემოსავალი','number',0),F('obl','არსებული სასესხო ვალდებულებები','number',0),F('src','შემოსავლის წყაროები','checkbox',0,['ხელფასი','ბიზნეს შემოსავალი','ქირა','პენსია','სხვა']),F('doc','შემოსავლის დამადასტურებელი დოკუმენტი','file',1,null,false)] },
-      { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას','ვეთანხმები საკრედიტო ისტორიის შემოწმებას ს/ბ-ში'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+      { legend: 'თანხმობა', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას','ვეთანხმები საკრედიტო ისტორიის შემოწმებას ს/ბ-ში'],false)] }
     ] },
     en: { title: 'Loan application', lede: 'Your application is reviewed by the credit committee. It takes 10–15 minutes to complete.', sections: [
-      { legend: 'Loan details', fields: [F('p','Loan product','select',1,['Mortgage loan','Auto loan','Business loan']),F('a','Requested amount','number',1),F('cur','Currency','select',1,['GEL','USD']),F('tm','Term in months','number',1),F('rp','Repayment type','radio',1,['Annuity','Interest only, principal at term end']),F('pu','Purpose of the loan','textarea',1,null,false)] },
+      { legend: 'Loan details', fields: [F('p','Loan product','select',1,['Auto loan','Business loan']),F('a','Requested amount','number',1),F('cur','Currency','select',1,['GEL','USD']),F('tm','Term in months','number',1),F('rp','Repayment type','radio',1,['Annuity','Interest only, principal at term end']),F('pu','Purpose of the loan','textarea',1,null,false)] },
       { legend: 'Vehicle details', fields: [F('vm','Make','text',0),F('vmd','Model','text',0),F('vy','Year of manufacture','number',0),F('vn','Registration number','text',0),F('vv','Market value','number',0),F('vs','Condition','select',0,['Roadworthy','Needs repair'])] },
       { legend: 'Borrower identity', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1),F('bd','Date of birth','date',1),F('cz','Citizenship','text',1),F('idn','ID document number','text',1)] },
       { legend: 'Personal information', fields: [F('gn','Gender','radio',0,['Female','Male']),F('ed','Education','select',0,['Secondary','Bachelor','Master','Doctorate']),F('mil','Military registration','radio',0,['Yes','No']),F('res','Residency','radio',1,['Resident of Georgia','Non-resident'])] },
       { legend: 'Contact information', fields: [F('ph','Mobile phone','tel',1),F('ph2','Additional phone','tel',0),F('em','Email','email',1),F('adr','Actual address','text',1,null,false),F('adl','Legal address','text',0,null,false),F('rt','Housing','radio',0,['Owned','Rented','Family member\u2019s'])] },
       { legend: 'Family status', fields: [F('ms','Marital status','select',0,['Single','Married','Divorced','Widowed']),F('dep','Number of dependants','number',0),F('sp','Spouse name','text',0),F('spi','Spouse income','number',0)] },
       { legend: 'Borrower income', fields: [F('emp','Employment status','select',1,['Employed','Self-employed','Entrepreneur','Pensioner']),F('co','Employer / company','text',1),F('pos','Position','text',0),F('exp','Length of service (months)','number',0),F('inc','Monthly net income','number',1),F('inc2','Additional income','number',0),F('obl','Existing loan obligations','number',0),F('src','Sources of income','checkbox',0,['Salary','Business income','Rent','Pension','Other']),F('doc','Proof of income','file',1,null,false)] },
-      { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data','I consent to a credit bureau check'],false),F('cap','Security code','text',1)] }
+      { legend: 'Consent', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data','I consent to a credit bureau check'],false)] }
     ] }
   }
 };
@@ -952,60 +930,36 @@ const PT = {
 };
 
 const PRODUCT_PAGES = {
-  mortgage: { ka: { title: 'იპოთეკური სესხი', sub: 'უძრავი ქონებით უზრუნველყოფილი სესხი ფიზიკურ პირებზე.',
-      key: [['ვალუტა','ლარი'],['თანხა','5 000 – 100 000 ₾'],['ვადა','6 – 60 თვე'],['გაცემა','გასაუბრებიდან ერთ დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+  auto: { ka: { title: 'ავტო სესხი', sub: 'ავტომობილით უზრუნველყოფილი სესხი — გაცემა 1 დღეში.',
+      key: [['ვალუტა','ლარი'],['თანხა','3 500 – 50 000 ₾'],['ვადა','3 – 48 თვე'],['გაცემა','1 დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
       blocks: [
-        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტი','სესხის ვადა — 6-60 თვე'] },
-        { h: 'პირადი მონაცემები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი ფიზიკური პირი','მსესხებლის ასაკი — 18-70 წელი (სესხის ვადის გათვალისწინებით)'] },
-        { h: 'სესხის უზრუნველყოფა', note: 'თბილისის, რუსთავის, ბათუმის და მცხეთის ტერიტორიაზე მდებარე:', items: ['კომერციული ფართი','მიწის ნაკვეთი'], after: 'სხვა ქალაქების შემთხვევაში განიხილება ინდივიდუალურად, ქონების შეფასებიდან გამომდინარე.' },
-        { h: 'უძრავი ქონების კრიტერიუმები', items: ['ქონება არ უნდა იყოს ავარიულ მდგომარეობაში','ქონება არ უნდა იყოს მშენებარე — მისაღებია, თუ კორპუსი გადახურულია და შეყვანილია კომუნიკაციები'] },
-        { h: 'საჭირო დოკუმენტები', items: ['მესაკუთრის პირადობის მოწმობა','ქონების ამონაწერი საჯარო რეესტრიდან','შემოსავლის დამადასტურებელი დოკუმენტი (ინდივიდუალურად, კომპანიის შეხედულებისამებრ)'] },
-        { h: 'სესხის მიზნობრიობა', items: ['ქონების ყიდვა, აშენება ან სარემონტო სამუშაოების დაფინანსება პირადი საჭიროებისთვის'] }
-      ] },
-    en: { title: 'Mortgage loan', sub: 'A loan to individuals secured by real estate.',
-      key: [['Currency','GEL'],['Amount','GEL 5,000 – 100,000'],['Term','6 – 60 months'],['Issued','One day after the interview'],['Repayment','Annuity / interest only']],
-      blocks: [
-        { h: 'Loan terms', items: ['Loan currency — GEL','Repayment type — annuity or interest only','Loan term — 6-60 months'] },
-        { h: 'Borrower requirements', items: ['The borrower must be a resident individual of Georgia','Borrower age — 18-70 years (taking the loan term into account)'] },
-        { h: 'Collateral', note: 'Located in Tbilisi, Rustavi, Batumi or Mtskheta:', items: ['Commercial premises','Land plot'], after: 'Other cities are considered individually, based on the property valuation.' },
-        { h: 'Property criteria', items: ['The property must not be in a dilapidated condition','The property must not be under construction — acceptable if the building is roofed and utilities are connected'] },
-        { h: 'Required documents', items: ['Owner\u2019s identity document','Extract from the public registry','Proof of income (individually, at the company\u2019s discretion)'] },
-        { h: 'Purpose', items: ['Purchase, construction or renovation of property for personal needs'] }
-      ] } },
-  auto: { ka: { title: 'ავტო სესხი', sub: 'ავტომობილით უზრუნველყოფილი სესხი — გაცემა 5 წუთში.',
-      key: [['ვალუტა','ლარი (ფიზ. პირი) / აშშ დოლარი (იურ. პირი)'],['თანხა','550 – 25 000 $'],['ვადა','10 თვემდე'],['გაცემა','გასაუბრებიდან 5 წუთში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
-      blocks: [
-        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი ფიზიკურ პირებზე, აშშ დოლარი იურიდიულ პირებზე','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტის გადახდა','სესხის ვადა — 10 თვე'] },
         { h: 'პირადი მონაცემები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი ფიზიკური ან იურიდიული პირი','მსესხებლის ასაკი — 18-65 წელი (სესხის ვადის გათვალისწინებით)'] },
-        { h: 'სესხის უზრუნველყოფა', items: ['ავტომობილი','3 000 აშშ დოლარზე მეტ თანხაზე მოითხოვება ფიზიკური ან იურიდიული პირის თავდებობა','საკრედიტო კომიტეტის გადაწყვეტილებით შესაძლებელია მოთხოვნილ იქნას დამატებითი უზრუნველყოფა ან პირობა'] },
-        { h: 'ავტომობილის კრიტერიუმები', items: ['ავტომობილი არ უნდა იყოს ავარიულ მდგომარეობაში','არ უნდა ირიცხებოდეს საგადასახადო ვალდებულება, ყადაღა ან რაიმე სახის აკრძალვა'] },
-        { h: 'საჭირო საბუთები', items: ['მესაკუთრის პირადობის მოწმობა','ავტომობილის ტექპასპორტი','ყადაღის ცნობა','საკრედიტო კომიტეტის გადაწყვეტილების შემთხვევაში — დამატებითი საბუთები'] },
-        { h: 'გაცემა და მომსახურება', items: ['გასაუბრებიდან 5 წუთში','სესხის გაცემა შესაძლებელია 24 საათის განმავლობაში','სესხი გაიცემა ტარების და კერძო ავტოსადგომზე გაჩერების პირობით','ავტომობილის დაზღვევის სავალდებულო მოთხოვნა არ ვრცელდება'] },
-        { h: 'დამატებითი პირობა', items: ['თუ ავტომობილის გამოშვების თარიღი არის 2008 წლიდან და შეფასების თანხა აღემატება 20 000 აშშ დოლარს, კომიტეტი იმსჯელებს სესხის შეღავათიან პროცენტში გაცემაზე'] }
+        { h: 'სესხის უზრუნველყოფა', items: ['ავტომობილი','საკრედიტო კომიტეტის გადაწყვეტილებით შესაძლებელია მოთხოვნილ იქნას დამატებითი უზრუნველყოფა ან პირობა'] },
+        { h: 'ავტომობილის კრიტერიუმები', items: ['ავტომობილი არ უნდა იყოს ავარიულ მდგომარეობაში','არ უნდა ირიცხებოდეს საგადასახადო ვალდებულება, ყადაღა ან რაიმე სახის აკრძალვა','ავტომანქანის ტექდათვალიერების ვადის გასვლამდე დარჩენილი უნდა იყოს მინიმუმ 1 თვე'] },
+        { h: 'საჭირო საბუთები', items: ['მესაკუთრის პირადობის მოწმობა','ავტომობილის ტექპასპორტი','ავტომობილის ფოტოები','საკრედიტო კომიტეტის გადაწყვეტილების შემთხვევაში — დამატებითი საბუთები'] },
+        { h: 'გაცემა და მომსახურება', items: ['გასაუბრებიდან მაქსიმუმ 3 საათში','სესხი გაიცემა ტარების და კერძო ავტოსადგომზე გაჩერების პირობით','ავტომობილის დაზღვევის სავალდებულო მოთხოვნა არ ვრცელდება'] },
+        { h: 'დამატებითი პირობა', items: ['თუ ავტომობილის გამოშვების თარიღი არის 2022 წლიდან და შეფასების თანხა აღემატება 20 000 აშშ დოლარს, კომიტეტი იმსჯელებს სესხის შეღავათიან პროცენტში გაცემაზე'] }
       ] },
-    en: { title: 'Auto loan', sub: 'A loan secured by a vehicle — issued in five minutes.',
-      key: [['Currency','GEL (individuals) / USD (legal entities)'],['Amount','USD 550 – 25,000'],['Term','Up to 10 months'],['Issued','5 minutes after the interview'],['Repayment','Annuity / interest only']],
+    en: { title: 'Auto loan', sub: 'A loan secured by a vehicle — issued within one day.',
+      key: [['Currency','GEL'],['Amount','GEL 3,500 – 50,000'],['Term','3 – 48 months'],['Issued','Within 1 day'],['Repayment','Annuity / interest only']],
       blocks: [
-        { h: 'Loan terms', items: ['Loan currency — GEL for individuals, USD for legal entities','Repayment type — annuity or interest only','Loan term — 10 months'] },
         { h: 'Borrower requirements', items: ['The borrower must be a resident individual or legal entity of Georgia','Borrower age — 18-65 years (taking the loan term into account)'] },
-        { h: 'Collateral', items: ['A vehicle','Amounts above USD 3,000 require a guarantor — an individual or a legal entity','The credit committee may require additional collateral or conditions'] },
-        { h: 'Vehicle criteria', items: ['The vehicle must not be damaged or unroadworthy','It must carry no tax liability, seizure or other restriction'] },
-        { h: 'Required documents', items: ['Owner\u2019s identity document','Vehicle registration certificate','Certificate of no seizure','Further documents if required by the credit committee'] },
-        { h: 'Issuance and servicing', items: ['5 minutes after the interview','The loan can be disbursed within 24 hours','The loan is granted on condition the vehicle is driven and kept in private parking','Vehicle insurance is not a mandatory requirement'] },
-        { h: 'Additional condition', items: ['If the vehicle was manufactured in 2008 or later and is valued above USD 20,000, the committee may consider a preferential rate'] }
+        { h: 'Collateral', items: ['A vehicle','The credit committee may require additional collateral or conditions'] },
+        { h: 'Vehicle criteria', items: ['The vehicle must not be damaged or unroadworthy','It must carry no tax liability, seizure or other restriction','At least 1 month must remain before the vehicle\u2019s technical inspection expires'] },
+        { h: 'Required documents', items: ['Owner\u2019s identity document','Vehicle registration certificate','Photos of the vehicle','Further documents if required by the credit committee'] },
+        { h: 'Issuance and servicing', items: ['Within 3 hours of the interview at most','The loan is granted on condition the vehicle is driven and kept in private parking','Vehicle insurance is not a mandatory requirement'] },
+        { h: 'Additional condition', items: ['If the vehicle was manufactured in 2022 or later and is valued above USD 20,000, the committee may consider a preferential rate'] }
       ] } },
   business: { ka: { title: 'ბიზნეს სესხი', sub: 'სესხი იურიდიულ პირებზე არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
-      key: [['ვალუტა','ლარი'],['თანხა','5 000 – 100 000 ₾'],['ვადა','6 – 48 თვე'],['გაცემა','გასაუბრებიდან ერთ დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+      key: [['ვალუტა','ლარი'],['თანხა','5 000 – 200 000 ₾'],['ვადა','6 – 48 თვე'],['გაცემა','გასაუბრებიდან ერთ დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
       blocks: [
-        { h: 'სესხის პირობები', items: ['სესხის ვალუტა — ლარი','გადახდის ტიპი — ანუიტეტური ან მხოლოდ პროცენტი','სესხის ვადა — 6-48 თვე'] },
         { h: 'თავსებადობის კრიტერიუმები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი იურიდიული პირი, რომლის დამფუძნებელიც არის საქართველოს რეზიდენტი იურიდიული ან ფიზიკური პირი','იურიდიული პირის დაფუძნების თარიღიდან გასული უნდა იყოს 3 თვე'] },
         { h: 'სესხის უზრუნველყოფა', note: 'თბილისის, რუსთავის და ბათუმის ტერიტორიაზე მდებარე:', items: ['კორპუსის ბინა','საკუთარი სახლი','აგარაკი','კომერციული ფართი'], after: 'ქონების მესაკუთრე უნდა იყოს საქართველოს რეზიდენტი იურიდიული პირი, მსესხებელი ორგანიზაციის მმართველი ორგანოს წევრი/პარტნიორი, ან პარტნიორის საოჯახო მეურნეობის წევრი.' },
         { h: 'საჭირო დოკუმენტები', items: ['ამონაწერი სამეწარმეო რეესტრიდან','დირექტორთა და დამფუძნებელთა პირადობის მოწმობები','საქმიანობის დამადასტურებელი დოკუმენტაცია (საბანკო ამონაწერი, მოგების და დღგ-ს დეკლარაციები)'] }
       ] },
     en: { title: 'Business loan', sub: 'A loan to legal entities to expand an existing business or start a new one.',
-      key: [['Currency','GEL'],['Amount','GEL 5,000 – 100,000'],['Term','6 – 48 months'],['Issued','One day after the interview'],['Repayment','Annuity / interest only']],
+      key: [['Currency','GEL'],['Amount','GEL 5,000 – 200,000'],['Term','6 – 48 months'],['Issued','One day after the interview'],['Repayment','Annuity / interest only']],
       blocks: [
-        { h: 'Loan terms', items: ['Loan currency — GEL','Repayment type — annuity or interest only','Loan term — 6-48 months'] },
         { h: 'Eligibility', items: ['The borrower must be a resident legal entity of Georgia founded by a resident legal entity or individual','At least 3 months must have passed since incorporation'] },
         { h: 'Collateral', note: 'Located in Tbilisi, Rustavi or Batumi:', items: ['Apartment in a residential building','Detached house','Cottage','Commercial premises'], after: 'The owner must be a resident legal entity of Georgia, a member or partner of the borrower\u2019s governing body, or a member of a partner\u2019s household.' },
         { h: 'Required documents', items: ['Extract from the entrepreneurial registry','Identity documents of directors and founders','Evidence of business activity (bank statements, profit and VAT declarations)'] }
@@ -1023,7 +977,7 @@ FORMS.vacancy = {
     { legend: 'სამუშაო გამოცდილება', fields: [F('co','ბოლო დამსაქმებელი','text',1),F('pos','თანამდებობა','text',1),F('per','მუშაობის პერიოდი','text',0),F('rsn','წასვლის მიზეზი','textarea',0,null,false),F('cv','რეზიუმე','file',1,null,false)] },
     { legend: 'ენების ცოდნა', fields: [F('lge','ინგლისური','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgr','რუსული','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgo','სხვა ენა','text',0)] },
     { legend: 'კომპიუტერული პროგრამების ცოდნა', fields: [F('sw','პროგრამები','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','სხვა'],false)] },
-    { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+    { legend: 'თანხმობა', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false)] }
   ] },
   en: { title: 'Application form', lede: 'Apply for an open vacancy. Some fields are required.', sections: [
     { legend: 'Vacancy', fields: [F('vac','Vacancy','select',1,['Problem loans manager','Credit manager, probation','Small loans expert, Tbilisi','Lawyer']),F('src','Where did you hear about the vacancy','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','Expected salary','number',0),F('start','Preferred start date','date',0)] },
@@ -1035,7 +989,7 @@ FORMS.vacancy = {
     { legend: 'Work experience', fields: [F('co','Most recent employer','text',1),F('pos','Position','text',1),F('per','Period of employment','text',0),F('rsn','Reason for leaving','textarea',0,null,false),F('cv','CV','file',1,null,false)] },
     { legend: 'Languages', fields: [F('lge','English','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgr','Russian','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgo','Other language','text',0)] },
     { legend: 'Computer skills', fields: [F('sw','Software','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','Other'],false)] },
-    { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data'],false),F('cap','Security code','text',1)] }
+    { legend: 'Consent', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data'],false)] }
   ] }
 };
 
@@ -1045,49 +999,45 @@ FORMS.complaints = {
     { legend: 'განმცხადებლის პირადი ინფორმაცია', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1)] },
     { legend: 'პირადი ინფორმაცია', fields: [F('bd','დაბადების თარიღი','date',0),F('cz','მოქალაქეობა','text',0)] },
     { legend: 'საკონტაქტო ინფორმაცია', fields: [F('adr','მისამართი','text',1,null,false),F('ph','ტელეფონი','tel',1),F('em','ელ.ფოსტა','email',1)] },
-    { legend: 'პროდუქტის დასახელება', fields: [F('pr','პროდუქტი','checkbox',1,['ავტოსესხი','იპოთეკური სესხი','სამომხმარებლო სესხი','სესხი ბინის რემონტისთვის','ოვერდრაფტი','მომენტალური განვადება','საკრედიტო ბარათი','მიმდინარე ანგარიშები','მოთხოვნამდე დეპოზიტები','ვადიანი დეპოზიტები','ინტერნეტ ფინანსური ორგანიზაცია','სხვა'],false)] },
+    { legend: 'პროდუქტის დასახელება', fields: [F('pr','პროდუქტი','checkbox',1,['ავტოსესხი','სამომხმარებლო სესხი','სესხი ბინის რემონტისთვის','ოვერდრაფტი','მომენტალური განვადება','საკრედიტო ბარათი','მიმდინარე ანგარიშები','მოთხოვნამდე დეპოზიტები','ვადიანი დეპოზიტები','ინტერნეტ ფინანსური ორგანიზაცია','სხვა'],false)] },
     { legend: 'პრეტენზიის ხასიათი', fields: [F('nt','ხასიათი','checkbox',1,['საპროცენტო შენატანები','მომსახურების საკომისიოები','ჯარიმები და ვადაგადაცილების საკომისიოები','კრედიტის წინსწრებით დაფარვის საკომისიო','სხვა გადასახდელები','ადმინისტრაცია / მომსახურების ხარისხი','არასწორად მიწოდებული ინფორმაცია','სავალდებულო ინფორმაციის მიუწოდებლობა','კონფიდენციალური ინფორმაციის გაცემა','ხელშეკრულების პირობები','რეკლამა, გაყიდვები, რჩევები','ტრანზაქციები','დაკავშირებული საკრედიტო ხელშეკრულება','სხვა'],false)] },
     { legend: 'პრეტენზიის შინაარსი', fields: [F('txt','აღწერეთ პრეტენზია','textarea',1,null,false),F('att','დანართი','file',0,null,false)] },
     { legend: 'რა ფორმით გსურთ პრეტენზიაზე პასუხის მიღება?', fields: [F('ch','პასუხის ფორმა','radio',1,['წერილობით','ტელეფონით','ელექტრონული ფოსტით'],false)] },
-    { legend: 'უსაფრთხოება', fields: [F('sig','ხელმოწერა','text',1),F('dt','თარიღი','date',1),F('cap','უსაფრთხოების კოდი','text',1)] }
+    { legend: 'დადასტურება', fields: [F('sig','დადასტურება','checkbox',1,['ვადასტურებ, რომ ჩემ მიერ მოწოდებული ინფორმაცია სწორია'],false),F('dt','თარიღი','date',1)] }
   ] },
   en: { title: 'Complaint form', lede: 'Complaints are reviewed by the general director. You will receive a reply within one month at the latest.', sections: [
     { legend: 'Complaint registration', fields: [F('rd','Date received','date',0),F('rn','Registration no.','text',0)] },
     { legend: 'Applicant details', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1)] },
     { legend: 'Personal information', fields: [F('bd','Date of birth','date',0),F('cz','Citizenship','text',0)] },
     { legend: 'Contact information', fields: [F('adr','Address','text',1,null,false),F('ph','Phone','tel',1),F('em','Email','email',1)] },
-    { legend: 'Product', fields: [F('pr','Product','checkbox',1,['Auto loan','Mortgage loan','Consumer loan','Home improvement loan','Overdraft','Instalment','Credit card','Current accounts','Demand deposits','Term deposits','Internet financial organisation','Other'],false)] },
+    { legend: 'Product', fields: [F('pr','Product','checkbox',1,['Auto loan','Consumer loan','Home improvement loan','Overdraft','Instalment','Credit card','Current accounts','Demand deposits','Term deposits','Internet financial organisation','Other'],false)] },
     { legend: 'Nature of the complaint', fields: [F('nt','Nature','checkbox',1,['Interest charges','Service fees','Penalties and late fees','Early repayment fee','Other charges','Administration / service quality','Incorrect information provided','Mandatory information not provided','Disclosure of confidential information','Contract terms','Advertising, sales, advice','Transactions','Linked credit agreement','Other'],false)] },
     { legend: 'Content of the complaint', fields: [F('txt','Describe the complaint','textarea',1,null,false),F('att','Attachment','file',0,null,false)] },
     { legend: 'How would you like to receive a reply?', fields: [F('ch','Reply channel','radio',1,['In writing','By telephone','By email'],false)] },
-    { legend: 'Security', fields: [F('sig','Signature','text',1),F('dt','Date','date',1),F('cap','Security code','text',1)] }
+    { legend: 'Confirmation', fields: [F('sig','Confirmation','checkbox',1,['I confirm that the information I have provided is correct'],false),F('dt','Date','date',1)] }
   ] }
 };
 
 const PAGE_CONTENT = {
   about: {
     ka: { title: 'ჩვენს შესახებ', paras: [
-      '„ნოვა კრედიტი" საფინანსო ორგანიზაციაა, რომელიც ჩამოყალიბდა თბილისში 2010 წელს. 2010 წლის 29 დეკემბერს საქართველოს ეროვნულმა ბანკმა კომპანიას მიანიჭა მიკროსაფინანსო ორგანიზაციის სტატუსი.',
+      '„მისო ნოვა კრედიტი" საფინანსო ორგანიზაციაა, რომელიც ჩამოყალიბდა თბილისში 2010 წელს. 2010 წლის 29 დეკემბერს საქართველოს ეროვნულმა ბანკმა კომპანიას მიანიჭა მიკროსაფინანსო ორგანიზაციის სტატუსი.',
       'ჩვენი საქმიანობის ძირითადი მიმართულებაა მცირე და საშუალო შემოსავლიანი ფიზიკური პირებისა და ბიზნესის დაკრედიტება.',
-      '„ნოვა კრედიტი" მომხმარებელს სთავაზობს იპოთეკურ და ავტოსესხებს უძრავი ქონების ან ავტომობილის უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
+      '„მისო ნოვა კრედიტი" მომხმარებელს სთავაზობს ავტოსესხებს ავტომობილის უზრუნველყოფით და ბიზნეს სესხებს უძრავი ქონების უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
       'სესხის დაფარვა ხორციელდება როგორც მხოლოდ საპროცენტო სარგებლის და ვადის ბოლოს ძირის დაფარვით, ასევე ყოველთვიური თანაბარი გადახდებით, კლებადი საპროცენტო სარგებლის პრინციპის საფუძველზე. გამონაკლის შემთხვევებში შესაძლებელია დაფარვის გრაფიკის შედგენა კლიენტის მიერ მოთხოვნილი საშეღავათო პერიოდის გათვალისწინებით.',
       'სესხი გაიცემა არაუმეტეს ერთ დღეში.'
     ] },
     en: { title: 'About us', paras: [
-      '“Nova Credit” is a financial organisation founded in Tbilisi in 2010. On 29 December 2010 the National Bank of Georgia granted the company the status of a microfinance organisation.',
+      '“MFO Nova Credit” is a financial organisation founded in Tbilisi in 2010. On 29 December 2010 the National Bank of Georgia granted the company the status of a microfinance organisation.',
       'The main focus of our activity is lending to small and medium income individuals and to businesses.',
-      '“Nova Credit” offers mortgage and auto loans secured by real estate or a vehicle. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
+      '“MFO Nova Credit” offers auto loans secured by a vehicle and business loans secured by real estate. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
       'A loan may be repaid either by paying interest only with the principal at the end of the term, or in equal monthly instalments on a declining interest basis. In exceptional cases a repayment schedule can be agreed that includes a grace period requested by the client.',
       'Loans are issued within one day.'
     ] }
   },
   contact: {
-    ka: { title: 'კონტაქტი', paras: ['მიკროსაფინანსო ორგანიზაცია „ნოვა კრედიტი". მოგვწერეთ ფორმით ან დაგვიკავშირდით ტელეფონით სამუშაო საათებში.'] },
-    en: { title: 'Contact', paras: ['Microfinance organisation “Nova Credit”. Write to us using the form or call us during opening hours.'] }
-  },
-  video: {
-    ka: { title: 'ვიდეოგალერეა', paras: ['სარეკლამო ვიდეორგოლები.'] },
-    en: { title: 'Video gallery', paras: ['Promotional video clips.'] }
+    ka: { title: 'კონტაქტი', paras: ['მიკროსაფინანსო ორგანიზაცია „მისო ნოვა კრედიტი". მოგვწერეთ ფორმით ან დაგვიკავშირდით ტელეფონით სამუშაო საათებში.'] },
+    en: { title: 'Contact', paras: ['Microfinance organisation “MFO Nova Credit”. Write to us using the form or call us during opening hours.'] }
   }
 };
 
@@ -1104,16 +1054,7 @@ const BRANCHES = {
   ]
 };
 
-const ARTICLES = {
-  interest: {
-    ka: { title: 'სესხის პროცენტის გადახდები', date: '12.03.2024', body: ['ძვირფასო მომხმარებლებო, თქვენი კომფორტისთვის „ნოვა კრედიტში" სესხის პროცენტის გადახდები შეგიძლიათ განახორციელოთ „თიბისი ბანკის" ნებისმიერი ფილიალიდან.','გმადლობთ თანამშრომლობისთვის.'] },
-    en: { title: 'Loan interest payments', date: '12.03.2024', body: ['Dear customers, for your convenience interest payments on Nova Credit loans can be made at any branch of TBC Bank.','Thank you for your cooperation.'] }
-  },
-  rustavi: {
-    ka: { title: 'რუსთავის ფილიალი', date: '01.06.2016', body: ['ძვირფასო მომხმარებლებო, გაცნობებთ, რომ პირველი ივნისიდან შეძლებთ ისარგებლოთ რუსთავის ფილიალით.','მოგემსახურებით, როგორც ყოველთვის, სწრაფად და ხარისხიანად.'] },
-    en: { title: 'Rustavi branch', date: '01.06.2016', body: ['Dear customers, we are pleased to inform you that from 1 June you can use our Rustavi branch.','We will serve you as always — quickly and to a high standard.'] }
-  }
-};
+const ARTICLES = {};
 
 const COMPLAINTS_TEXT = {
   ka: { title: 'მომხმარებელთა პრეტენზიები', h2: 'პრეტენზია', paras: [
@@ -1121,14 +1062,14 @@ const COMPLAINTS_TEXT = {
     'პრეტენზიად მიიჩნევა მომხმარებლის ნებისმიერი განცხადება (ზეპირი ან წერილობითი), რომლითაც იგი გამოხატავს თავის უკმაყოფილებას, დაუთანხმებლობას ან საჩივარს მიკროსაფინანსო ორგანიზაციის და/ან მისი ნებისმიერი პროდუქტის მიმართ.',
     'მომხმარებელს პრეტენზიის დაფიქსირება შეუძლია ზეპირი, წერილობითი, სტანდარტული წერილობითი და ელექტრონული ფორმებით.',
     'პრეტენზიაზე პასუხი გაიცემა მისი დაფიქსირებიდან არაუგვიანეს 1 თვის ვადაში, წინასწარ შეთანხმებული ფორმით — პრეტენზიის ფორმაში მითითებულ მისამართზე, ხოლო ელექტრონული პრეტენზიის შემთხვევაში გამომგზავნის ელექტრონულ მისამართზე.',
-    'პრეტენზიას განიხილავს და საბოლოო პასუხს გასცემს შპს „ნოვა კრედიტის" გენერალური დირექტორი. მომხმარებელს უფლება აქვს მიიღოს ინფორმაცია პრეტენზიის განხილვის ნებისმიერ ეტაპზე — როგორც სატელეფონო, ისე პირადი შეხვედრით.'
+    'პრეტენზიას განიხილავს და საბოლოო პასუხს გასცემს შპს „მისო ნოვა კრედიტის" გენერალური დირექტორი. მომხმარებელს უფლება აქვს მიიღოს ინფორმაცია პრეტენზიის განხილვის ნებისმიერ ეტაპზე — როგორც სატელეფონო, ისე პირადი შეხვედრით.'
   ], addrTitle: 'პრეტენზიის წარდგენა შესაძლებელია ნებისმიერ ოფისში:', cta: 'პრეტენზიის სპეციალური ფორმა', email: 'ელექტრონული ფორმით:' },
   en: { title: 'Consumer complaints', h2: 'Complaints', paras: [
     'The procedure for receiving and reviewing consumer complaints exists to protect consumer rights in the supply of financial products and the provision of financial services.',
     'A complaint is any statement by a consumer, oral or written, expressing dissatisfaction, disagreement or a grievance regarding the microfinance organisation and/or any of its products.',
     'A complaint may be submitted orally, in writing, on the standard written form, or electronically.',
     'A complaint is answered within one month of submission at the latest, in the agreed form — at the address given on the complaint form, or, for electronic complaints, at the sender\u2019s email address.',
-    'Complaints are reviewed and finally answered by the general director of Nova Credit LLC. The consumer is entitled to receive information at any stage of the review, by telephone or in person.'
+    'Complaints are reviewed and finally answered by the general director of MFO Nova Credit LLC. The consumer is entitled to receive information at any stage of the review, by telephone or in person.'
   ], addrTitle: 'A complaint may be submitted at any office:', cta: 'Standard complaint form', email: 'Electronically:' }
 };
 
@@ -1164,7 +1105,7 @@ function money(n) {
 
 class Component extends DCLogic {
   _root = React.createRef();
-  state = { page: 'home', lang: (typeof location !== 'undefined' && /lang=en/.test(location.search)) ? 'en' : 'ka', heroProduct: 'mortgage', vw: 1280, article: 'interest', cAmount: 45000, cRate: 18, cTerm: 36, cType: 'annuity', step: 0, fv: {}, ferr: {}, fdone: false, fsending: false, fsendErr: '', fref: '', cv: {}, csending: false, cstatus: '', cok: false, fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' };
+  state = { page: 'home', lang: (typeof location !== 'undefined' && /lang=en/.test(location.search)) ? 'en' : 'ka', heroProduct: 'business', vw: 1280, article: '', cAmount: 45000, cRate: 18, cTerm: 36, cType: 'annuity', step: 0, fv: {}, ferr: {}, fdone: false, fsending: false, fsendErr: '', fref: '', cv: {}, csending: false, cstatus: '', cok: false, fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' };
 
   measure() {
     const el = this._node;
@@ -1535,12 +1476,11 @@ class Component extends DCLogic {
       simple: PAGE_CONTENT[page] ? PAGE_CONTENT[page][lang] : { title: '', paras: [] },
       isSimple: !!PAGE_CONTENT[page],
       branches: BRANCHES[lang].map(b => Object.assign({}, b, { hasPhone: !!b.p })),
-      article: ARTICLES[this.state.article][lang],
+      article: ARTICLES[this.state.article] ? ARTICLES[this.state.article][lang] : { title: '', date: '', body: [] },
       cx: COMPLAINTS_TEXT[lang],
       goComplaintsForm: () => this.nav('complaints-form'),
       goContact: () => this.nav('contact'),
       goNews: () => this.nav('news'),
-      videos: [1, 2, 3].map(i => ({ n: i, label: 'Novacredit_promo' + i + '.mp4' })),
       isProduct: !!PRODUCT_PAGES[page],
       prod: (() => {
         const p = PRODUCT_PAGES[page]; if (!p) return { blocks: [], key: [] };
@@ -1584,6 +1524,7 @@ class Component extends DCLogic {
       reportQuery: this.state.fQuery,
       onReportQuery: (e) => this.setState({ fQuery: e.target.value }),
       clearFilters: () => this.setState({ fYear: 'all', fQuarter: 'all', fType: 'all', fEntity: 'all', fQuery: '' }),
+      noNews: NEWS[lang].length === 0,
       newsList: NEWS[lang].map(n => Object.assign({}, n, {
         go: () => { this.setState({ article: n.id }); this.nav('article'); }
       }))
