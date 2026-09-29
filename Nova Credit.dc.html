@@ -10,7 +10,6 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600&family=Noto+Serif+Georgian:wght@400;500;600&display=swap">
-<script src="./image-slot.js"></script>
 <style>
 @font-face{font-family:'FiraGO';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-400-normal.woff2) format('woff2')}
 @font-face{font-family:'FiraGO';font-style:normal;font-weight:500;font-display:swap;src:url(https://cdn.jsdelivr.net/npm/@fontsource/firago@5.3.0/files/firago-latin-500-normal.woff2) format('woff2')}
@@ -103,7 +102,10 @@ table{border-collapse:collapse}
 </div>
 <div style="max-width:1216px;margin:0 auto;padding:0 24px 0">
 <div style="position:relative;width:100%;height:{{ heroImgH }};border-top:1px solid var(--border)">
-<image-slot id="nc-hero" shape="rect" fit="cover" placeholder="{{ t.photoSlot }}"></image-slot>
+<div style="position:absolute;inset:0;overflow:hidden;background:var(--accent-800)">
+<img src="assets/photos/hero-agreement.jpg" alt="{{ t.heroImgAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block;filter:saturate(.8)">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,119,176,.18),rgba(11,72,104,.5));mix-blend-mode:multiply;pointer-events:none"></div>
+</div>
 </div>
 </div>
 </section>
@@ -114,8 +116,12 @@ table{border-collapse:collapse}
 <span style="font-size:15px;color:var(--muted)">{{ t.productsNote }}</span>
 </div>
 <div style="display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
-<sc-for list="{{ productCards }}" as="p" hint-placeholder-count="3">
-<div style="background:var(--raised);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow-md);padding:32px;display:flex;flex-direction:column;gap:22px;min-width:0;transition:box-shadow .18s,border-color .18s" style-hover="box-shadow:var(--shadow-lg);border-color:var(--border-strong)">
+<sc-for list="{{ productCards }}" as="p" hint-placeholder-count="2">
+<div style="background:var(--raised);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow-md);padding:32px;overflow:hidden;display:flex;flex-direction:column;gap:22px;min-width:0;transition:box-shadow .18s,border-color .18s" style-hover="box-shadow:var(--shadow-lg);border-color:var(--border-strong)">
+<div style="margin:-32px -32px 0;height:210px;position:relative;overflow:hidden;border-radius:4px 4px 0 0;background:var(--accent-800)">
+<img src="{{ p.img }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ p.imgPos }};display:block;filter:saturate(.8)">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,119,176,.18),rgba(11,72,104,.5));mix-blend-mode:multiply;pointer-events:none"></div>
+</div>
 <div>
 <div style="font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums lining-nums;margin-bottom:8px">{{ p.idx }}</div>
 <h3 style="font-size:24px;margin:0">{{ p.name }}</h3>
@@ -696,7 +702,7 @@ const T = {
     cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
     noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
     eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
-    photoSlot: 'ჩააგდეთ ფოტო — ფილიალი, გუნდი ან თბილისი',
+    heroImgAlt: 'სესხის ხელშეკრულების გაფორმება ოფისში',
     homeH1: 'სესხი უძრავი ქონებით ან ავტომობილით უზრუნველყოფილი',
     homeLede: 'მისო ნოვა კრედიტი 2010 წლიდან აკრედიტებს მცირე და საშუალო შემოსავლიან ფიზიკურ პირებსა და ბიზნესს. სესხი გაიცემა არაუმეტეს ერთ დღეში.',
     ctaApply: 'სესხის განაცხადი',
@@ -726,7 +732,7 @@ const T = {
     cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
     noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
     eyebrow: 'Microfinance organisation · since 2010',
-    photoSlot: 'Drop a photograph — branch, staff or Tbilisi',
+    heroImgAlt: 'Signing a loan agreement at the office',
     homeH1: 'Loans secured by real estate or a vehicle',
     homeLede: 'Since 2010 MFO Nova Credit has lent to small and medium income individuals and businesses. Loans are issued within one day.',
     ctaApply: 'Loan application',
@@ -1023,14 +1029,14 @@ const PAGE_CONTENT = {
     ka: { title: 'ჩვენს შესახებ', paras: [
       '„მისო ნოვა კრედიტი" საფინანსო ორგანიზაციაა, რომელიც ჩამოყალიბდა თბილისში 2010 წელს. 2010 წლის 29 დეკემბერს საქართველოს ეროვნულმა ბანკმა კომპანიას მიანიჭა მიკროსაფინანსო ორგანიზაციის სტატუსი.',
       'ჩვენი საქმიანობის ძირითადი მიმართულებაა მცირე და საშუალო შემოსავლიანი ფიზიკური პირებისა და ბიზნესის დაკრედიტება.',
-      '„მისო ნოვა კრედიტი" მომხმარებელს სთავაზობს ავტოსესხებს ავტომობილის უზრუნველყოფით და ბიზნეს სესხებს უძრავი ქონების უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
+      '„მისო ნოვა კრედიტი" მომხმარებელს სთავაზობს ავტოსესხებს ავტომობილის უზრუნველყოფით და ბიზნეს სესხებს უძრავი ქონების უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა ლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
       'სესხის დაფარვა ხორციელდება როგორც მხოლოდ საპროცენტო სარგებლის და ვადის ბოლოს ძირის დაფარვით, ასევე ყოველთვიური თანაბარი გადახდებით, კლებადი საპროცენტო სარგებლის პრინციპის საფუძველზე. გამონაკლის შემთხვევებში შესაძლებელია დაფარვის გრაფიკის შედგენა კლიენტის მიერ მოთხოვნილი საშეღავათო პერიოდის გათვალისწინებით.',
       'სესხი გაიცემა არაუმეტეს ერთ დღეში.'
     ] },
     en: { title: 'About us', paras: [
       '“MFO Nova Credit” is a financial organisation founded in Tbilisi in 2010. On 29 December 2010 the National Bank of Georgia granted the company the status of a microfinance organisation.',
       'The main focus of our activity is lending to small and medium income individuals and to businesses.',
-      '“MFO Nova Credit” offers auto loans secured by a vehicle and business loans secured by real estate. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
+      '“MFO Nova Credit” offers auto loans secured by a vehicle and business loans secured by real estate. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in GEL, to expand an existing business or to start a new activity.',
       'A loan may be repaid either by paying interest only with the principal at the end of the term, or in equal monthly instalments on a declining interest basis. In exceptional cases a repayment schedule can be agreed that includes a grace period requested by the client.',
       'Loans are issued within one day.'
     ] }
@@ -1452,6 +1458,8 @@ class Component extends DCLogic {
       productCards: PRODUCTS[lang].map((p, i) => Object.assign({}, p, {
         idx: '0' + (i + 1),
         amountLabel: L.amount, termLabel: L.term, issueLabel: L.issue,
+        img: 'assets/photos/' + p.key + '-loan.jpg',
+        imgPos: p.key === 'auto' ? 'center 55%' : 'center 30%',
         go: () => this.nav(p.key)
       })),
       heroCols: this.state.vw >= 980 ? '1.25fr 420px' : '1fr',
