@@ -57,12 +57,12 @@ body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font)
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:360},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ka&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ka&quot;,&quot;tsType&quot;:&quot;'ka'|'en'&quot;},&quot;w&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;1280&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 const T = {
   ka: {
-    wordmark: 'ნოვა კრედიტი',
+    wordmark: 'მისო ნოვა კრედიტი',
     brand: 'შპს მისო ნოვა კრედიტი',
     address: 'ვაჟა-ფშაველას გამზირი 8, 0186, თბილისი, საქართველო',
     telLabel: 'ტელ:',
     colA: 'პროდუქტები',
-    linksA: ['იპოთეკური სესხი', 'ავტო სესხი', 'ბიზნეს სესხი', 'სესხის კალკულატორი', 'სესხის განაცხადი'],
+    linksA: ['ავტო სესხი', 'ბიზნეს სესხი', 'სესხის კალკულატორი', 'სესხის განაცხადი'],
     colB: 'ორგანიზაცია',
     linksB: ['ჩვენს შესახებ', 'ფილიალები', 'რეპორტინგი', 'სიახლეები', 'კარიერა'],
     complaintsTitle: 'მომხმარებელთა პრეტენზიები',
@@ -71,12 +71,12 @@ const T = {
     licence: 'შპს „მისო ნოვა კრედიტს" მიკროსაფინანსო ორგანიზაციის სტატუსი მიენიჭა საქართველოს ეროვნული ბანკის მიერ 2010 წლის 29 დეკემბერს. საქმიანობას ახორციელებს საქართველოს ეროვნული ბანკის ზედამხედველობის ქვეშ.'
   },
   en: {
-    wordmark: 'Nova Credit',
+    wordmark: 'MFO Nova Credit',
     brand: 'MFO Nova Credit LLC',
     address: '8 Vazha-Pshavela ave., 0186, Tbilisi, Georgia',
     telLabel: 'Tel:',
     colA: 'Products',
-    linksA: ['Mortgage loan', 'Auto loan', 'Business loan', 'Loan calculator', 'Loan application'],
+    linksA: ['Auto loan', 'Business loan', 'Loan calculator', 'Loan application'],
     colB: 'Organisation',
     linksB: ['About us', 'Branches', 'Reporting', 'News', 'Careers'],
     complaintsTitle: 'Consumer complaints',
@@ -90,7 +90,7 @@ class Component extends DCLogic {
     const w = Number(this.props.w || 1280);
     const t = T[this.props.lang === 'en' ? 'en' : 'ka'];
     const nav = (k) => () => this.props.onNavigate && this.props.onNavigate(k);
-    const keysA = ['mortgage', 'auto', 'business', 'calculator', 'application'];
+    const keysA = ['auto', 'business', 'calculator', 'application'];
     const keysB = ['about', 'branches', 'reporting', 'news', 'careers'];
     return Object.assign({}, t, {
       linksA: t.linksA.map((label, i) => ({ label, go: nav(keysA[i]) })),
