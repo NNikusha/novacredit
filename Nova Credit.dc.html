@@ -753,11 +753,11 @@ const T = {
 
 const PRODUCTS = {
   ka: [
-    { key: 'auto', name: 'ავტო სესხი', amount: '3 500 – 50 000 ₾', term: '48 თვე', issue: '1 დღეში' },
+    { key: 'auto', name: 'ავტო სესხი', amount: '3 500 – 50 000 ₾', term: '3 – 48 თვე', issue: '1 დღეში' },
     { key: 'business', name: 'ბიზნეს სესხი', amount: '5 000 – 200 000 ₾', term: '6 – 48 თვე', issue: 'ერთ დღეში' }
   ],
   en: [
-    { key: 'auto', name: 'Auto loan', amount: 'GEL 3,500 – 50,000', term: '48 months', issue: 'Within 1 day' },
+    { key: 'auto', name: 'Auto loan', amount: 'GEL 3,500 – 50,000', term: '3 – 48 months', issue: 'Within 1 day' },
     { key: 'business', name: 'Business loan', amount: 'GEL 5,000 – 200,000', term: '6 – 48 months', issue: 'Within one day' }
   ]
 };
@@ -907,7 +907,7 @@ const FORMS = {
       { legend: 'საკონტაქტო ინფორმაცია', fields: [F('ph','მობილური ტელეფონი','tel',1),F('ph2','დამატებითი ტელეფონი','tel',0),F('em','ელ.ფოსტა','email',1),F('adr','ფაქტობრივი მისამართი','text',1,null,false),F('adl','იურიდიული მისამართი','text',0,null,false),F('rt','საცხოვრებელი ფართი','radio',0,['საკუთარი','ნაქირავები','ოჯახის წევრის'])] },
       { legend: 'ოჯახური მდგომარეობა', fields: [F('ms','ოჯახური მდგომარეობა','select',0,['დაუქორწინებელი','დაქორწინებული','განქორწინებული','ქვრივი']),F('dep','კმაყოფაზე მყოფ პირთა რაოდენობა','number',0),F('sp','მეუღლის სახელი და გვარი','text',0),F('spi','მეუღლის შემოსავალი','number',0)] },
       { legend: 'ინფორმაცია მსესხებლის შემოსავლის შესახებ', fields: [F('emp','დასაქმების სტატუსი','select',1,['დაქირავებული','თვითდასაქმებული','მეწარმე','პენსიონერი']),F('co','დამსაქმებელი / კომპანია','text',1),F('pos','თანამდებობა','text',0),F('exp','სამუშაო სტაჟი (თვე)','number',0),F('inc','ყოველთვიური წმინდა შემოსავალი','number',1),F('inc2','დამატებითი შემოსავალი','number',0),F('obl','არსებული სასესხო ვალდებულებები','number',0),F('src','შემოსავლის წყაროები','checkbox',0,['ხელფასი','ბიზნეს შემოსავალი','ქირა','პენსია','სხვა']),F('doc','შემოსავლის დამადასტურებელი დოკუმენტი','file',1,null,false)] },
-      { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას','ვეთანხმები საკრედიტო ისტორიის შემოწმებას ს/ბ-ში'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+      { legend: 'თანხმობა', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას','ვეთანხმები საკრედიტო ისტორიის შემოწმებას ს/ბ-ში'],false)] }
     ] },
     en: { title: 'Loan application', lede: 'Your application is reviewed by the credit committee. It takes 10–15 minutes to complete.', sections: [
       { legend: 'Loan details', fields: [F('p','Loan product','select',1,['Auto loan','Business loan']),F('a','Requested amount','number',1),F('cur','Currency','select',1,['GEL','USD']),F('tm','Term in months','number',1),F('rp','Repayment type','radio',1,['Annuity','Interest only, principal at term end']),F('pu','Purpose of the loan','textarea',1,null,false)] },
@@ -917,7 +917,7 @@ const FORMS = {
       { legend: 'Contact information', fields: [F('ph','Mobile phone','tel',1),F('ph2','Additional phone','tel',0),F('em','Email','email',1),F('adr','Actual address','text',1,null,false),F('adl','Legal address','text',0,null,false),F('rt','Housing','radio',0,['Owned','Rented','Family member\u2019s'])] },
       { legend: 'Family status', fields: [F('ms','Marital status','select',0,['Single','Married','Divorced','Widowed']),F('dep','Number of dependants','number',0),F('sp','Spouse name','text',0),F('spi','Spouse income','number',0)] },
       { legend: 'Borrower income', fields: [F('emp','Employment status','select',1,['Employed','Self-employed','Entrepreneur','Pensioner']),F('co','Employer / company','text',1),F('pos','Position','text',0),F('exp','Length of service (months)','number',0),F('inc','Monthly net income','number',1),F('inc2','Additional income','number',0),F('obl','Existing loan obligations','number',0),F('src','Sources of income','checkbox',0,['Salary','Business income','Rent','Pension','Other']),F('doc','Proof of income','file',1,null,false)] },
-      { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data','I consent to a credit bureau check'],false),F('cap','Security code','text',1)] }
+      { legend: 'Consent', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data','I consent to a credit bureau check'],false)] }
     ] }
   }
 };
@@ -931,7 +931,7 @@ const PT = {
 
 const PRODUCT_PAGES = {
   auto: { ka: { title: 'ავტო სესხი', sub: 'ავტომობილით უზრუნველყოფილი სესხი — გაცემა 1 დღეში.',
-      key: [['ვალუტა','ლარი'],['თანხა','3 500 – 50 000 ₾'],['ვადა','48 თვე'],['გაცემა','1 დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
+      key: [['ვალუტა','ლარი'],['თანხა','3 500 – 50 000 ₾'],['ვადა','3 – 48 თვე'],['გაცემა','1 დღეში'],['დაფარვა','ანუიტეტური / მხოლოდ პროცენტი']],
       blocks: [
         { h: 'პირადი მონაცემები', items: ['მსესხებელი უნდა იყოს საქართველოს რეზიდენტი ფიზიკური ან იურიდიული პირი','მსესხებლის ასაკი — 18-65 წელი (სესხის ვადის გათვალისწინებით)'] },
         { h: 'სესხის უზრუნველყოფა', items: ['ავტომობილი','საკრედიტო კომიტეტის გადაწყვეტილებით შესაძლებელია მოთხოვნილ იქნას დამატებითი უზრუნველყოფა ან პირობა'] },
@@ -941,7 +941,7 @@ const PRODUCT_PAGES = {
         { h: 'დამატებითი პირობა', items: ['თუ ავტომობილის გამოშვების თარიღი არის 2022 წლიდან და შეფასების თანხა აღემატება 20 000 აშშ დოლარს, კომიტეტი იმსჯელებს სესხის შეღავათიან პროცენტში გაცემაზე'] }
       ] },
     en: { title: 'Auto loan', sub: 'A loan secured by a vehicle — issued within one day.',
-      key: [['Currency','GEL'],['Amount','GEL 3,500 – 50,000'],['Term','48 months'],['Issued','Within 1 day'],['Repayment','Annuity / interest only']],
+      key: [['Currency','GEL'],['Amount','GEL 3,500 – 50,000'],['Term','3 – 48 months'],['Issued','Within 1 day'],['Repayment','Annuity / interest only']],
       blocks: [
         { h: 'Borrower requirements', items: ['The borrower must be a resident individual or legal entity of Georgia','Borrower age — 18-65 years (taking the loan term into account)'] },
         { h: 'Collateral', items: ['A vehicle','The credit committee may require additional collateral or conditions'] },
@@ -977,7 +977,7 @@ FORMS.vacancy = {
     { legend: 'სამუშაო გამოცდილება', fields: [F('co','ბოლო დამსაქმებელი','text',1),F('pos','თანამდებობა','text',1),F('per','მუშაობის პერიოდი','text',0),F('rsn','წასვლის მიზეზი','textarea',0,null,false),F('cv','რეზიუმე','file',1,null,false)] },
     { legend: 'ენების ცოდნა', fields: [F('lge','ინგლისური','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgr','რუსული','select',0,['დამწყები','საშუალო','კარგი','თავისუფლად']),F('lgo','სხვა ენა','text',0)] },
     { legend: 'კომპიუტერული პროგრამების ცოდნა', fields: [F('sw','პროგრამები','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','სხვა'],false)] },
-    { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
+    { legend: 'თანხმობა', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false)] }
   ] },
   en: { title: 'Application form', lede: 'Apply for an open vacancy. Some fields are required.', sections: [
     { legend: 'Vacancy', fields: [F('vac','Vacancy','select',1,['Problem loans manager','Credit manager, probation','Small loans expert, Tbilisi','Lawyer']),F('src','Where did you hear about the vacancy','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','Expected salary','number',0),F('start','Preferred start date','date',0)] },
@@ -989,7 +989,7 @@ FORMS.vacancy = {
     { legend: 'Work experience', fields: [F('co','Most recent employer','text',1),F('pos','Position','text',1),F('per','Period of employment','text',0),F('rsn','Reason for leaving','textarea',0,null,false),F('cv','CV','file',1,null,false)] },
     { legend: 'Languages', fields: [F('lge','English','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgr','Russian','select',0,['Beginner','Intermediate','Good','Fluent']),F('lgo','Other language','text',0)] },
     { legend: 'Computer skills', fields: [F('sw','Software','checkbox',0,['MS Word','MS Excel','MS Outlook','1C','Oris','Other'],false)] },
-    { legend: 'Security', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data'],false),F('cap','Security code','text',1)] }
+    { legend: 'Consent', fields: [F('cons','Consent','checkbox',1,['I consent to the processing of personal data'],false)] }
   ] }
 };
 
@@ -999,22 +999,22 @@ FORMS.complaints = {
     { legend: 'განმცხადებლის პირადი ინფორმაცია', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1)] },
     { legend: 'პირადი ინფორმაცია', fields: [F('bd','დაბადების თარიღი','date',0),F('cz','მოქალაქეობა','text',0)] },
     { legend: 'საკონტაქტო ინფორმაცია', fields: [F('adr','მისამართი','text',1,null,false),F('ph','ტელეფონი','tel',1),F('em','ელ.ფოსტა','email',1)] },
-    { legend: 'პროდუქტის დასახელება', fields: [F('pr','პროდუქტი','checkbox',1,['ავტოსესხი','იპოთეკური სესხი','სამომხმარებლო სესხი','სესხი ბინის რემონტისთვის','ოვერდრაფტი','მომენტალური განვადება','საკრედიტო ბარათი','მიმდინარე ანგარიშები','მოთხოვნამდე დეპოზიტები','ვადიანი დეპოზიტები','ინტერნეტ ფინანსური ორგანიზაცია','სხვა'],false)] },
+    { legend: 'პროდუქტის დასახელება', fields: [F('pr','პროდუქტი','checkbox',1,['ავტოსესხი','სამომხმარებლო სესხი','სესხი ბინის რემონტისთვის','ოვერდრაფტი','მომენტალური განვადება','საკრედიტო ბარათი','მიმდინარე ანგარიშები','მოთხოვნამდე დეპოზიტები','ვადიანი დეპოზიტები','ინტერნეტ ფინანსური ორგანიზაცია','სხვა'],false)] },
     { legend: 'პრეტენზიის ხასიათი', fields: [F('nt','ხასიათი','checkbox',1,['საპროცენტო შენატანები','მომსახურების საკომისიოები','ჯარიმები და ვადაგადაცილების საკომისიოები','კრედიტის წინსწრებით დაფარვის საკომისიო','სხვა გადასახდელები','ადმინისტრაცია / მომსახურების ხარისხი','არასწორად მიწოდებული ინფორმაცია','სავალდებულო ინფორმაციის მიუწოდებლობა','კონფიდენციალური ინფორმაციის გაცემა','ხელშეკრულების პირობები','რეკლამა, გაყიდვები, რჩევები','ტრანზაქციები','დაკავშირებული საკრედიტო ხელშეკრულება','სხვა'],false)] },
     { legend: 'პრეტენზიის შინაარსი', fields: [F('txt','აღწერეთ პრეტენზია','textarea',1,null,false),F('att','დანართი','file',0,null,false)] },
     { legend: 'რა ფორმით გსურთ პრეტენზიაზე პასუხის მიღება?', fields: [F('ch','პასუხის ფორმა','radio',1,['წერილობით','ტელეფონით','ელექტრონული ფოსტით'],false)] },
-    { legend: 'უსაფრთხოება', fields: [F('sig','ხელმოწერა','text',1),F('dt','თარიღი','date',1),F('cap','უსაფრთხოების კოდი','text',1)] }
+    { legend: 'დადასტურება', fields: [F('sig','დადასტურება','checkbox',1,['ვადასტურებ, რომ ჩემ მიერ მოწოდებული ინფორმაცია სწორია'],false),F('dt','თარიღი','date',1)] }
   ] },
   en: { title: 'Complaint form', lede: 'Complaints are reviewed by the general director. You will receive a reply within one month at the latest.', sections: [
     { legend: 'Complaint registration', fields: [F('rd','Date received','date',0),F('rn','Registration no.','text',0)] },
     { legend: 'Applicant details', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1)] },
     { legend: 'Personal information', fields: [F('bd','Date of birth','date',0),F('cz','Citizenship','text',0)] },
     { legend: 'Contact information', fields: [F('adr','Address','text',1,null,false),F('ph','Phone','tel',1),F('em','Email','email',1)] },
-    { legend: 'Product', fields: [F('pr','Product','checkbox',1,['Auto loan','Mortgage loan','Consumer loan','Home improvement loan','Overdraft','Instalment','Credit card','Current accounts','Demand deposits','Term deposits','Internet financial organisation','Other'],false)] },
+    { legend: 'Product', fields: [F('pr','Product','checkbox',1,['Auto loan','Consumer loan','Home improvement loan','Overdraft','Instalment','Credit card','Current accounts','Demand deposits','Term deposits','Internet financial organisation','Other'],false)] },
     { legend: 'Nature of the complaint', fields: [F('nt','Nature','checkbox',1,['Interest charges','Service fees','Penalties and late fees','Early repayment fee','Other charges','Administration / service quality','Incorrect information provided','Mandatory information not provided','Disclosure of confidential information','Contract terms','Advertising, sales, advice','Transactions','Linked credit agreement','Other'],false)] },
     { legend: 'Content of the complaint', fields: [F('txt','Describe the complaint','textarea',1,null,false),F('att','Attachment','file',0,null,false)] },
     { legend: 'How would you like to receive a reply?', fields: [F('ch','Reply channel','radio',1,['In writing','By telephone','By email'],false)] },
-    { legend: 'Security', fields: [F('sig','Signature','text',1),F('dt','Date','date',1),F('cap','Security code','text',1)] }
+    { legend: 'Confirmation', fields: [F('sig','Confirmation','checkbox',1,['I confirm that the information I have provided is correct'],false),F('dt','Date','date',1)] }
   ] }
 };
 
@@ -1023,14 +1023,14 @@ const PAGE_CONTENT = {
     ka: { title: 'ჩვენს შესახებ', paras: [
       '„მისო ნოვა კრედიტი" საფინანსო ორგანიზაციაა, რომელიც ჩამოყალიბდა თბილისში 2010 წელს. 2010 წლის 29 დეკემბერს საქართველოს ეროვნულმა ბანკმა კომპანიას მიანიჭა მიკროსაფინანსო ორგანიზაციის სტატუსი.',
       'ჩვენი საქმიანობის ძირითადი მიმართულებაა მცირე და საშუალო შემოსავლიანი ფიზიკური პირებისა და ბიზნესის დაკრედიტება.',
-      '„მისო ნოვა კრედიტი" მომხმარებელს სთავაზობს იპოთეკურ და ავტოსესხებს უძრავი ქონების ან ავტომობილის უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
+      '„მისო ნოვა კრედიტი" მომხმარებელს სთავაზობს ავტოსესხებს ავტომობილის უზრუნველყოფით და ბიზნეს სესხებს უძრავი ქონების უზრუნველყოფით. ფიზიკურ პირებზე სესხები გაიცემა მხოლოდ ლარში სამომხმარებლო მიზნებისთვის. იურიდიულ პირებზე სესხები გაიცემა როგორც ლარში, ასევე დოლარში — არსებული ბიზნესის გაფართოებისთვის ან ახალი საქმიანობის დასაწყებად.',
       'სესხის დაფარვა ხორციელდება როგორც მხოლოდ საპროცენტო სარგებლის და ვადის ბოლოს ძირის დაფარვით, ასევე ყოველთვიური თანაბარი გადახდებით, კლებადი საპროცენტო სარგებლის პრინციპის საფუძველზე. გამონაკლის შემთხვევებში შესაძლებელია დაფარვის გრაფიკის შედგენა კლიენტის მიერ მოთხოვნილი საშეღავათო პერიოდის გათვალისწინებით.',
       'სესხი გაიცემა არაუმეტეს ერთ დღეში.'
     ] },
     en: { title: 'About us', paras: [
       '“MFO Nova Credit” is a financial organisation founded in Tbilisi in 2010. On 29 December 2010 the National Bank of Georgia granted the company the status of a microfinance organisation.',
       'The main focus of our activity is lending to small and medium income individuals and to businesses.',
-      '“MFO Nova Credit” offers mortgage and auto loans secured by real estate or a vehicle. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
+      '“MFO Nova Credit” offers auto loans secured by a vehicle and business loans secured by real estate. Loans to individuals are issued in GEL only, for consumer purposes. Loans to legal entities are issued in both GEL and USD, to expand an existing business or to start a new activity.',
       'A loan may be repaid either by paying interest only with the principal at the end of the term, or in equal monthly instalments on a declining interest basis. In exceptional cases a repayment schedule can be agreed that includes a grace period requested by the client.',
       'Loans are issued within one day.'
     ] }
