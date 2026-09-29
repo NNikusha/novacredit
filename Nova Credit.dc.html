@@ -51,22 +51,24 @@ table{border-collapse:collapse}
 </div>
 </div>
 </sc-if>
-<section style="background:var(--raised)">
-<div style="max-width:1216px;margin:0 auto;padding:0 24px">
+<section style="position:relative;overflow:hidden;background:var(--accent-800)">
+<img src="assets/photos/hero-agreement.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:saturate(.7)">
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,72,104,.94) 0%,rgba(11,72,104,.82) 45%,rgba(15,92,138,.55) 100%)"></div>
+<div style="position:relative;max-width:1216px;margin:0 auto;padding:0 24px">
 <div style="display:grid;gap:{{ heroGap }};grid-template-columns:{{ heroCols }};align-items:center;padding:{{ heroPad }}">
 <div style="min-width:0">
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
 <span style="width:28px;height:2px;background:var(--brand-red);display:block"></span>
-<span style="font-size:15px;color:var(--accent-700)">{{ t.eyebrow }}</span>
+<span style="font-size:15px;color:#D2E8F5">{{ t.eyebrow }}</span>
 </div>
-<h1 style="font-size:{{ heroSize }};line-height:1.2;margin:0 0 20px;max-width:19ch;text-wrap:pretty">{{ t.homeH1 }}</h1>
-<p style="font-size:19px;line-height:1.7;color:var(--muted);margin:0 0 28px;max-width:48ch;text-wrap:pretty">{{ t.homeLede }}</p>
+<h1 style="font-size:{{ heroSize }};line-height:1.2;margin:0 0 20px;max-width:19ch;text-wrap:pretty;color:#fff">{{ t.homeH1 }}</h1>
+<p style="font-size:19px;line-height:1.7;color:rgba(255,255,255,.88);margin:0 0 28px;max-width:48ch;text-wrap:pretty">{{ t.homeLede }}</p>
 <div style="display:flex;flex-wrap:wrap;gap:12px">
 <button onClick="{{ goApplication }}" style="min-height:52px;padding:0 24px;border:1px solid var(--red);border-radius:3px;background:var(--red);color:#fff;font-size:17px;font-weight:500;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s" style-hover="background:var(--red-700);border-color:var(--red-700)">{{ t.ctaApply }}</button>
-<button onClick="{{ goBranches }}" style="min-height:52px;padding:0 24px;border:1px solid var(--border-strong);border-radius:3px;background:var(--raised);color:var(--ink);font-size:17px;font-weight:500;cursor:pointer;transition:border-color .15s,color .15s" style-hover="border-color:var(--accent);color:var(--accent-700)">{{ t.branchesCta }}</button>
+<button onClick="{{ goBranches }}" style="min-height:52px;padding:0 24px;border:1px solid rgba(255,255,255,.75);border-radius:3px;background:transparent;color:#fff;font-size:17px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:rgba(255,255,255,.12)">{{ t.branchesCta }}</button>
 </div>
 </div>
-<div style="min-width:0;background:var(--accent);color:#fff;padding:28px;border-radius:3px;box-shadow:var(--shadow-lg);border-top:5px solid var(--brand-red)">
+<div style="min-width:0;background:var(--accent);color:#fff;padding:28px;border-radius:3px;box-shadow:0 10px 36px rgba(0,0,0,.28);border-top:5px solid var(--brand-red)">
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:20px">
 <h2 style="margin:0;font-size:21px;color:#fff">{{ hc.title }}</h2>
 <span style="font-size:14px;color:rgba(255,255,255,.72)">{{ hc.tag }}</span>
@@ -97,14 +99,6 @@ table{border-collapse:collapse}
 <button onClick="{{ goCalculator }}" style="min-height:44px;padding:0 15px;border:1px solid rgba(255,255,255,.55);background:transparent;color:#fff;border-radius:3px;font-size:15.5px;font-weight:500;cursor:pointer;transition:background .15s" style-hover="background:rgba(255,255,255,.14)">{{ hc.full }}</button>
 </div>
 <div style="margin-top:12px;font-size:13.5px;color:rgba(255,255,255,.66);line-height:1.5">{{ hc.note }}</div>
-</div>
-</div>
-</div>
-<div style="max-width:1216px;margin:0 auto;padding:0 24px 0">
-<div style="position:relative;width:100%;height:{{ heroImgH }};border-top:1px solid var(--border)">
-<div style="position:absolute;inset:0;overflow:hidden;background:var(--accent-800)">
-<img src="assets/photos/hero-agreement.jpg" alt="{{ t.heroImgAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block;filter:saturate(.8)">
-<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,119,176,.18),rgba(11,72,104,.5));mix-blend-mode:multiply;pointer-events:none"></div>
 </div>
 </div>
 </div>
@@ -702,8 +696,7 @@ const T = {
     cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
     noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
     eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
-    heroImgAlt: 'სესხის ხელშეკრულების გაფორმება ოფისში',
-    homeH1: 'სესხი უძრავი ქონებით ან ავტომობილით უზრუნველყოფილი',
+    homeH1: 'ბიზნეს და ავტო სესხები',
     homeLede: 'მისო ნოვა კრედიტი 2010 წლიდან აკრედიტებს მცირე და საშუალო შემოსავლიან ფიზიკურ პირებსა და ბიზნესს. სესხი გაიცემა არაუმეტეს ერთ დღეში.',
     ctaApply: 'სესხის განაცხადი',
     ctaCalc: 'კალკულატორი',
@@ -732,8 +725,7 @@ const T = {
     cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
     noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
     eyebrow: 'Microfinance organisation · since 2010',
-    heroImgAlt: 'Signing a loan agreement at the office',
-    homeH1: 'Loans secured by real estate or a vehicle',
+    homeH1: 'Business and auto loans',
     homeLede: 'Since 2010 MFO Nova Credit has lent to small and medium income individuals and businesses. Loans are issued within one day.',
     ctaApply: 'Loan application',
     ctaCalc: 'Calculator',
@@ -1465,7 +1457,6 @@ class Component extends DCLogic {
       heroCols: this.state.vw >= 980 ? '1.25fr 420px' : '1fr',
       heroGap: this.state.vw >= 980 ? '64px' : '36px',
       heroPad: this.state.vw >= 980 ? '72px 0 72px' : '44px 0 48px',
-      heroImgH: this.state.vw >= 980 ? '340px' : '220px',
       hc: HC[lang],
       notice: (() => {
         const v = this.props.noticeVariant || 'none';
