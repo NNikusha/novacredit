@@ -187,7 +187,9 @@ table{border-collapse:collapse}
 </div>
 </sc-for>
 </div>
-<div style="margin-top:24px;border:1px solid var(--border);border-radius:6px;background:var(--raised);height:360px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:16px;background-image:repeating-linear-gradient(45deg,#FAFAF8,#FAFAF8 12px,#F4F4F1 12px,#F4F4F1 24px)">{{ t.mapPlaceholder }}</div>
+<div style="margin-top:24px;border:1px solid var(--border);border-radius:6px;background:var(--raised);height:360px;overflow:hidden">
+<iframe src="{{ mapSrc }}" title="{{ t.mapTitle }}" loading="lazy" style="display:block;width:100%;height:100%;border:0"></iframe>
+</div>
 </div>
 </sc-if>
 
@@ -689,7 +691,7 @@ const T = {
   ka: {
     homeCrumb: 'მთავარი',
     addrLabel: 'მისამართი', phoneLabel: 'ტელეფონი', hoursLabel: 'სამუშაო საათები',
-    mapPlaceholder: 'რუკა — ჩასასმელი რუკის ჩანართი',
+    mapTitle: 'ნოვა კრედიტის სათაო ოფისი რუკაზე',
     cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
     noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
     eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
@@ -719,7 +721,7 @@ const T = {
   en: {
     homeCrumb: 'Home',
     addrLabel: 'Address', phoneLabel: 'Phone', hoursLabel: 'Opening hours',
-    mapPlaceholder: 'Map — embed placeholder',
+    mapTitle: 'Nova Credit head office on the map',
     cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
     noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
     eyebrow: 'Microfinance organisation · since 2010',
@@ -1071,6 +1073,10 @@ const PAGE_CONTENT = {
   }
 };
 
+// Head office, 8 Vazha-Pshavela ave. — coordinates from OpenStreetMap; a street-address search
+// lands Google's pin at the wrong end of the avenue. Used by the map on the branches page.
+const OFFICE_MAP_QUERY = '41.7270407,44.7644632';
+
 const BRANCHES = {
   ka: [
     { n: 'თბილისი — სათაო ოფისი', a: 'ვაჟა-ფშაველას გამზირი 8, 0186', p: '(+995 32) 2 15 15 15', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' }
@@ -1393,6 +1399,7 @@ class Component extends DCLogic {
       goCalculator: () => this.nav('calculator'),
       goReporting: () => this.nav('reporting'),
       goBranches: () => this.nav('branches'),
+      mapSrc: 'https://maps.google.com/maps?q=' + OFFICE_MAP_QUERY + '&z=16&hl=' + lang + '&output=embed',
       productCards: PRODUCTS[lang].map((p, i) => Object.assign({}, p, {
         idx: '0' + (i + 1),
         amountLabel: L.amount, termLabel: L.term, issueLabel: L.issue,
