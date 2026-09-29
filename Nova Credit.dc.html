@@ -155,8 +155,6 @@ table{border-collapse:collapse}
 <h2 style="font-size:17px;font-weight:600;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)">{{ t.branchesTitle }}</h2>
 <div style="font-size:16.5px;color:var(--muted);line-height:1.8;margin-bottom:18px">
 <div>{{ t.branchLine1 }}</div>
-<div>{{ t.branchLine2 }}</div>
-<div>{{ t.branchLine3 }}</div>
 </div>
 <button onClick="{{ goBranches }}" style="min-height:44px;padding:0;border:0;background:transparent;color:var(--accent-700);font-size:16.5px;font-weight:500;cursor:pointer;border-bottom:1px solid var(--accent);transition:color .15s" style-hover="color:var(--accent-800)">{{ t.branchesCta }}</button>
 </div>
@@ -189,7 +187,9 @@ table{border-collapse:collapse}
 </div>
 </sc-for>
 </div>
-<div style="margin-top:24px;border:1px solid var(--border);border-radius:6px;background:var(--raised);height:360px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:16px;background-image:repeating-linear-gradient(45deg,#FAFAF8,#FAFAF8 12px,#F4F4F1 12px,#F4F4F1 24px)">{{ t.mapPlaceholder }}</div>
+<div style="margin-top:24px;border:1px solid var(--border);border-radius:6px;background:var(--raised);height:360px;overflow:hidden">
+<iframe src="{{ mapSrc }}" title="{{ t.mapTitle }}" loading="lazy" style="display:block;width:100%;height:100%;border:0"></iframe>
+</div>
 </div>
 </sc-if>
 
@@ -703,7 +703,7 @@ const T = {
   ka: {
     homeCrumb: 'მთავარი',
     addrLabel: 'მისამართი', phoneLabel: 'ტელეფონი', hoursLabel: 'სამუშაო საათები',
-    mapPlaceholder: 'რუკა — ჩასასმელი რუკის ჩანართი',
+    mapTitle: 'ნოვა კრედიტის სათაო ოფისი რუკაზე',
     cName: 'სახელი', cEmail: 'ელ.ფოსტა', cSubject: 'თემა', cMessage: 'შეტყობინება', cSend: 'გაგზავნა',
     noticeBand: 'სესხის პროცენტის გადახდა შესაძლებელია „თიბისი ბანკის" ნებისმიერი ფილიალიდან.',
     eyebrow: 'მიკროსაფინანსო ორგანიზაცია · 2010 წლიდან',
@@ -717,7 +717,7 @@ const T = {
     facts: [
       { k: 'დაფუძნდა', v: '2010' },
       { k: 'ეროვნული ბანკის სტატუსი', v: '29.12.2010' },
-      { k: 'ფილიალი', v: '3' },
+      { k: 'ფილიალი', v: '1' },
       { k: 'ზედამხედველი', v: 'სებ' }
     ],
     productsTitle: 'პროდუქტები',
@@ -728,14 +728,12 @@ const T = {
     reportingCta: 'ანგარიშგებების არქივი',
     branchesTitle: 'ფილიალები',
     branchLine1: 'თბილისი — ვაჟა-ფშაველას გამზირი 8',
-    branchLine2: 'თბილისი — ჭირნახულის 2 (ლილო)',
-    branchLine3: 'რუსთავი — ლეონიძის და მესხიშვილის მიმდებარედ',
     branchesCta: 'მისამართები და სამუშაო საათები'
   },
   en: {
     homeCrumb: 'Home',
     addrLabel: 'Address', phoneLabel: 'Phone', hoursLabel: 'Opening hours',
-    mapPlaceholder: 'Map — embed placeholder',
+    mapTitle: 'Nova Credit head office on the map',
     cName: 'Name', cEmail: 'Email', cSubject: 'Subject', cMessage: 'Message', cSend: 'Send',
     noticeBand: 'Loan interest may be paid at any branch of TBC Bank.',
     eyebrow: 'Microfinance organisation · since 2010',
@@ -749,7 +747,7 @@ const T = {
     facts: [
       { k: 'Founded', v: '2010' },
       { k: 'NBG status granted', v: '29.12.2010' },
-      { k: 'Branches', v: '3' },
+      { k: 'Branches', v: '1' },
       { k: 'Supervisor', v: 'NBG' }
     ],
     productsTitle: 'Products',
@@ -760,8 +758,6 @@ const T = {
     reportingCta: 'Report archive',
     branchesTitle: 'Branches',
     branchLine1: 'Tbilisi — 8 Vazha-Pshavela ave.',
-    branchLine2: 'Tbilisi — Chirnakhuli 2 (Lilo)',
-    branchLine3: 'Rustavi — near Leonidze & Meskhishvili st.',
     branchesCta: 'Addresses and opening hours'
   }
 };
@@ -1018,7 +1014,7 @@ const PRODUCT_PAGES = {
 
 FORMS.vacancy = {
   ka: { title: 'სააპლიკაციო ფორმა', lede: 'ვაკანსიაზე განაცხადის შევსება. ველების ნაწილი სავალდებულოა.', sections: [
-    { legend: 'ინფორმაცია ვაკანსიის შესახებ', fields: [F('vac','ვაკანსია','select',1,['პრობლემური სესხების მენეჯერი','საკრედიტო მენეჯერი, გამოსაცდელი ვადით','მცირე სესხების ექსპერტი, თბილისი','იურისტი','მცირე სესხების ექსპერტი, რუსთავი','მოლარე, რუსთავი']),F('src','სად გაიგეთ ვაკანსიის შესახებ','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','სასურველი ანაზღაურება','number',0),F('start','დაწყების სასურველი თარიღი','date',0)] },
+    { legend: 'ინფორმაცია ვაკანსიის შესახებ', fields: [F('vac','ვაკანსია','select',1,['პრობლემური სესხების მენეჯერი','საკრედიტო მენეჯერი, გამოსაცდელი ვადით','მცირე სესხების ექსპერტი, თბილისი','იურისტი']),F('src','სად გაიგეთ ვაკანსიის შესახებ','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','სასურველი ანაზღაურება','number',0),F('start','დაწყების სასურველი თარიღი','date',0)] },
     { legend: 'პერსონალური მონაცემები', fields: [F('fn','სახელი','text',1),F('ln','გვარი','text',1),F('pid','პირადი ნომერი','id',1),F('bd','დაბადების თარიღი','date',1)] },
     { legend: 'პირადი ინფორმაცია', fields: [F('gn','სქესი','radio',0,['მდედრობითი','მამრობითი']),F('cz','მოქალაქეობა','text',0),F('mil','სამხედრო აღრიცხვა','radio',0,['კი','არა'])] },
     { legend: 'საკონტაქტო ინფორმაცია', fields: [F('ph','მობილური','tel',1),F('em','ელ.ფოსტა','email',1),F('adr','მისამართი','text',1,null,false)] },
@@ -1030,7 +1026,7 @@ FORMS.vacancy = {
     { legend: 'უსაფრთხოება', fields: [F('cons','თანხმობა','checkbox',1,['ვეთანხმები პერსონალურ მონაცემთა დამუშავებას'],false),F('cap','უსაფრთხოების კოდი','text',1)] }
   ] },
   en: { title: 'Application form', lede: 'Apply for an open vacancy. Some fields are required.', sections: [
-    { legend: 'Vacancy', fields: [F('vac','Vacancy','select',1,['Problem loans manager','Credit manager, probation','Small loans expert, Tbilisi','Lawyer','Small loans expert, Rustavi','Cashier, Rustavi']),F('src','Where did you hear about the vacancy','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','Expected salary','number',0),F('start','Preferred start date','date',0)] },
+    { legend: 'Vacancy', fields: [F('vac','Vacancy','select',1,['Problem loans manager','Credit manager, probation','Small loans expert, Tbilisi','Lawyer']),F('src','Where did you hear about the vacancy','select',1,['hr.ge','jobs.ge','novacredit.ge']),F('sal','Expected salary','number',0),F('start','Preferred start date','date',0)] },
     { legend: 'Personal data', fields: [F('fn','First name','text',1),F('ln','Surname','text',1),F('pid','Personal ID number','id',1),F('bd','Date of birth','date',1)] },
     { legend: 'Personal information', fields: [F('gn','Gender','radio',0,['Female','Male']),F('cz','Citizenship','text',0),F('mil','Military registration','radio',0,['Yes','No'])] },
     { legend: 'Contact information', fields: [F('ph','Mobile','tel',1),F('em','Email','email',1),F('adr','Address','text',1,null,false)] },
@@ -1095,16 +1091,16 @@ const PAGE_CONTENT = {
   }
 };
 
+// Head office, 8 Vazha-Pshavela ave. — coordinates from OpenStreetMap; a street-address search
+// lands Google's pin at the wrong end of the avenue. Used by the map on the branches page.
+const OFFICE_MAP_QUERY = '41.7270407,44.7644632';
+
 const BRANCHES = {
   ka: [
-    { n: 'თბილისი — სათაო ოფისი', a: 'ვაჟა-ფშაველას გამზირი 8, 0186', p: '(+995 32) 2 15 15 15', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' },
-    { n: 'თბილისი — ლილო', a: 'ჭირნახულის 2 (ლილოს მიმდებარე ტერიტორია)', p: '', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' },
-    { n: 'რუსთავი', a: 'ლეონიძის და მესხიშვილის ქუჩების მიმდებარედ', p: '(+995 32) 2 18 18 48', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' }
+    { n: 'თბილისი — სათაო ოფისი', a: 'ვაჟა-ფშაველას გამზირი 8, 0186', p: '(+995 32) 2 15 15 15', h: 'ორშ – პარ 10:00–18:00 · შაბ 10:00–14:00' }
   ],
   en: [
-    { n: 'Tbilisi — head office', a: '8 Vazha-Pshavela ave., 0186', p: '(+995 32) 2 15 15 15', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' },
-    { n: 'Tbilisi — Lilo', a: 'Chirnakhuli 2 (nearby territory of Lilo)', p: '', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' },
-    { n: 'Rustavi', a: 'Near Leonidze and Meskhishvili streets', p: '(+995 32) 2 18 18 48', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' }
+    { n: 'Tbilisi — head office', a: '8 Vazha-Pshavela ave., 0186', p: '(+995 32) 2 15 15 15', h: 'Mon – Fri 10:00–18:00 · Sat 10:00–14:00' }
   ]
 };
 
@@ -1147,12 +1143,12 @@ const NOTICES = {
   ka: {
     information: { label: 'ინფორმაცია:', text: 'სამუშაო საათები 31 დეკემბერს შემოკლებულია — 10:00–14:00.' },
     service: { label: 'სერვისის შეტყობინება:', text: 'ონლაინ განაცხადი დროებით მიუწვდომელია ტექნიკური სამუშაოების გამო.' },
-    urgent: { label: 'გადაუდებელი:', text: 'ლილოს ფილიალი დღეს დაკეტილია. მომსახურება ხორციელდება სათაო ოფისში.' }
+    urgent: { label: 'გადაუდებელი:', text: 'ოფისი დღეს დაკეტილია. დაგვიკავშირდით ცხელ ხაზზე: (+995 32) 2 15 15 15.' }
   },
   en: {
     information: { label: 'Information:', text: 'Opening hours on 31 December are shortened — 10:00–14:00.' },
     service: { label: 'Service notice:', text: 'The online application is temporarily unavailable due to maintenance.' },
-    urgent: { label: 'Urgent:', text: 'The Lilo branch is closed today. Customers are served at the head office.' }
+    urgent: { label: 'Urgent:', text: 'The office is closed today. Please call our hotline: (+995 32) 2 15 15 15.' }
   }
 };
 
@@ -1511,6 +1507,7 @@ class Component extends DCLogic {
       goCalculator: () => this.nav('calculator'),
       goReporting: () => this.nav('reporting'),
       goBranches: () => this.nav('branches'),
+      mapSrc: 'https://maps.google.com/maps?q=' + OFFICE_MAP_QUERY + '&z=16&hl=' + lang + '&output=embed',
       productCards: PRODUCTS[lang].map((p, i) => Object.assign({}, p, {
         idx: '0' + (i + 1),
         amountLabel: L.amount, termLabel: L.term, issueLabel: L.issue,
