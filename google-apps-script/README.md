@@ -1,15 +1,15 @@
 # Form mailer — Google Apps Script
 
-The website has four forms: loan application, job application, complaint, and contact. Each one POSTs to this script. The script emails the submission to a Gmail inbox and sends a reference number back to the page. Nothing is stored anywhere: there's no spreadsheet, no Drive file, and no field values in the logs.
+The website has four forms: loan application, job application, complaint, and contact. Each one POSTs to this script. The script emails the submission to **info@novacredit.ge** and sends a reference number back to the page. Nothing is stored anywhere: there's no spreadsheet, no Drive file, and no field values in the logs.
 
-The data travels from the visitor's browser to Google and then into the Gmail inbox. No third-party form service is involved.
+The data travels from the visitor's browser to Google, then to info@novacredit.ge. No third-party form service is involved.
 
 ## One-time setup (about 10 minutes)
 
-1. **Sign in to the Gmail account that should receive the forms.** Turn on 2-step verification for it. These emails contain national ID numbers, dates of birth and income details.
+1. **Sign in to a Google account that belongs to the company, not to a person.** For example, create `novacredit.forms@gmail.com`. Turn on 2-step verification for it. The script sends the emails from this account, and Gmail keeps a copy of each one in its **Sent** folder. These emails contain national ID numbers, dates of birth and income details, so they must not end up in someone's personal account.
 2. Go to <https://script.new>. Name the project `Nova Credit form mailer`.
 3. Delete the sample code, paste in the whole of [`Code.gs`](Code.gs), and save.
-4. Select **`testSend`** in the function dropdown, then click **Run**. Google asks for permission to send email as you: click **Review permissions**, choose the account, then **Advanced → Go to project → Allow**. A test email should arrive in the inbox.
+4. Select **`testSend`** in the function dropdown, then click **Run**. Google asks for permission to send email as you: click **Review permissions**, choose the account, then **Advanced → Go to project → Allow**. A test email should arrive at info@novacredit.ge.
 5. **Deploy → New deployment → Select type: Web app**
    - Execute as: **Me**
    - Who has access: **Anyone**
@@ -25,7 +25,7 @@ Until step 6 is done, submitting a form shows "Sending failed". Nothing is lost 
 
 ## Sending forms to different inboxes (optional)
 
-By default every form goes to the Gmail account that owns the script. To route them separately, go to **Project Settings → Script properties** and add any of these:
+By default every form goes to info@novacredit.ge, which is set as `DEFAULT_TO` in `Code.gs`. To route them separately, go to **Project Settings → Script properties** and add any of these:
 
 | Property | Form |
 |---|---|
@@ -47,6 +47,6 @@ After editing `Code.gs` in the Apps Script editor, go to **Deploy → Manage dep
 - **Checks on every submission:** only known fields are accepted, required fields must be present, and the email address must be valid. Submissions completed in under 3 seconds are rejected as bots.
 - **Attachments:** pdf, jpg or png only, up to 10 MB. The file type is checked from the file's actual bytes, not the name the browser reports.
 - **Subject lines** contain the surname, first name and reference only. The personal ID number appears only in the email body.
-- **The URL is public.** Anyone can post to it, but the only thing it does is email your own inbox, with the limits above.
+- **The URL is public.** Anyone can post to it, but the only thing it does is email info@novacredit.ge, with the limits above.
 
 For a lender, a Google Workspace mailbox is the better home for this data than a personal @gmail.com account: Workspace comes with a data-processing agreement and admin controls.

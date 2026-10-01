@@ -8,7 +8,7 @@
  * Recipients (optional) — Project Settings → Script properties:
  *   TO_LOAN, TO_HR, TO_COMPLAINTS, TO_CONTACT   per-form addresses
  *   TO                                          fallback for all forms
- * With none set, everything goes to the script owner's Gmail.
+ * With none set, everything goes to DEFAULT_TO.
  *
  * Setup and deployment: see README.md in this folder.
  */
@@ -18,18 +18,18 @@ var FORMS = {
     title: 'Loan application', to: 'TO_LOAN', nameKeys: ['ln', 'fn'], emailKey: 'em',
     required: ['fn', 'ln', 'pid', 'ph', 'em'], files: ['doc'],
     keys: ['p','a','cur','tm','rp','pu','vm','vmd','vy','vn','vv','vs','fn','ln','pid','bd','cz','idn','gn','ed','mil','res',
-           'ph','ph2','em','adr','adl','rt','ms','dep','sp','spi','emp','co','pos','exp','inc','inc2','obl','src','doc','cons','cap']
+           'ph','ph2','em','adr','adl','rt','ms','dep','sp','spi','emp','co','pos','exp','inc','inc2','obl','src','doc','cons']
   },
   vacancy: {
     title: 'Job application', to: 'TO_HR', nameKeys: ['ln', 'fn'], emailKey: 'em',
     required: ['vac', 'fn', 'ln', 'ph', 'em'], files: ['cv'],
     keys: ['vac','src','sal','start','fn','ln','pid','bd','gn','cz','mil','ph','em','adr','ms','dep','un','fac','deg','yr',
-           'co','pos','per','rsn','cv','lge','lgr','lgo','sw','cons','cap']
+           'co','pos','per','rsn','cv','lge','lgr','lgo','sw','cons']
   },
   complaints: {
     title: 'Complaint', to: 'TO_COMPLAINTS', nameKeys: ['ln', 'fn'], emailKey: 'em',
     required: ['fn', 'ln', 'ph', 'em', 'txt'], files: ['att'],
-    keys: ['rd','rn','fn','ln','pid','bd','cz','adr','ph','em','pr','nt','txt','att','ch','sig','dt','cap']
+    keys: ['rd','rn','fn','ln','pid','bd','cz','adr','ph','em','pr','nt','txt','att','ch','sig','dt']
   },
   contact: {
     title: 'Contact message', to: 'TO_CONTACT', nameKeys: ['n'], emailKey: 'e',
@@ -43,6 +43,7 @@ var MAX_LABEL = 200;
 var MAX_FILE_BYTES = 10 * 1024 * 1024;    // matches the "max 10 MB" hint on the site
 var MAX_PER_HOUR = 30;                    // consumer Gmail allows ~100 emails/day
 var MIN_FILL_MS = 3000;                   // faster than this is a bot
+var DEFAULT_TO = 'info@novacredit.ge';       // the client's chosen inbox for all forms
 var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 function doPost(e) {
@@ -169,7 +170,7 @@ function renderBody_(form, fields, ref, lang) {
 
 function recipient_(key) {
   var props = PropertiesService.getScriptProperties();
-  return props.getProperty(key) || props.getProperty('TO') || Session.getEffectiveUser().getEmail();
+  return props.getProperty(key) || props.getProperty('TO') || DEFAULT_TO;
 }
 
 function underHourlyCap_() {
