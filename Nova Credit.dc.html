@@ -642,7 +642,7 @@ table{border-collapse:collapse}
 <td style="padding:13px 14px;color:{{ r.typeColor }}">{{ r.type }}</td>
 <td style="padding:13px 14px;color:var(--muted)">{{ r.entity }}</td>
 <td style="padding:13px 18px;text-align:right;white-space:nowrap">
-<a href="#" style="display:inline-flex;align-items:center;gap:7px;color:var(--accent-700);font-weight:500">
+<a href="{{ r.href }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;color:var(--accent-700);font-weight:500">
 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"></path></svg>
 pdf <span style="color:var(--muted);font-weight:400;font-variant-numeric:tabular-nums lining-nums">{{ r.size }}</span>
 </a>
@@ -664,7 +664,7 @@ pdf <span style="color:var(--muted);font-weight:400;font-variant-numeric:tabular
 <span style="border:1px solid var(--border);border-radius:3px;padding:1px 7px">{{ r.type }}</span>
 <span style="border:1px solid var(--border);border-radius:3px;padding:1px 7px">{{ r.entity }}</span>
 </div>
-<a href="#" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--accent);border-radius:4px;color:var(--accent-700);font-weight:500;text-decoration:none">
+<a href="{{ r.href }}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--accent);border-radius:4px;color:var(--accent-700);font-weight:500;text-decoration:none">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"></path></svg>
 {{ rt.download }} · pdf {{ r.size }}
 </a>
@@ -803,6 +803,7 @@ function buildReports() {
   [2, 3, 4].forEach(q => raw.push({ y: 2025, q, type: 'quarterly' }));
   raw.push({ y: 2026, q: 1, type: 'quarterly' }, { y: 2025, type: 'combined' });
   raw.push({ y: 2026, q: 2, type: 'quarterly' });
+  raw.push({ y: 2026, q: 3, type: 'quarterly', file: 'reports/2026-q3-financial-statements.pdf', size: '2.0 MB' });
 
   return raw.map((r, i) => {
     const entity = r.y <= 2017 ? 'nova' : 'miso';
@@ -832,7 +833,8 @@ function buildReports() {
     return {
       id: 'r' + i, y: r.y, q: r.q || 0, type: r.type, entity, sortKey,
       ka, en, periodKa, periodEn,
-      size: (0.6 + ((i * 37) % 44) / 10).toFixed(1) + ' MB'
+      href: r.file || '#',
+      size: r.size || (0.6 + ((i * 37) % 44) / 10).toFixed(1) + ' MB'
     };
   }).sort((a, b) => b.sortKey - a.sortKey);
 }
@@ -1230,6 +1232,7 @@ class Component extends DCLogic {
       type: RTYPE[r.type][lang],
       entity: ENTITY[r.entity][lang],
       size: r.size,
+      href: r.href,
       typeColor: r.type === 'quarterly' ? 'var(--muted)' : 'var(--ink)'
     }));
   }
